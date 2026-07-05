@@ -1,0 +1,167 @@
+.header{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    z-index:9999;
+
+    background:white;
+
+    transition:.35s;
+
+}
+
+.header.scrolled{
+
+    background:rgba(255,255,255,.90);
+
+    backdrop-filter:blur(18px);
+
+    box-shadow:0 4px 20px rgba(0,0,0,.06);
+
+}
+
+.header-container{
+
+    width:min(1500px,95%);
+
+    margin:auto;
+
+    height:95px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.logo{
+
+    width:135px;
+
+    transition:.45s;
+
+}
+
+.logo img{
+
+    width:100%;
+
+}
+
+.logo.hide{
+
+    opacity:0;
+
+    transform:translateY(-20px);
+
+    pointer-events:none;
+
+}
+
+.nav{
+
+    display:flex;
+
+    gap:45px;
+
+    align-items:center;
+
+}
+
+.nav a{
+
+    font-family:"Oswald";
+
+    text-transform:uppercase;
+
+    color:#111;
+
+    font-size:1rem;
+
+    position:relative;
+
+    transition:.25s;
+
+}
+
+.nav a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-6px;
+
+    width:0;
+
+    height:2px;
+
+    background:#FEFA00;
+
+    transition:.25s;
+
+}
+
+.nav a:hover{
+
+    color:#000;
+
+}
+
+.nav a:hover::after{
+
+    width:100%;
+
+}
+
+.socials{
+
+    display:flex;
+
+    gap:14px;
+
+}
+
+.socials a{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    border:1px solid #DDD;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#111;
+
+    font-size:1.15rem;
+
+    transition:.25s;
+
+}
+
+.socials a:hover{
+
+    background:#FEFA00;
+
+    border-color:#FEFA00;
+
+    transform:translateY(-3px);
+
+}

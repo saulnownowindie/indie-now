@@ -1,0 +1,55 @@
+.home{
+
+    padding-top:170px;
+
+}
+
+.hero-grid{
+
+    display:grid;
+
+    grid-template-columns:280px 1fr 280px;
+
+    gap:30px;
+
+}
+
+.latest-panel{
+
+    background:#171717;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    min-height:620px;
+
+}
+
+.hero-video{
+
+    min-height:620px;
+
+}
+
+.video-placeholder{
+
+    height:620px;
+
+    border:2px dashed var(--color-primary);
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-family:"Oswald";
+
+    font-size:3rem;
+
+    color:var(--color-primary);
+
+}

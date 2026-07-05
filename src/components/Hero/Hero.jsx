@@ -1,142 +1,77 @@
 import "./Hero.css";
-import {
-    FaMusic,
-    FaNewspaper,
-    FaGuitar,
-    FaSpotify,
-    FaBullhorn,
-    FaTshirt
-} from "react-icons/fa";
+import { homeData } from "../../data/homeData";
 export default function Hero() {
   return (
     <section className="hero container">
-
       <aside className="latest left">
+        <h2 className="section-title">Lo Último</h2>
 
-        <h2 className="section-title">
-          Lo Último
-        </h2>
+        {homeData.latestLeft.map((item) => {
+          const Icon = item.icon;
 
-<div className="latest-card">
+          return (
+            <a key={item.id} href={item.link} className="latest-card">
+              <span>
+                <Icon />
+              </span>
 
-    <span><FaMusic /></span>
+              <div>
+                <strong>{item.title}</strong>
 
-    <div>
+                <p className="latest-description">{item.description}</p>
 
-        {/* <small>Sesión</small> */}
-
-        <strong>Nueva sesión disponible</strong>
-
-    </div>
-
-</div>
-
-<div className="latest-card">
-
-    <span><FaNewspaper /></span>
-
-    <div>
-
-        {/* <small>Noticia</small> */}
-
-        <strong>Nueva noticia</strong>
-
-    </div>
-
-</div>
-
-<div className="latest-card">
-
-    <span><FaGuitar /></span>
-
-    <div>
-
-        {/* <small>Festival</small> */}
-
-        <strong>Próximo festival</strong>
-
-    </div>
-
-</div>
-
+                <small>{item.published}</small>
+              </div>
+            </a>
+          );
+        })}
       </aside>
 
       <section className="hero-center">
-
-        <span className="hero-tag">
-          Nuestra Última Sesión en vivo
-        </span>
-
-
+        <span className="hero-tag">{homeData.hero.title}</span>
 
         <div className="video-wrapper">
-
-          <iframe
-            src="https://www.youtube.com/embed/YVQp1E9Ng4Y"
-            title="YouTube"
-            allowFullScreen
-          />
-
+          <iframe src={homeData.hero.youtube} title="YouTube" allowFullScreen />
         </div>
 
         <div className="hero-buttons">
-
           {/* <button className="btn-primary">
             Ver en YouTube
           </button> */}
-
         </div>
-
       </section>
 
       <aside className="latest right">
+        <h2 className="section-title">Lo Último</h2>
 
-        <h2 className="section-title">
-          Lo Último
-        </h2>
+        {homeData.latestRight.map((item) => {
+          const Icon = item.icon;
 
-  <div className="latest-card">
+          return (
+            <a key={item.id} href={item.link} className="latest-card">
+              <span>
+                <Icon />
+              </span>
 
-    <span><FaSpotify /></span>
+<div>
 
-    <div>
+    <strong>
+        {item.title}
+    </strong>
 
-        {/* <small>Playlist</small> */}
+    <p className="latest-description">
+        {item.description}
+    </p>
 
-        <strong>Playlist actualizada</strong>
-
-    </div>
-
-</div>
-<div className="latest-card">
-
-    <span><FaBullhorn /></span>
-
-    <div>
-
-        {/* <small>Convocatoria</small> */}
-
-        <strong>Convocatoria abierta</strong>
-
-    </div>
+    <small>
+        {item.published}
+    </small>
 
 </div>
-<div className="latest-card">
-
-    <span><FaTshirt /></span>
-
-    <div>
-
-        {/* <small>Merch</small> */}
-
-        <strong>Nuevo Merch</strong>
-
-    </div>
-
-</div>
-
+            </a>
+          );
+        })}
       </aside>
-
     </section>
   );
 }

@@ -1,6 +1,14 @@
 node_modules/
 dist/
+
+*.zip
+*.psd
+*.ai
+*.eps
+
+drive-download-*/
+Archivador.zip
+
 .vscode/
-.env
-.env.local
 .DS_Store
+

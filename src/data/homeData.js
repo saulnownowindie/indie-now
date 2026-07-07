@@ -141,7 +141,7 @@ export const homeData = {
       {
         id: 2,
 
-        name: "Take Me Out ",
+        name: "Take Me Out",
 
         collection: "Colección Indie Now",
 
@@ -166,9 +166,9 @@ export const homeData = {
           },
         ],
 
-        image: mockupSerotonin,
+        image: mockupTakeMeOut,
 
-        gallery: [mockupSerotonin, mockupSerotonin2],
+        gallery: [mockupTakeMeOut, mockupTakeMeOut2],
 
         badge: "Nuevo",
 

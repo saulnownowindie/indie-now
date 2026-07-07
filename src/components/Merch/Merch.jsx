@@ -1,114 +1,110 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Merch.css";
 import { homeData } from "../../data/homeData";
 
 export default function Merch() {
-  const [current, setCurrent] = useState(0);
-  const [isChanging, setIsChanging] = useState(false);
-  const tshirts = homeData.merch.tshirts;
+  const products = homeData.merch.tshirts;
 
-  const tshirt = tshirts[current];
-  const totalProducts = tshirts.length;
-const changeProduct = (direction) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [previousIndex, setPreviousIndex] = useState(null);
+  const [direction, setDirection] = useState("next");
+  const [animating, setAnimating] = useState(false);
 
-  if (photoAnimating) return;
+  const currentProduct = products[currentIndex];
+  const previousProduct =
+    previousIndex !== null ? products[previousIndex] : null;
 
-  setPhotoAnimating(true);
+  const changeProduct = (newDirection) => {
+    if (animating) return;
 
-  setTimeout(() => {
+    setAnimating(true);
+    setDirection(newDirection);
+    setPreviousIndex(currentIndex);
 
-    setCurrent((prev) => {
+    const nextIndex =
+      newDirection === "next"
+        ? (currentIndex + 1) % products.length
+        : (currentIndex - 1 + products.length) % products.length;
 
-      if (direction === "next") {
+    setCurrentIndex(nextIndex);
+  };
 
-        return prev === tshirts.length - 1 ? 0 : prev + 1;
+  useEffect(() => {
+    if (!animating) return;
 
-      }
+    const timer = setTimeout(() => {
+      setPreviousIndex(null);
+      setAnimating(false);
+    }, 380);
 
-      return prev === 0 ? tshirts.length - 1 : prev - 1;
+    return () => clearTimeout(timer);
+  }, [animating]);
 
-    });
-
-    setPhotoAnimating(false);
-
-    setTimeout(() => {
-
-      setTextAnimating(true);
-
-      setTimeout(() => {
-
-        setTextAnimating(false);
-
-      },180);
-
-    },60);
-
-  },170);
-
-};
-
-const nextProduct = () => changeProduct("next");
-
-const previousProduct = () => changeProduct("previous");
-
-  const nextProduct = () => changeProduct("next");
-
-  const previousProduct = () => changeProduct("previous");
   return (
     <section className="merch section">
       <div className="container panel">
         <div className="merch-header">
           <h2 className="section-title">{homeData.merch.title}</h2>
-
           <p className="section-subtitle">{homeData.merch.subtitle}</p>
         </div>
 
         <div className="merch-featured">
           <div className="merch-image">
-            <button className="carousel-arrow left" onClick={previousProduct}>
+            <button
+              className="carousel-arrow left"
+              onClick={() => changeProduct("previous")}
+            >
               ←
             </button>
 
+            {previousProduct && (
+              <img
+                src={previousProduct.image}
+                alt=""
+                className={`merch-photo previous ${animating ? direction : ""}`}
+              />
+            )}
+
             <img
-              src={tshirt.image}
-              alt={tshirt.name}
-              className={`merch-photo ${isChanging ? "fade-out" : "fade-in"}`}
+              src={currentProduct.image}
+              alt={currentProduct.name}
+              className={`merch-photo current ${animating ? direction : ""}`}
             />
 
-            <button className="carousel-arrow right" onClick={nextProduct}>
+            <button
+              className="carousel-arrow right"
+              onClick={() => changeProduct("next")}
+            >
               →
             </button>
 
             <div className="carousel-dots">
-              {tshirts.map((item, index) => (
+              {products.map((item, index) => (
                 <span
                   key={item.id}
-                  className={index === current ? "active" : ""}
+                  className={index === currentIndex ? "active" : ""}
                 />
               ))}
             </div>
           </div>
 
-          <div className={`merch-info ${isChanging ? "fade-out" : "fade-in"}`}>
+          <div className={`merch-info ${animating ? "text-changing" : ""}`}>
             <span className="merch-label">Producto Destacado</span>
 
-            <h3>{tshirt.name}</h3>
-
-            <p className="merch-collection">{tshirt.collection}</p>
-
-            <h4 className="merch-price">{tshirt.price}</h4>
+            <h3>{currentProduct.name}</h3>
+            <p className="merch-collection">{currentProduct.collection}</p>
+            <h4 className="merch-price">{currentProduct.price}</h4>
 
             <div className="merch-details">
-              <span>🧵 {tshirt.material}</span>
-
-              <span>👕 {tshirt.fit}</span>
-
-              <span>🎨 {tshirt.print}</span>
-
-              <span>⚫ {tshirt.color}</span>
+              {currentProduct.details.map((detail) => (
+                <div key={detail.label} className="detail-row">
+                  <span className="detail-label">{detail.label}</span>
+                  <span className="detail-value">{detail.value}</span>
+                </div>
+              ))}
             </div>
 
-            <a href={tshirt.url} className="button-primary">
+            <a href={currentProduct.url} className="button-primary">
               Comprar
             </a>
           </div>

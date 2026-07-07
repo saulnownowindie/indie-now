@@ -96,148 +96,168 @@ export const homeData = {
     },
   ],
 
-merch:{
+  merch: {
+    title: "Merch Oficial",
+
+    subtitle: "Diseños originales creados por Indie Now.",
+
+    tshirts: [
+      {
+        id: 1,
+
+        name: "Serotonin",
+
+        collection: "Colección Indie Now",
+
+        price: "Gs. 90.000",
+
+        details: [
+          {
+            label: "Material",
+            value: "100% Algodón",
+          },
+          {
+            label: "Corte",
+            value: "Oversize",
+          },
+          {
+            label: "Estampado",
+            value: "DTF Premium",
+          },
+          {
+            label: "Color",
+            value: "Negro",
+          },
+        ],
 
-    title:"Merch Oficial",
+        image: mockupSerotonin,
 
-    subtitle:"Diseños originales creados por Indie Now.",
+        gallery: [mockupSerotonin, mockupSerotonin2],
 
-    tshirts:[
+        badge: "Nuevo",
 
-        {
+        url: "#",
+      },
+      {
+        id: 2,
 
-            id:1,
+        name: "Take Me Out ",
 
-            name:"Serotonin",
+        collection: "Colección Indie Now",
 
-            collection:"Colección Indie Now",
+        price: "Gs. 90.000",
 
-            price:"Gs. 90.000",
+        details: [
+          {
+            label: "Material",
+            value: "100% Algodón",
+          },
+          {
+            label: "Corte",
+            value: "Oversize",
+          },
+          {
+            label: "Estampado",
+            value: "DTF Premium",
+          },
+          {
+            label: "Color",
+            value: "Negro",
+          },
+        ],
 
-            material:"100% Algodón",
+        image: mockupSerotonin,
 
-            fit:"Oversize",
+        gallery: [mockupSerotonin, mockupSerotonin2],
 
-            print:"DTF Premium",
+        badge: "Nuevo",
 
-            color:"Negro",
+        url: "#",
+      },
+      {
+        id: 3,
 
-            image:mockupSerotonin,
+        name: "Something In The Way",
 
-            gallery:[
+        collection: "Colección Indie Now",
 
-                mockupSerotonin,
-                mockupSerotonin2
+        price: "Gs. 90.000",
 
-            ],
+        details: [
+          {
+            label: "Material",
+            value: "100% Algodón",
+          },
+          {
+            label: "Corte",
+            value: "Oversize",
+          },
+          {
+            label: "Estampado",
+            value: "DTF Premium",
+          },
+          {
+            label: "Color",
+            value: "Negro",
+          },
+        ],
 
-            badge:"Nuevo",
+        color: "Negro",
 
-            url:"#"
+        image: mockupSomething,
 
-        },
+        gallery: [mockupSomething],
 
-        {
+        badge: "Nuevo",
 
-            id:2,
+        url: "#",
+      },
 
-            name:"Take Me Out",
+      {
+        id: 4,
 
-            collection:"Colección Indie Now",
+        name: "White Teeth Teens",
 
-            price:"Gs. 90.000",
+        collection: "Colección Indie Now",
 
-            material:"100% Algodón",
+        price: "Gs. 90.000",
 
-            fit:"Oversize",
+        details: [
+          {
+            label: "Material",
 
-            print:"DTF Premium",
+            value: "100% Algodón",
+          },
 
-            color:"Negro",
+          {
+            label: "Corte",
 
-            image:mockupTakeMeOut,
+            value: "Oversize",
+          },
 
-            gallery:[
+          {
+            label: "Estampado",
 
-                mockupTakeMeOut,
-                mockupTakeMeOut2
+            value: "DTF Premium",
+          },
 
-            ],
+          {
+            label: "Color",
 
-            badge:"Nuevo",
+            value: "Negro",
+          },
+        ],
 
-            url:"#"
+        image: mockupWhiteTeeth,
 
-        },
+        gallery: [mockupWhiteTeeth, mockupWhiteTeeth2],
 
-        {
+        badge: "Nuevo",
 
-            id:3,
-
-            name:"Something In The Way",
-
-            collection:"Colección Indie Now",
-
-            price:"Gs. 90.000",
-
-            material:"100% Algodón",
-
-            fit:"Oversize",
-
-            print:"DTF Premium",
-
-            color:"Negro",
-
-            image:mockupSomething,
-
-            gallery:[
-
-                mockupSomething
-
-            ],
-
-            badge:"Nuevo",
-
-            url:"#"
-
-        },
-
-        {
-
-            id:4,
-
-            name:"White Teeth Teens",
-
-            collection:"Colección Indie Now",
-
-            price:"Gs. 90.000",
-
-            material:"100% Algodón",
-
-            fit:"Oversize",
-
-            print:"DTF Premium",
-
-            color:"Negro",
-
-            image:mockupWhiteTeeth,
-
-            gallery:[
-
-                mockupWhiteTeeth,
-                mockupWhiteTeeth2
-
-            ],
-
-            badge:"Nuevo",
-
-            url:"#"
-
-        }
-
-    ]
-
-},
+        url: "#",
+      },
+    ],
+  },
   news: [],
 
   playlists: [],

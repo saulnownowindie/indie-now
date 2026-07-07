@@ -1,18 +1,18 @@
 .header{
 
-    position:fixed;
+    position:sticky;
 
     top:0;
 
-    left:0;
+    z-index:999;
 
-    width:100%;
+    background:var(--color-surface);
 
-    z-index:9999;
+    border-bottom:1px solid var(--color-border);
 
-    background:white;
-
-    transition:.35s;
+    transition:
+        background .35s ease,
+        border-color .35s ease;
 
 }
 

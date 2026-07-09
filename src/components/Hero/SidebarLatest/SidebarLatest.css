@@ -1,0 +1,83 @@
+/* ==========================================================
+   SIDEBAR LATEST
+========================================================== */
+
+.latest{
+
+    background:var(--color-surface);
+
+    border:1px solid var(--color-border);
+
+    border-radius:26px;
+
+    padding:20px;
+
+    height:fit-content;
+
+    box-shadow:var(--shadow-md);
+
+    transition:
+        background .35s,
+        border-color .35s,
+        transform .25s,
+        box-shadow .25s;
+
+}
+
+.latest:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:var(--shadow-lg);
+
+}
+
+/* ==========================================================
+   TITULO
+========================================================== */
+
+.latest .section-title{
+
+    font-family:"Oswald";
+
+    font-size:1.9rem;
+
+    text-align:center;
+
+    color:var(--color-text);
+
+    margin-bottom:22px;
+
+    padding-bottom:18px;
+
+    border-bottom:1px solid var(--color-border);
+
+}
+
+/* ==========================================================
+   CONTENIDO
+========================================================== */
+
+.latest-content{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:1200px){
+
+    .latest{
+
+        width:100%;
+
+    }
+
+}

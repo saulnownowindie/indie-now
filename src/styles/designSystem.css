@@ -1,31 +1,34 @@
 :root {
-  /* =========================
+
+  /* =====================================
      COLORES
-  ========================== */
-  --color-surface: #ffffff;
-  --color-surface-2: #f6f6f6;
-  --color-primary: #fefa00;
+  ===================================== */
 
-  --color-background: #f5f5f5;
+  --color-primary: #FEFA00;
+  --color-primary-hover: #FFF347;
 
-  --color-surface: #ffffff;
+  --color-background: #F5F5F5;
+
+  --color-surface: #FFFFFF;
+
+  --color-surface-2: #F6F6F6;
 
   --color-text: #202020;
 
   --color-text-light: #666666;
 
-  --color-border: #e8e8e8;
+  --color-border: #E8E8E8;
 
-  /* =========================
+  /* =====================================
      CONTENEDOR
-  ========================== */
+  ===================================== */
 
   --container-width: 1600px;
   --container-padding: 32px;
 
-  /* =========================
+  /* =====================================
      ESPACIADO
-  ========================== */
+  ===================================== */
 
   --space-xs: 8px;
   --space-sm: 16px;
@@ -35,62 +38,56 @@
   --space-2xl: 64px;
   --space-section: 96px;
 
-  /* =========================
-     BORDER RADIUS
-  ========================== */
+  /* =====================================
+     BORDES
+  ===================================== */
 
   --radius-button: 12px;
   --radius-card: 18px;
   --radius-panel: 28px;
   --radius-section: 32px;
 
-  /* =========================
+  /* =====================================
      SOMBRAS
-  ========================== */
+  ===================================== */
 
-  --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 4px 10px rgba(0,0,0,.05);
 
-  /* =========================
+  --shadow-md: 0 10px 30px rgba(0,0,0,.07);
+
+  --shadow-lg: 0 18px 50px rgba(0,0,0,.08);
+
+  /* =====================================
      TRANSICIONES
-  ========================== */
+  ===================================== */
 
-  --transition-fast: 0.2s;
-  --transition: 0.3s;
-  --transition-slow: 0.45s;
+  --transition-fast: .2s;
+
+  --transition: .3s;
+
+  --transition-slow: .45s;
+
 }
-/* =========================================
-   MODO OSCURO AUTOMÁTICO
-========================================= */
+
+/* ==================================================
+   MODO OSCURO
+================================================== */
 
 @media (prefers-color-scheme: dark){
 
   :root{
 
-    /* Fondo general */
-
     --color-background:#121212;
-
-    /* Paneles */
 
     --color-surface:#1B1B1B;
 
-    /* Tarjetas internas */
+    --color-surface-2:#252525;
 
-    --color-surface-2:#242424;
+    --color-text:#F4F4F4;
 
-    /* Textos */
+    --color-text-light:#B7B7B7;
 
-    --color-text:#F5F5F5;
-
-    --color-text-light:#B6B6B6;
-
-    /* Bordes */
-
-    --color-border:#2F2F2F;
-
-    /* Sombras */
+    --color-border:#313131;
 
     --shadow-sm:0 6px 18px rgba(0,0,0,.35);
 
@@ -102,116 +99,118 @@
 
 }
 
-.nav-link{
+/* =====================================
+   CONTENEDOR
+===================================== */
 
-    color:var(--color-text-light);
+.container{
 
-    transition:.25s;
+  width:min(var(--container-width),96%);
 
-}
-
-.nav-link:hover{
-
-    color:var(--color-primary);
+  margin:auto;
 
 }
-/* =========================================
-   CONTENEDOR GENERAL
-========================================= */
 
-.container {
-  width: min(var(--container-width), 96%);
-
-  margin: auto;
-}
-
-/* =========================================
+/* =====================================
    SECCIONES
-========================================= */
+===================================== */
 
-.section {
-  margin-top: var(--space-2xl);
+.section{
+
+  margin-top:var(--space-2xl);
+
 }
 
-/* =========================================
-   PANEL BLANCO
-========================================= */
+/* =====================================
+   PANEL
+===================================== */
 
-.panel {
-  background: var(--color-surface);
+.panel{
 
-  border: 1px solid var(--color-border);
+  background:var(--color-surface);
 
-  border-radius: var(--radius-section);
+  border:1px solid var(--color-border);
 
-  box-shadow: var(--shadow-md);
+  border-radius:var(--radius-section);
 
-  padding: 42px;
+  box-shadow:var(--shadow-md);
+
+  padding:42px;
 
   transition:
-    background 0.35s ease,
-    border-color 0.35s ease,
-    color 0.35s ease;
+    background .35s,
+    border-color .35s,
+    color .35s,
+    box-shadow .35s;
+
 }
 
-/* =========================================
+/* =====================================
    TITULOS
-========================================= */
+===================================== */
 
-.section-title {
-  font-family: "Oswald";
+.section-title{
 
-  font-size: 2.2rem;
+  font-family:"Oswald";
 
-  text-align: center;
+  font-size:2.2rem;
 
-  color: var(--color-text);
+  color:var(--color-text);
 
-  margin-bottom: 16px;
+  text-align:center;
+
+  margin-bottom:16px;
+
 }
 
-/* =========================================
-   SUBTITULOS
-========================================= */
+.section-subtitle{
 
-.section-subtitle {
-  text-align: center;
+  color:var(--color-text-light);
 
-  color: var(--color-text-light);
+  text-align:center;
 
-  margin-bottom: 42px;
+  font-size:1rem;
 
-  font-size: 1rem;
+  margin-bottom:42px;
+
 }
 
-/* =========================================
+/* =====================================
    BOTON PRINCIPAL
-========================================= */
+===================================== */
 
-.button-primary {
-  display: inline-flex;
-  min-width: 180px;
-  justify-content: center;
+.button-primary{
 
-  align-items: center;
+  display:inline-flex;
 
-  padding: 16px 36px;
+  justify-content:center;
 
-  background: var(--color-primary);
+  align-items:center;
 
-  color: var(--color-text);
+  min-width:180px;
 
-  border-radius: var(--radius-button);
+  padding:16px 36px;
 
-  text-decoration: none;
+  background:var(--color-primary);
 
-  font-weight: 700;
+  color:#000;
 
-  transition: var(--transition);
+  border-radius:var(--radius-button);
+
+  text-decoration:none;
+
+  font-weight:700;
+
+  transition:var(--transition);
+
 }
 
-.button-primary:hover {
-  transform: translateY(-3px);
+.button-primary:hover{
 
-  box-shadow: var(--shadow-sm);
+  background:var(--color-primary-hover);
+
+  transform:translateY(-2px);
+
+  box-shadow:var(--shadow-sm);
+
 }

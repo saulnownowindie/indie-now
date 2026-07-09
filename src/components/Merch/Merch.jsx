@@ -15,6 +15,7 @@ export default function Merch() {
     previousIndex !== null ? products[previousIndex] : null;
 
   const changeProduct = (newDirection) => {
+
     if (animating) return;
 
     setAnimating(true);
@@ -35,7 +36,7 @@ export default function Merch() {
     const timer = setTimeout(() => {
       setPreviousIndex(null);
       setAnimating(false);
-    }, 380);
+    }, 430);
 
     return () => clearTimeout(timer);
   }, [animating]);
@@ -88,17 +89,33 @@ export default function Merch() {
             </div>
           </div>
 
-          <div className={`merch-info ${animating ? "text-changing" : ""}`}>
+          <div
+            key={currentProduct.id}
+            className={`merch-info ${animating ? "text-changing" : ""}`}
+          >
             <span className="merch-label">Producto Destacado</span>
 
-            <h3>{currentProduct.name}</h3>
-            <p className="merch-collection">{currentProduct.collection}</p>
-            <h4 className="merch-price">{currentProduct.price}</h4>
+            <h3 className="title-animate">{currentProduct.name}</h3>
+
+            <p className="merch-collection collection-animate">
+              {currentProduct.collection}
+            </p>
+
+            <h4 className="merch-price price-animate">
+              {currentProduct.price}
+            </h4>
 
             <div className="merch-details">
-              {currentProduct.details.map((detail) => (
-                <div key={detail.label} className="detail-row">
+              {currentProduct.details.map((detail, index) => (
+                <div
+                  key={detail.label}
+                  className="detail-row"
+                  style={{
+                    animationDelay: `${0.18 + index * 0.06}s`,
+                  }}
+                >
                   <span className="detail-label">{detail.label}</span>
+
                   <span className="detail-value">{detail.value}</span>
                 </div>
               ))}

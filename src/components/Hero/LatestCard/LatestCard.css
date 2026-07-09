@@ -1,0 +1,125 @@
+/* ==========================================================
+   TARJETAS
+========================================================== */
+
+.latest-card{
+
+    display:grid;
+
+    grid-template-columns:52px 1fr;
+
+    gap:16px;
+
+    align-items:center;
+
+    padding:16px;
+
+    margin-bottom:14px;
+
+    background:var(--color-surface-2);
+
+    border:1px solid var(--color-border);
+
+    border-radius:18px;
+
+    transition:
+        background .25s,
+        border-color .25s,
+        transform .25s,
+        box-shadow .25s;
+
+}
+
+.latest-card:hover{
+
+    background:#2B2B2B;
+
+    border-color:#404040;
+
+    transform:translateY(-4px);
+
+    box-shadow:0 10px 26px rgba(0,0,0,.28);
+
+}
+
+/* ==========================================================
+   ICONOS
+========================================================== */
+
+.latest-card span{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(254,250,0,.12);
+
+    color:var(--color-primary);
+
+    font-size:1.15rem;
+
+    transition:.25s;
+
+}
+
+.latest-card:hover span{
+
+    background:var(--color-primary);
+
+    color:#000;
+
+}
+
+/* ==========================================================
+   TEXTO
+========================================================== */
+
+.latest-card strong{
+
+    display:block;
+
+    font-size:1rem;
+
+    font-weight:700;
+
+    color:var(--color-text);
+
+    line-height:1.35;
+
+}
+
+.latest-description{
+
+    margin-top:5px;
+
+    font-size:.92rem;
+
+    line-height:1.45;
+
+    color:var(--color-text-light);
+
+}
+
+.latest-card small{
+
+    display:block;
+
+    margin-top:10px;
+
+    font-size:.74rem;
+
+    color:#9E9E9E;
+
+    letter-spacing:.05em;
+
+    text-transform:uppercase;
+
+}

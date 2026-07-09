@@ -1,5 +1,5 @@
 import "./Header.css";
-import logo from "../../assets/images/indie-nowlogo.png";
+import logo from "../../assets/images/indie-nowlogo-blancov2.png";
 
 import { useEffect, useState } from "react";
 

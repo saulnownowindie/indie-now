@@ -2,249 +2,452 @@
    MERCH SECTION
 ========================================================== */
 
-.merch{
-  width:min(1600px,96%);
-  margin:60px auto 0;
+.merch {
+  width: min(1600px, 96%);
+  margin: 60px auto 0;
 }
 
-.merch-featured{
-  display:grid;
-  grid-template-columns:1.65fr .75fr;
-  gap:48px;
-  align-items:start;
+.merch-featured {
+  display: grid;
+
+  grid-template-columns: 1.45fr 0.8fr;
+
+  gap: 64px;
+
+  align-items: center;
 }
 
-.merch-header{
-  margin-bottom:32px;
+.merch-header {
+  margin-bottom: 32px;
 }
 
-.merch-image{
-  position:relative;
-  height:560px;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#F6F6F6;
-  border:1px solid #ECECEC;
-  border-radius:24px;
-  box-shadow:0 14px 32px rgba(0,0,0,.05);
+.merch-image {
+  position: relative;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  overflow: hidden;
+
+  height: 560px;
+
+  border-radius: 28px;
+
+  background: radial-gradient(
+    circle at top,
+    #2b2b2b 0%,
+    #232323 38%,
+    #1b1b1b 100%
+  );
+
+  border: 1px solid var(--color-border);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 20px 45px rgba(0, 0, 0, 0.35);
 }
 
-.merch-photo{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  max-width:88%;
-  margin:auto;
-  object-fit:contain;
-  object-position:center;
-  user-select:none;
-  pointer-events:none;
-  will-change:transform,opacity;
+.merch-photo {
+  position: absolute;
+
+  inset: 0;
+
+  width: 78%;
+
+  height: 78%;
+
+  margin: auto;
+
+  object-fit: contain;
+
+  object-position: center;
+
+  pointer-events: none;
+
+  user-select: none;
+
+  filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.45));
+
+  will-change: transform, opacity;
 }
 
-.merch-photo.current{
-  z-index:2;
+.merch-photo.current {
+  z-index: 2;
 }
 
-.merch-photo.previous{
-  z-index:1;
+.merch-photo.previous {
+  z-index: 1;
 }
 
-.current.next{
-  animation:enterNext .38s cubic-bezier(.22,.61,.36,1);
+.current.next {
+  animation: enterNext 0.42s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.current.previous{
-  animation:enterPrevious .38s cubic-bezier(.22,.61,.36,1);
+.previous.next {
+  animation: leaveNext 0.22s ease-out forwards;
+}
+.current.previous {
+  animation: enterPrevious 0.42s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.previous.next{
-  animation:leaveNext .38s cubic-bezier(.22,.61,.36,1);
+.previous.previous {
+  animation: leavePrevious 0.22s ease-out forwards;
 }
 
-.previous.previous{
-  animation:leavePrevious .38s cubic-bezier(.22,.61,.36,1);
+.previous.next {
+  animation: leaveNext 0.38s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-@keyframes enterNext{
-  from{opacity:0;transform:translateX(24px) scale(.985);}
-  to{opacity:1;transform:translateX(0) scale(1);}
+.previous.previous {
+  animation: leavePrevious 0.38s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-@keyframes leaveNext{
-  from{opacity:1;transform:translateX(0) scale(1);}
-  to{opacity:0;transform:translateX(-24px) scale(.985);}
-}
+@keyframes enterNext {
+  from {
+    opacity: 0;
 
-@keyframes enterPrevious{
-  from{opacity:0;transform:translateX(-24px) scale(.985);}
-  to{opacity:1;transform:translateX(0) scale(1);}
-}
-
-@keyframes leavePrevious{
-  from{opacity:1;transform:translateX(0) scale(1);}
-  to{opacity:0;transform:translateX(24px) scale(.985);}
-}
-
-.carousel-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:56px;
-  height:56px;
-  border:none;
-  border-radius:50%;
-  background:rgba(255,255,255,.95);
-  color:#222;
-  font-size:1.5rem;
-  cursor:pointer;
-  z-index:10;
-  box-shadow:0 10px 24px rgba(0,0,0,.12);
-  transition:.25s;
-}
-
-.carousel-arrow:hover{
-  transform:translateY(-50%) scale(1.08);
-}
-
-.left{left:22px;}
-.right{right:22px;}
-
-.carousel-dots{
-  position:absolute;
-  left:50%;
-  bottom:22px;
-  transform:translateX(-50%);
-  display:flex;
-  gap:12px;
-  z-index:10;
-}
-
-.carousel-dots span{
-  width:10px;
-  height:10px;
-  border-radius:999px;
-  background:#D0D0D0;
-  transition:.25s;
-}
-
-.carousel-dots .active{
-  width:34px;
-  background:var(--color-primary);
-}
-
-.merch-info{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  padding-top:36px;
-  transition:opacity .2s ease;
-}
-
-.text-changing{
-  opacity:.92;
-}
-
-.merch-label{
-  display:inline-flex;
-  padding:6px 14px;
-  border-radius:999px;
-  background:var(--color-primary);
-  color:#000;
-  font-size:.78rem;
-  font-weight:700;
-  text-transform:uppercase;
-  margin-bottom:14px;
-}
-
-.merch-info h3{
-  font-family:"Oswald";
-  font-size:3rem;
-  line-height:1.05;
-  margin:0 0 10px;
-}
-
-.merch-collection{
-  color:var(--color-text-light);
-  margin-bottom:24px;
-}
-
-.merch-price{
-  font-family:"Oswald";
-  font-size:2.4rem;
-  margin:0 0 28px;
-}
-
-.merch-details{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  margin-bottom:38px;
-}
-
-.detail-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding-bottom:14px;
-  border-bottom:1px solid #EFEFEF;
-}
-
-.detail-label{
-  color:#888;
-}
-
-.detail-value{
-  font-weight:600;
-  color:var(--color-text);
-}
-
-.button-primary{
-  display:inline-flex;
-  justify-content:center;
-  align-items:center;
-  min-width:190px;
-  padding:16px 34px;
-  border-radius:14px;
-  background:var(--color-primary);
-  color:#000;
-  text-decoration:none;
-  font-weight:700;
-  transition:.25s;
-}
-
-.button-primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 24px rgba(0,0,0,.12);
-}
-
-@media (max-width:1100px){
-  .merch-featured{
-    grid-template-columns:1fr;
-    gap:42px;
+    transform: translateX(18px);
   }
-  .merch-image{height:520px;}
-  .merch-info{padding-top:0;}
-}
 
-@media (max-width:768px){
-  .merch-image{height:420px;}
-  .merch-info h3{font-size:2.3rem;}
-  .merch-price{font-size:2rem;}
-}
+  to {
+    opacity: 1;
 
-@media (max-width:480px){
-  .merch-image{height:340px;}
-  .carousel-arrow{
-    width:42px;
-    height:42px;
-    font-size:1.1rem;
+    transform: translateX(0);
   }
-  .left{left:12px;}
-  .right{right:12px;}
-  .button-primary{width:100%;}
+}
+
+@keyframes leaveNext {
+  from {
+    opacity: 1;
+
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+
+    transform: translateX(-18px);
+  }
+}
+
+@keyframes enterPrevious {
+  from {
+    opacity: 0;
+
+    transform: translateX(-12px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateX(0);
+  }
+}
+
+@keyframes leavePrevious {
+  from {
+    opacity: 1;
+
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+
+    transform: translateX(6px);
+  }
+}
+.carousel-arrow {
+  position: absolute;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 50px;
+
+  height: 50px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  background: rgba(35, 35, 35, 0.85);
+
+  color: #f5f5f5;
+
+  font-size: 1.25rem;
+
+  transition: 0.3s;
+
+  backdrop-filter: blur(10px);
+
+  z-index: 20;
+}
+
+.carousel-arrow:hover {
+  background: var(--color-primary);
+
+  color: #000;
+
+  border-color: var(--color-primary);
+
+  transform: translateY(-50%) scale(1.06);
+}
+.left {
+  left: 22px;
+}
+.right {
+  right: 22px;
+}
+
+.carousel-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 14px;
+  z-index: 10;
+}
+
+.carousel-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #606060;
+  transition: 0.3s;
+}
+
+.carousel-dots .active {
+  width: 34px;
+  background: var(--color-primary);
+}
+
+.merch-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 36px;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+  padding: 0;
+}
+
+.text-changing {
+  opacity: 0.92;
+}
+
+.merch-label {
+  display: inline-flex;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #000;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  letter-spacing: 0.08em;
+}
+
+.merch-info h3 {
+  font-family: "Oswald";
+  font-size: 3rem;
+  line-height: 1.05;
+  margin: 0 0 10px;
+}
+
+.merch-collection {
+  font-size: 1rem;
+
+  color: var(--color-text-light);
+
+  margin-bottom: 32px;
+}
+
+.merch-price {
+  font-family: "Oswald";
+  font-size: 2.4rem;
+  margin: 0 0 28px;
+}
+
+.merch-details {
+  width: 100%;
+
+  gap: 18px;
+
+  margin-bottom: 44px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #efefef;
+}
+
+.detail-label {
+  color: #888;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.button-primary {
+  display: inline-flex;
+  justify-content: center;
+  height: 58px;
+  align-items: center;
+  min-width: 220px;
+  padding: 16px 34px;
+  border-radius: 14px;
+  background: var(--color-primary);
+  color: #000;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: 0.25s;
+}
+
+.button-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(254, 250, 0, 0.18);
+}
+
+@media (max-width: 1100px) {
+  .merch-featured {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+  .merch-image {
+    height: 520px;
+  }
+  .merch-info {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .merch-image {
+    height: 420px;
+  }
+  .merch-info h3 {
+    font-family: "Oswald";
+
+    font-size: 3.5rem;
+
+    line-height: 1;
+
+    margin-bottom: 12px;
+  }
+  .merch-price {
+    font-family: "Oswald";
+
+    font-size: 3rem;
+
+    margin-bottom: 38px;
+  }
+}
+
+@media (max-width: 480px) {
+  .merch-image {
+    height: 340px;
+  }
+  .carousel-arrow {
+    width: 42px;
+    height: 42px;
+    font-size: 1.1rem;
+  }
+  .left {
+    left: 12px;
+  }
+  .right {
+    right: 12px;
+  }
+  .button-primary {
+    width: 100%;
+  }
+}
+/* ==========================================================
+   TEXT ANIMATIONS
+========================================================== */
+
+.title-animate {
+  animation: titleFade 0.35s ease;
+}
+
+.collection-animate {
+  animation: fadeUp 0.45s ease;
+}
+
+.price-animate {
+  animation: priceFade 0.55s ease;
+}
+
+.detail-row {
+  animation: detailFade 0.45s ease both;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+@keyframes titleFade {
+  from {
+    opacity: 0;
+
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: none;
+  }
+}
+
+@keyframes priceFade {
+  from {
+    opacity: 0;
+
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+}
+
+@keyframes detailFade {
+  from {
+    opacity: 0;
+
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: none;
+  }
 }

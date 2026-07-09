@@ -1,16 +1,18 @@
+/* ==========================================================
+   HERO
+========================================================== */
+
 .hero{
 
     width:min(1700px,96%);
-    margin:0 auto;
+
+    margin:auto;
 
     padding-top:165px;
 
     display:grid;
 
-    grid-template-columns:
-        240px
-        minmax(0,1fr)
-        240px;
+    grid-template-columns:240px minmax(0,1fr) 240px;
 
     gap:34px;
 
@@ -18,87 +20,114 @@
 
 }
 
-/* ---------- SIDEBARS ---------- */
+/* ==========================================================
+   SIDEBARS
+========================================================== */
 
 .latest{
 
-    background:#fff;
+    background:var(--color-surface);
 
-    border:1px solid #ECECEC;
+    border:1px solid var(--color-border);
 
     border-radius:26px;
 
-    padding:18px;
+    padding:20px;
 
-    box-shadow:0 10px 28px rgba(0,0,0,.05);
+    box-shadow:var(--shadow-md);
 
     height:fit-content;
 
+    transition:
+        background .35s,
+        border-color .35s,
+        transform .25s;
+
 }
+
+.latest:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* ==========================================================
+   TITULO
+========================================================== */
 
 .section-title{
 
     font-family:"Oswald";
 
-    font-size:2rem;
+    font-size:1.9rem;
+
+    color:var(--color-text);
 
     text-align:center;
 
-    color:#222;
+    padding-bottom:20px;
 
-    padding-bottom:18px;
+    margin-bottom:20px;
 
-    margin-bottom:18px;
-
-    border-bottom:1px solid #ECECEC;
+    border-bottom:1px solid var(--color-border);
 
 }
+
+/* ==========================================================
+   TARJETAS
+========================================================== */
 
 .latest-card{
 
     display:grid;
 
-    grid-template-columns:46px 1fr;
-
-    align-items:center;
+    grid-template-columns:52px 1fr;
 
     gap:16px;
+
+    align-items:center;
 
     padding:16px;
 
     margin-bottom:14px;
 
-    border:1px solid #ECECEC;
+    background:var(--color-surface-2);
+
+    border:1px solid var(--color-border);
 
     border-radius:18px;
 
-    background:#FFF;
-
-    cursor:pointer;
-
-    transition:.25s;
+    transition:
+        background .25s,
+        border-color .25s,
+        transform .25s,
+        box-shadow .25s;
 
 }
 
 .latest-card:hover{
 
+    background:#2B2B2B;
+
+    border-color:#404040;
+
     transform:translateY(-4px);
 
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    box-shadow:0 10px 26px rgba(0,0,0,.28);
 
 }
 
+/* ==========================================================
+   ICONOS
+========================================================== */
+
 .latest-card span{
 
-    width:44px;
+    width:48px;
 
-    height:44px;
+    height:48px;
 
     border-radius:50%;
-
-    background:#FFF7CC;
-
-    color:#A67E00;
 
     display:flex;
 
@@ -106,9 +135,27 @@
 
     align-items:center;
 
-    font-size:1rem;
+    background:rgba(254,250,0,.12);
+
+    color:var(--color-primary);
+
+    font-size:1.15rem;
+
+    transition:.25s;
 
 }
+
+.latest-card:hover span{
+
+    background:var(--color-primary);
+
+    color:#000;
+
+}
+
+/* ==========================================================
+   TEXTO
+========================================================== */
 
 .latest-card strong{
 
@@ -116,20 +163,23 @@
 
     font-size:1rem;
 
+    font-weight:700;
+
+    color:var(--color-text);
+
     line-height:1.35;
 
-    color:#222;
-
 }
+
 .latest-description{
 
-    font-size:.90rem;
+    margin-top:5px;
 
-    color:#666;
+    font-size:.92rem;
 
-    margin-top:4px;
+    line-height:1.45;
 
-    line-height:1.3;
+    color:var(--color-text-light);
 
 }
 
@@ -137,31 +187,43 @@
 
     display:block;
 
-    margin-top:8px;
+    margin-top:10px;
 
-    font-size:.75rem;
+    font-size:.74rem;
 
-    color:#999;
+    color:#9E9E9E;
+
+    letter-spacing:.05em;
 
     text-transform:uppercase;
 
-    letter-spacing:.04em;
-
 }
 
-/* ---------- CENTRO ---------- */
+/* ==========================================================
+   CENTRO
+========================================================== */
 
 .hero-center{
 
-    background:#FFF;
+    background:var(--color-surface);
+
+    border:1px solid var(--color-border);
 
     border-radius:30px;
 
-    padding:26px;
+    padding:28px;
 
-    box-shadow:0 10px 35px rgba(0,0,0,.05);
+    box-shadow:var(--shadow-md);
+
+    transition:
+        background .35s,
+        border-color .35s;
 
 }
+
+/* ==========================================================
+   TITULO VIDEO
+========================================================== */
 
 .hero-tag{
 
@@ -171,19 +233,20 @@
 
     justify-content:center;
 
-    gap:20px;
+    gap:18px;
 
     margin-bottom:24px;
 
     font-family:"Oswald";
 
-    font-size:1.55rem;
+    font-size:1.5rem;
 
-    color:#222;
+    color:var(--color-text);
 
 }
 
 .hero-tag::before,
+
 .hero-tag::after{
 
     content:"";
@@ -194,11 +257,13 @@
 
     height:2px;
 
-    background:#D8D8D8;
+    background:var(--color-border);
 
 }
 
-/* ---------- VIDEO ---------- */
+/* ==========================================================
+   VIDEO
+========================================================== */
 
 .video-wrapper{
 
@@ -206,11 +271,11 @@
 
     aspect-ratio:16/9;
 
-    border-radius:24px;
-
     overflow:hidden;
 
-    box-shadow:0 18px 45px rgba(0,0,0,.18);
+    border-radius:22px;
+
+    box-shadow:0 18px 45px rgba(0,0,0,.35);
 
 }
 
@@ -224,9 +289,11 @@
 
 }
 
-/* ---------- RESPONSIVE ---------- */
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
 
-@media (max-width:1200px){
+@media(max-width:1200px){
 
     .hero{
 

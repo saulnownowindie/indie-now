@@ -1,31 +1,14 @@
 import "./Hero.css";
+import SidebarLatest from "./SidebarLatest/SidebarLatest";
 import { homeData } from "../../data/homeData";
 export default function Hero() {
   return (
     <section className="hero container">
-      <aside className="latest left">
-        <h2 className="section-title">Lo Último</h2>
-
-        {homeData.latestLeft.map((item) => {
-          const Icon = item.icon;
-
-          return (
-            <a key={item.id} href={item.link} className="latest-card">
-              <span>
-                <Icon />
-              </span>
-
-              <div>
-                <strong>{item.title}</strong>
-
-                <p className="latest-description">{item.description}</p>
-
-                <small>{item.published}</small>
-              </div>
-            </a>
-          );
-        })}
-      </aside>
+      <SidebarLatest
+        title="Lo Último"
+        items={homeData.latestLeft}
+        className="left"
+      />
 
       <section className="hero-center">
         <span className="hero-tag">{homeData.hero.title}</span>
@@ -40,38 +23,11 @@ export default function Hero() {
           </button> */}
         </div>
       </section>
-
-      <aside className="latest right">
-        <h2 className="section-title">Lo Último</h2>
-
-        {homeData.latestRight.map((item) => {
-          const Icon = item.icon;
-
-          return (
-            <a key={item.id} href={item.link} className="latest-card">
-              <span>
-                <Icon />
-              </span>
-
-<div>
-
-    <strong>
-        {item.title}
-    </strong>
-
-    <p className="latest-description">
-        {item.description}
-    </p>
-
-    <small>
-        {item.published}
-    </small>
-
-</div>
-            </a>
-          );
-        })}
-      </aside>
+      <SidebarLatest
+        title="Lo Último"
+        items={homeData.latestRight}
+        className="right"
+      />
     </section>
   );
 }

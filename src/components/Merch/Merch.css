@@ -111,17 +111,7 @@
 
 }
 
-.merch-photo.current {
-  z-index: 2;
-}
 
-.merch-photo.previous {
-  z-index: 1;
-}
-
- {
-  animation: enterNext 0.42s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
 
 
 .carousel-arrow{
@@ -226,9 +216,6 @@
   padding: 0;
 }
 
-.text-changing {
-  opacity: 0.92;
-}
 
 .merch-label{
 
@@ -321,6 +308,8 @@
     padding:15px 0;
 
     border-bottom:1px solid rgba(255,255,255,.08);
+
+    animation:detailFade .45s ease both;
 
 }
 
@@ -422,12 +411,6 @@
 
 .price-animate {
   animation: priceFade 0.55s ease;
-}
-
-.detail-row {
-  animation: detailFade 0.45s ease both;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 @keyframes titleFade {
   from {

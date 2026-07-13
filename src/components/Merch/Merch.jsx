@@ -15,7 +15,6 @@ export default function Merch() {
     previousIndex !== null ? products[previousIndex] : null;
 
   const changeProduct = (newDirection) => {
-
     if (animating) return;
 
     setAnimating(true);
@@ -58,18 +57,11 @@ export default function Merch() {
               ←
             </button>
 
-            {previousProduct && (
-              <img
-                src={previousProduct.image}
-                alt=""
-                className={`merch-photo previous ${animating ? direction : ""}`}
-              />
-            )}
 
             <img
               src={currentProduct.image}
               alt={currentProduct.name}
-              className={`merch-photo current ${animating ? direction : ""}`}
+              className="merch-photo"
             />
 
             <button

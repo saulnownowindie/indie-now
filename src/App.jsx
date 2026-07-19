@@ -1,24 +1,34 @@
+import "./App.css";
 
+import { Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header/Header";
-import Hero from "./components/Hero/Hero";
-import Merch from "./components/Merch/Merch";
 import Footer from "./components/Footer/Footer";
-function App() {
 
-    return (
-        <>
-            <Header />
+import Home from "./pages/Home/Home";
+import News from "./pages/News/News";
+import Reels from "./pages/Reels/Reels";
+import Sessions from "./pages/Sessions/Sessions";
+import MerchPage from "./pages/Merch/Merch";
 
-            <Hero />
+export default function App() {
+  return (
+    <>
+      <Header />
 
-            <Merch />
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-            <Footer />
+        <Route path="/noticias" element={<News />} />
 
-        </>
-    );
+        <Route path="/reels" element={<Reels />} />
 
+        <Route path="/sesiones" element={<Sessions />} />
+
+        <Route path="/merch" element={<MerchPage />} />
+      </Routes>
+
+      <Footer />
+    </>
+  );
 }
-
-export default App;

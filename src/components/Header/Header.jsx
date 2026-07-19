@@ -3,6 +3,8 @@ import logo from "../../assets/images/indie-nowlogo-blancov2.png";
 
 import { useEffect, useState } from "react";
 
+import { Link } from "react-router-dom";
+
 import {
     FaInstagram,
     FaYoutube,
@@ -34,28 +36,61 @@ export default function Header() {
 
             <div className="header-container">
 
-                <a href="/" className={scrolled ? "logo hide" : "logo"}>
+                <Link
+                    to="/"
+                    className={scrolled ? "logo hide" : "logo"}
+                >
 
                     <img
                         src={logo}
                         alt="Indie Now"
                     />
 
-                </a>
+                </Link>
 
                 <nav>
 
                     <ul className="nav">
 
-                        <li><a href="#">Inicio</a></li>
+                        <li>
 
-                        <li><a href="#">Sesiones</a></li>
+                            <Link to="/">
+                                Inicio
+                            </Link>
 
-                        <li><a href="#">Noticias</a></li>
+                        </li>
 
-                        <li><a href="#">Lo Nuevo</a></li>
+                        <li>
 
-                        <li><a href="#">Merch</a></li>
+                            <Link to="/noticias">
+                                Noticias
+                            </Link>
+
+                        </li>
+
+                        <li>
+
+                            <Link to="/sesiones">
+                                Sesiones
+                            </Link>
+
+                        </li>
+
+                        <li>
+
+                            <Link to="/reels">
+                                Reels
+                            </Link>
+
+                        </li>
+
+                        <li>
+
+                            <Link to="/merch">
+                                Merch
+                            </Link>
+
+                        </li>
 
                     </ul>
 
@@ -63,19 +98,35 @@ export default function Header() {
 
                 <div className="socials">
 
-                    <a href="https://www.instagram.com/indienownow/">
+                    <a
+                        href="https://www.instagram.com/indienownow/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <FaInstagram />
                     </a>
 
-                    <a href="https://www.youtube.com/@INDIENOW">
+                    <a
+                        href="https://www.youtube.com/@INDIENOW"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <FaYoutube />
                     </a>
 
-                    <a href="https://open.spotify.com/user/23nomspw5w0lofcqo0bbgj8du?si=24dcebd47c76406f">
+                    <a
+                        href="https://open.spotify.com/user/23nomspw5w0lofcqo0bbgj8du?si=24dcebd47c76406f"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <FaSpotify />
                     </a>
 
-                    <a href="https://www.tiktok.com/@indienownow">
+                    <a
+                        href="https://www.tiktok.com/@indienownow"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <FaTiktok />
                     </a>
 

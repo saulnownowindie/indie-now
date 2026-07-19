@@ -1,0 +1,17 @@
+import Header from "../components/Header/Header";
+import Hero from "../components/Hero/Hero";
+import Merch from "../components/Merch/Merch";
+import Footer from "../components/Footer/Footer";
+
+function Home() {
+    return (
+        <>
+            <Header />
+            <Hero />
+            <Merch />
+            <Footer />
+        </>
+    );
+}
+
+export default Home;

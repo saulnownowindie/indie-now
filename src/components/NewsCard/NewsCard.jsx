@@ -1,100 +1,71 @@
 import "./NewsCard.css";
 
-import { FaInstagram } from "react-icons/fa";
+import { FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
 
 export default function NewsCard({
+  news,
 
-    news,
-
-    featured = false,
-
+  featured = false,
 }) {
+  return (
+    <article className={featured ? "news-card featured" : "news-card"}>
+      <a
+        href={news.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="news-thumb"
+      >
+        <img src={news.thumbnail} alt={news.title} />
 
-    return (
+        <div className="news-overlay">
+          <div className="play-button">▶</div>
+        </div>
+      </a>
 
-        <article
-            className={
-                featured
-                    ? "news-card featured"
-                    : "news-card"
-            }
-        >
+      <div className="news-info">
+        <span className="news-category">{news.category}</span>
 
+        <h3>{news.title}</h3>
+
+        <p>{news.description}</p>
+
+        <small>{news.date}</small>
+
+        <div className="news-socials">
+          {news.instagram && (
             <a
-                href={news.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="news-thumb"
+              href={news.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
             >
-
-                <img
-
-                    src={news.thumbnail}
-
-                    alt={news.title}
-
-                />
-
-                <div className="news-overlay">
-
-                    <div className="play-button">
-
-                        ▶
-
-                    </div>
-
-                </div>
-
+              <FaInstagram />
             </a>
+          )}
 
-            <div className="news-info">
+          {news.youtube && (
+            <a
+              href={news.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+            >
+              <FaYoutube />
+            </a>
+          )}
 
-                <span className="news-category">
-
-                    {news.category}
-
-                </span>
-
-                <h3>
-
-                    {news.title}
-
-                </h3>
-
-                <p>
-
-                    {news.description}
-
-                </p>
-
-                <small>
-
-                    {news.date}
-
-                </small>
-
-                <a
-
-                    href={news.instagram}
-
-                    target="_blank"
-
-                    rel="noopener noreferrer"
-
-                    className="news-link"
-
-                >
-
-                    <FaInstagram />
-
-                    Ver Reel
-
-                </a>
-
-            </div>
-
-        </article>
-
-    );
-
+          {news.tiktok && (
+            <a
+              href={news.tiktok}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
+            >
+              <FaTiktok />
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  );
 }

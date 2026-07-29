@@ -2,52 +2,58 @@
    MERCH SECTION
 ========================================================== */
 
-.merch {
-  width: min(1600px, 96%);
-  margin: 60px auto 0;
+.merch{
+
+    width:min(1600px,96%);
+
+    margin:60px auto 0;
+
 }
 
-.merch-featured {
-  display: grid;
+.merch-featured{
 
-  grid-template-columns: 1.45fr 0.8fr;
+    display:grid;
 
-  gap: 64px;
+    grid-template-columns:1.45fr .8fr;
 
-  align-items: center;
+    gap:64px;
+
+    align-items:center;
+
 }
 
-.merch-header {
-  margin-bottom: 32px;
+.merch-header{
+
+    margin-bottom:32px;
+
 }
 
-.merch-image {
-  position: relative;
+/* ==========================================================
+   IMAGE
+========================================================== */
 
-  display: flex;
+.merch-image{
 
-  justify-content: center;
+    position:relative;
 
-  align-items: center;
+    display:flex;
 
-  overflow: hidden;
+    justify-content:center;
 
-  height: 560px;
+    align-items:center;
 
-  border-radius: 28px;
+    overflow:hidden;
 
-  background: radial-gradient(
-    circle at top,
-    #2b2b2b 0%,
-    #232323 38%,
-    #1b1b1b 100%
-  );
+    height:560px;
 
-  border: 1px solid var(--color-border);
+    border-radius:28px;
 
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 20px 45px rgba(0, 0, 0, 0.35);
+    background:var(--color-surface);
+
+    border:1px solid var(--color-border);
+
+    box-shadow:var(--shadow-lg);
+
 }
 
 .merch-image::before{
@@ -64,8 +70,8 @@
 
     background:radial-gradient(
         circle,
-        rgba(254,250,0,.08),
-        rgba(254,250,0,.03),
+        rgba(254,250,0,.10),
+        rgba(254,250,0,.05),
         transparent 70%
     );
 
@@ -74,6 +80,7 @@
     pointer-events:none;
 
 }
+
 .merch-photo{
 
     position:absolute;
@@ -94,25 +101,25 @@
 
     pointer-events:none;
 
-    filter:drop-shadow(0 30px 42px rgba(0,0,0,.45));
+    filter:drop-shadow(0 28px 40px rgba(0,0,0,.28));
 
     transition:
-
-        filter .35s ease,
-
-        transform .35s ease;
+        filter .35s,
+        transform .35s;
 
 }
+
 .merch-image:hover .merch-photo{
 
-    transform:scale(1.015);
+    transform:scale(1.02);
 
-    filter:drop-shadow(0 38px 55px rgba(0,0,0,.55));
+    filter:drop-shadow(0 36px 52px rgba(0,0,0,.36));
 
 }
 
-
-
+/* ==========================================================
+   CAROUSEL
+========================================================== */
 
 .carousel-arrow{
 
@@ -130,27 +137,17 @@
 
     border-radius:50%;
 
-    background:rgba(255,255,255,.95);
+    background:var(--color-surface);
 
-    color:#222;
-
-    font-size:1.4rem;
+    color:var(--color-text);
 
     cursor:pointer;
 
     z-index:20;
 
-    box-shadow:
+    box-shadow:var(--shadow-md);
 
-        0 12px 26px rgba(0,0,0,.18);
-
-    transition:
-
-        transform .25s,
-
-        background .25s,
-
-        box-shadow .25s;
+    transition:.25s;
 
 }
 
@@ -162,26 +159,34 @@
 
     transform:translateY(-50%) scale(1.08);
 
-    box-shadow:
-
-        0 18px 34px rgba(0,0,0,.30);
-
-}
-.left {
-  left: 22px;
-}
-.right {
-  right: 22px;
 }
 
-.carousel-dots {
-  position: absolute;
-  left: 50%;
-  bottom: 26px;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 14px;
-  z-index: 10;
+.left{
+
+    left:22px;
+
+}
+
+.right{
+
+    right:22px;
+
+}
+
+.carousel-dots{
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:26px;
+
+    transform:translateX(-50%);
+
+    display:flex;
+
+    gap:14px;
+
 }
 
 .carousel-dots span{
@@ -192,7 +197,7 @@
 
     border-radius:999px;
 
-    background:#686868;
+    background:var(--color-border);
 
     transition:.25s;
 
@@ -206,16 +211,21 @@
 
 }
 
-.merch-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-top: 36px;
-  justify-content: center;
-  transition: opacity 0.2s ease;
-  padding: 0;
-}
+/* ==========================================================
+   INFO
+========================================================== */
 
+.merch-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+}
 
 .merch-label{
 
@@ -241,21 +251,17 @@
 
     text-transform:uppercase;
 
-    box-shadow:0 6px 18px rgba(254,250,0,.18);
-
     margin-bottom:18px;
 
 }
 
 .merch-info h3{
 
-    font-family:"Oswald";
+    font-family:var(--font-heading);
 
     font-size:3.4rem;
 
     line-height:.95;
-
-    font-weight:700;
 
     color:var(--color-text);
 
@@ -267,34 +273,34 @@
 
     color:var(--color-text-light);
 
-    font-size:1rem;
-
-    letter-spacing:.03em;
-
     margin-bottom:34px;
 
 }
 
 .merch-price{
 
-    font-family:"Oswald";
+    font-family:var(--font-heading);
 
     font-size:2.7rem;
 
     line-height:1;
 
-    margin-bottom:36px;
+    color:var(--color-text);
 
-    color:white;
+    margin-bottom:36px;
 
 }
 
-.merch-details {
-  width: 100%;
+/* ==========================================================
+   DETAILS
+========================================================== */
 
-  gap: 18px;
+.merch-details{
 
-  margin-bottom: 44px;
+    width:100%;
+
+    margin-bottom:44px;
+
 }
 
 .detail-row{
@@ -307,22 +313,29 @@
 
     padding:15px 0;
 
-    border-bottom:1px solid rgba(255,255,255,.08);
-
-    animation:detailFade .45s ease both;
+    border-bottom:1px solid var(--color-border);
 
 }
 
-.detail-label {
-  color: #888;
-   font-size:.95rem;
+.detail-label{
+
+    color:var(--color-text-light);
+
+    font-size:.95rem;
+
 }
 
-.detail-value {
+.detail-value{
+
     font-weight:700;
 
-    color:white;
+    color:var(--color-text);
+
 }
+
+/* ==========================================================
+   BUTTON
+========================================================== */
 
 .button-primary{
 
@@ -338,132 +351,172 @@
 
 }
 
-.button-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 30px rgba(254, 250, 0, 0.18);
+.button-primary:hover{
+
+    transform:translateY(-2px);
+
 }
 
-@media (max-width: 1100px) {
-  .merch-featured {
-    grid-template-columns: 1fr;
-    gap: 42px;
-  }
-  .merch-image {
-    height: 520px;
-  }
-  .merch-info {
-    padding-top: 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .merch-image {
-    height: 420px;
-  }
-  .merch-info h3 {
-    font-family: "Oswald";
-
-    font-size: 3.5rem;
-
-    line-height: 1;
-
-    margin-bottom: 12px;
-  }
-  .merch-price {
-    font-family: "Oswald";
-
-    font-size: 3rem;
-
-    margin-bottom: 38px;
-  }
-}
-
-@media (max-width: 480px) {
-  .merch-image {
-    height: 340px;
-  }
-  .carousel-arrow {
-    width: 42px;
-    height: 42px;
-    font-size: 1.1rem;
-  }
-  .left {
-    left: 12px;
-  }
-  .right {
-    right: 12px;
-  }
-  .button-primary {
-    width: 100%;
-  }
-}
 /* ==========================================================
-   TEXT ANIMATIONS
+   RESPONSIVE
 ========================================================== */
 
-.title-animate {
-  animation: titleFade 0.35s ease;
+@media(max-width:1100px){
+
+    .merch-featured{
+
+        grid-template-columns:1fr;
+
+        gap:42px;
+
+    }
+
+    .merch-image{
+
+        height:520px;
+
+    }
+
 }
 
-.collection-animate {
-  animation: fadeUp 0.45s ease;
+@media(max-width:768px){
+
+    .merch-image{
+
+        height:420px;
+
+    }
+
+    .merch-info h3{
+
+        font-size:3rem;
+
+    }
+
+    .merch-price{
+
+        font-size:2.6rem;
+
+    }
+
 }
 
-.price-animate {
-  animation: priceFade 0.55s ease;
-}
-@keyframes titleFade {
-  from {
-    opacity: 0;
+@media(max-width:480px){
 
-    transform: translateY(10px);
-  }
+    .merch-image{
 
-  to {
-    opacity: 1;
+        height:340px;
 
-    transform: translateY(0);
-  }
-}
+    }
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
+    .carousel-arrow{
 
-    transform: translateY(8px);
-  }
+        width:42px;
 
-  to {
-    opacity: 1;
+        height:42px;
 
-    transform: none;
-  }
-}
+        font-size:1.1rem;
 
-@keyframes priceFade {
-  from {
-    opacity: 0;
+    }
 
-    transform: scale(0.98);
-  }
+    .left{
 
-  to {
-    opacity: 1;
+        left:12px;
 
-    transform: scale(1);
-  }
+    }
+
+    .right{
+
+        right:12px;
+
+    }
+
+    .button-primary{
+
+        width:100%;
+
+    }
+
 }
 
-@keyframes detailFade {
-  from {
-    opacity: 0;
+/* ==========================================================
+   ANIMATIONS
+========================================================== */
 
-    transform: translateY(8px);
-  }
+.title-animate{
 
-  to {
-    opacity: 1;
+    animation:titleFade .35s ease;
 
-    transform: none;
-  }
+}
+
+.collection-animate{
+
+    animation:fadeUp .45s ease;
+
+}
+
+.price-animate{
+
+    animation:priceFade .55s ease;
+
+}
+
+@keyframes titleFade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+@keyframes priceFade{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.98);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
 }

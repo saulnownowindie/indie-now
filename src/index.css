@@ -1,8 +1,16 @@
-/* =====================================
-   RESET
-===================================== */
+/* ==========================================================
+   GOOGLE FONTS
+========================================================== */
 
-*{
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap");
+
+/* ==========================================================
+   RESET
+========================================================== */
+
+*,
+*::before,
+*::after{
 
     margin:0;
 
@@ -12,13 +20,23 @@
 
 }
 
+/* ==========================================================
+   DOCUMENTO
+========================================================== */
+
 html{
 
     scroll-behavior:smooth;
 
+    color-scheme:light dark;
+
 }
 
 body{
+
+    min-height:100vh;
+
+    overflow-x:hidden;
 
     background:var(--color-background);
 
@@ -26,21 +44,47 @@ body{
 
     font-family:"Inter",sans-serif;
 
+    line-height:1.5;
+
     transition:
         background .35s ease,
         color .35s ease;
 
     -webkit-font-smoothing:antialiased;
 
+    -moz-osx-font-smoothing:grayscale;
+
     text-rendering:optimizeLegibility;
 
 }
+
+/* ==========================================================
+   ROOT
+========================================================== */
+
+#root{
+
+    min-height:100vh;
+
+}
+
+/* ==========================================================
+   ELEMENTOS
+========================================================== */
 
 img{
 
     display:block;
 
     max-width:100%;
+
+    height:auto;
+
+}
+
+picture{
+
+    display:block;
 
 }
 
@@ -54,6 +98,18 @@ button{
 
     font-family:inherit;
 
+    color:inherit;
+
+}
+
+input,
+textarea,
+select{
+
+    font:inherit;
+
+    color:inherit;
+
 }
 
 a{
@@ -62,10 +118,68 @@ a{
 
     text-decoration:none;
 
+    transition:
+        color .25s ease;
+
 }
 
-ul{
+ul,
+ol{
 
     list-style:none;
+
+}
+
+/* ==========================================================
+   SELECCIÓN
+========================================================== */
+
+::selection{
+
+    background:var(--color-primary);
+
+    color:#000;
+
+}
+
+/* ==========================================================
+   FOCUS
+========================================================== */
+
+:focus-visible{
+
+    outline:2px solid var(--color-primary);
+
+    outline-offset:3px;
+
+}
+
+/* ==========================================================
+   SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:var(--color-surface);
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--color-border);
+
+    border-radius:999px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:var(--color-text-light);
 
 }

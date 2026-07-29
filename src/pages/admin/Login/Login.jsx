@@ -2,7 +2,7 @@ import "./Login.css";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../../auth/AuthContext";
 
 export default function Login() {
   const { login } = useAuth();
@@ -30,7 +30,6 @@ export default function Login() {
     setLoading(true);
 
     try {
-    console.log("Formulario:", form);
       await login(form);
 
       navigate("/admin");
@@ -75,14 +74,22 @@ export default function Login() {
             required
           />
 
-          <button type="button" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? "Ocultar" : "Mostrar"}
+          <button
+            type="button"
+            className="password-toggle"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
           </button>
         </div>
 
         {error && <p className="error">{error}</p>}
 
-        <button type="submit" disabled={loading}>
+        <button
+          type="submit"
+          className="button-primary login-submit"
+          disabled={loading}
+        >
           {loading ? "Ingresando..." : "Iniciar sesión"}
         </button>
       </form>

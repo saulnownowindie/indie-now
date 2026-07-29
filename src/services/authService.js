@@ -3,6 +3,9 @@ import api from "./api";
 export async function login(credentials) {
   const { data } = await api.post("/auth/login", credentials);
 
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("user", JSON.stringify(data.user));
+
   return data;
 }
 
@@ -13,7 +16,6 @@ export function logout() {
 
 export function getStoredUser() {
   const user = localStorage.getItem("user");
-
   return user ? JSON.parse(user) : null;
 }
 

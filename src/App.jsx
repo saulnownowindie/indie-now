@@ -1,4 +1,4 @@
-import "./App.css";
+
 
 import { Routes, Route } from "react-router-dom";
 import PublicLayout from "./layouts/PublicLayout/PublicLayout";
@@ -22,18 +22,18 @@ export default function App() {
         <Route path="/merch" element={<MerchPage />} />
       </Route>
 
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route path="login" element={<Login />} />
+<Route path="/admin/login" element={<Login />} />
 
-        <Route
-          index
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-      </Route>
+<Route
+  path="/admin"
+  element={
+    <ProtectedRoute>
+      <AdminLayout />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<Dashboard />} />
+</Route>
     </Routes>
   );
 }

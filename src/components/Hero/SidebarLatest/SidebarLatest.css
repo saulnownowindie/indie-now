@@ -1,8 +1,10 @@
 /* ==========================================================
-   SIDEBAR LATEST
+   SIDEBAR
 ========================================================== */
 
 .latest{
+
+    position:relative;
 
     background:var(--color-surface);
 
@@ -10,25 +12,61 @@
 
     border-radius:26px;
 
-    padding:20px;
+    padding:22px;
 
     height:fit-content;
 
     box-shadow:var(--shadow-md);
 
-    transition:
-        background .35s,
-        border-color .35s,
-        transform .25s,
-        box-shadow .25s;
+    overflow:hidden;
+
+    transition:.3s;
+
+}
+
+.latest::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    width:100%;
+
+    height:3px;
+
+    background:linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        var(--color-primary),
+
+        transparent
+
+    );
+
+    opacity:.6;
 
 }
 
 .latest:hover{
 
-    transform:translateY(-2px);
+    transform:translateY(-3px);
+
+    border-color:color-mix(in srgb,var(--color-primary) 35%,var(--color-border));
 
     box-shadow:var(--shadow-lg);
+
+}
+
+.latest:hover::before{
+
+    opacity:1;
 
 }
 
@@ -38,7 +76,7 @@
 
 .latest .section-title{
 
-    font-family:"Oswald";
+    position:relative;
 
     font-size:1.9rem;
 
@@ -51,6 +89,36 @@
     padding-bottom:18px;
 
     border-bottom:1px solid var(--color-border);
+
+}
+
+.latest .section-title::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:-1px;
+
+    transform:translateX(-50%);
+
+    width:60px;
+
+    height:3px;
+
+    border-radius:999px;
+
+    background:var(--color-primary);
+
+}
+
+/* Ya no cambia a amarillo */
+
+.latest:hover .section-title{
+
+    color:var(--color-text);
 
 }
 
@@ -67,10 +135,6 @@
     gap:14px;
 
 }
-
-/* ==========================================================
-   RESPONSIVE
-========================================================== */
 
 @media(max-width:1200px){
 

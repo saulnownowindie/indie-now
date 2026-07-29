@@ -1,216 +1,362 @@
-:root {
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap");
 
-  /* =====================================
-     COLORES
-  ===================================== */
+/* ==========================================================
+   DESIGN SYSTEM
+========================================================== */
 
-  --color-primary: #FEFA00;
-  --color-primary-hover: #FFF347;
+:root{
 
-  --color-background: #F5F5F5;
+    /* ======================================================
+       COLORES
+    ====================================================== */
 
-  --color-surface: #FFFFFF;
+    --color-primary:#FEFA00;
+    --color-primary-hover:#E5E100;
 
-  --color-surface-2: #F6F6F6;
+    --color-background:#F7F7F8;
+    --color-surface:#FFFFFF;
+    --color-surface-2:#F3F4F6;
 
-  --color-text: #202020;
+    --color-text:#18181B;
+    --color-text-light:#6B7280;
 
-  --color-text-light: #666666;
+    --color-border:#E5E7EB;
 
-  --color-border: #E8E8E8;
+    --color-success:#22C55E;
+    --color-danger:#EF4444;
+    --color-warning:#F59E0B;
 
-  /* =====================================
-     CONTENEDOR
-  ===================================== */
+    /* ======================================================
+       TIPOGRAFÍA
+    ====================================================== */
 
-  --container-width: 1600px;
-  --container-padding: 32px;
+    --font-heading:"Oswald",sans-serif;
+    --font-body:"Inter",sans-serif;
 
-  /* =====================================
-     ESPACIADO
-  ===================================== */
+    /* ======================================================
+       LAYOUT
+    ====================================================== */
 
-  --space-xs: 8px;
-  --space-sm: 16px;
-  --space-md: 24px;
-  --space-lg: 32px;
-  --space-xl: 48px;
-  --space-2xl: 64px;
-  --space-section: 96px;
+    --container-width:1600px;
+    --content-width:1600px;
+    --sidebar-width:280px;
+    --header-height:86px;
 
-  /* =====================================
-     BORDES
-  ===================================== */
+    /* ======================================================
+       ESPACIADO
+    ====================================================== */
 
-  --radius-button: 12px;
-  --radius-card: 18px;
-  --radius-panel: 28px;
-  --radius-section: 32px;
+    --space-xs:8px;
+    --space-sm:16px;
+    --space-md:24px;
+    --space-lg:32px;
+    --space-xl:48px;
+    --space-2xl:64px;
+    --space-section:96px;
 
-  /* =====================================
-     SOMBRAS
-  ===================================== */
+    /* ======================================================
+       RADIOS
+    ====================================================== */
 
-  --shadow-sm: 0 4px 10px rgba(0,0,0,.05);
+    --radius-button:12px;
+    --radius-card:18px;
+    --radius-panel:26px;
+    --radius-section:32px;
+    --radius-full:999px;
 
-  --shadow-md: 0 10px 30px rgba(0,0,0,.07);
+    /* ======================================================
+       SOMBRAS
+    ====================================================== */
 
-  --shadow-lg: 0 18px 50px rgba(0,0,0,.08);
+    --shadow-sm:0 4px 12px rgba(0,0,0,.05);
 
-  /* =====================================
-     TRANSICIONES
-  ===================================== */
+    --shadow-md:0 10px 30px rgba(0,0,0,.07);
 
-  --transition-fast: .2s;
+    --shadow-lg:0 18px 50px rgba(0,0,0,.08);
 
-  --transition: .3s;
+    --shadow-primary:0 16px 40px rgba(254,250,0,.22);
 
-  --transition-slow: .45s;
+    /* ======================================================
+       TRANSICIONES
+    ====================================================== */
 
-}
-
-/* ==================================================
-   MODO OSCURO
-================================================== */
-
-@media (prefers-color-scheme: dark){
-
-  :root{
-
-    --color-background:#121212;
-
-    --color-surface:#1B1B1B;
-
-    --color-surface-2:#252525;
-
-    --color-text:#F4F4F4;
-
-    --color-text-light:#B7B7B7;
-
-    --color-border:#313131;
-
-    --shadow-sm:0 6px 18px rgba(0,0,0,.35);
-
-    --shadow-md:0 12px 28px rgba(0,0,0,.45);
-
-    --shadow-lg:0 20px 42px rgba(0,0,0,.55);
-
-  }
+    --transition-fast:.2s;
+    --transition:.3s;
+    --transition-slow:.45s;
 
 }
 
-/* =====================================
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+@media(prefers-color-scheme:dark){
+
+    :root{
+
+        --color-background:#09090B;
+
+        --color-surface:#151518;
+
+        --color-surface-2:#1D1D22;
+
+        --color-text:#F4F4F5;
+
+        --color-text-light:#A1A1AA;
+
+        --color-border:#2E2E35;
+
+        --shadow-sm:0 6px 18px rgba(0,0,0,.35);
+
+        --shadow-md:0 12px 28px rgba(0,0,0,.45);
+
+        --shadow-lg:0 20px 42px rgba(0,0,0,.55);
+
+        --shadow-primary:0 16px 40px rgba(254,250,0,.18);
+
+    }
+
+}
+
+/* ==========================================================
    CONTENEDOR
-===================================== */
+========================================================== */
 
 .container{
 
-  width:min(var(--container-width),96%);
+    width:min(var(--container-width),96%);
 
-  margin:auto;
+    margin-inline:auto;
 
 }
 
-/* =====================================
+/* ==========================================================
    SECCIONES
-===================================== */
+========================================================== */
 
 .section{
 
-  margin-top:var(--space-2xl);
+    margin-top:var(--space-section);
 
 }
 
-/* =====================================
+/* ==========================================================
    PANEL
-===================================== */
+========================================================== */
 
 .panel{
 
-  background:var(--color-surface);
+    background:var(--color-surface);
 
-  border:1px solid var(--color-border);
+    border:1px solid var(--color-border);
 
-  border-radius:var(--radius-section);
+    border-radius:var(--radius-section);
 
-  box-shadow:var(--shadow-md);
+    padding:42px;
 
-  padding:42px;
+    box-shadow:var(--shadow-md);
 
-  transition:
-    background .35s,
-    border-color .35s,
-    color .35s,
-    box-shadow .35s;
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        color var(--transition),
+        box-shadow var(--transition);
 
 }
 
-/* =====================================
-   TITULOS
-===================================== */
+/* ==========================================================
+   TÍTULOS
+========================================================== */
 
 .section-title{
 
-  font-family:"Oswald";
+    position:relative;
 
-  font-size:2.2rem;
+    font-family:var(--font-heading);
 
-  color:var(--color-text);
+    font-size:2.2rem;
 
-  text-align:center;
+    color:var(--color-text);
 
-  margin-bottom:16px;
+    text-align:center;
+
+    margin-bottom:16px;
+
+}
+
+.section-title::after{
+
+    content:"";
+
+    display:block;
+
+    width:70px;
+
+    height:4px;
+
+    margin:14px auto 0;
+
+    border-radius:999px;
+
+    background:var(--color-primary);
 
 }
 
 .section-subtitle{
 
-  color:var(--color-text-light);
+    max-width:700px;
 
-  text-align:center;
+    margin:0 auto 42px;
 
-  font-size:1rem;
+    text-align:center;
 
-  margin-bottom:42px;
+    color:var(--color-text-light);
+
+    line-height:1.7;
 
 }
 
-/* =====================================
-   BOTON PRINCIPAL
-===================================== */
+/* ==========================================================
+   BOTÓN PRINCIPAL
+========================================================== */
 
 .button-primary{
 
-  display:inline-flex;
+    display:inline-flex;
 
-  justify-content:center;
+    justify-content:center;
 
-  align-items:center;
+    align-items:center;
 
-  min-width:180px;
+    gap:10px;
 
-  padding:16px 36px;
+    min-width:180px;
 
-  background:var(--color-primary);
+    padding:16px 34px;
 
-  color:#000;
+    border:none;
 
-  border-radius:var(--radius-button);
+    border-radius:var(--radius-button);
 
-  text-decoration:none;
+    background:var(--color-primary);
 
-  font-weight:700;
+    color:#000;
 
-  transition:var(--transition);
+    font-family:var(--font-body);
+
+    font-weight:700;
+
+    text-decoration:none;
+
+    transition:
+        transform var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
 
 }
 
 .button-primary:hover{
 
-  background:var(--color-primary-hover);
+    background:var(--color-primary-hover);
 
-  transform:translateY(-2px);
+    transform:translateY(-3px);
 
-  box-shadow:var(--shadow-sm);
+    box-shadow:var(--shadow-primary);
+
+}
+
+.button-primary:active{
+
+    transform:scale(.98);
+
+}
+
+/* ==========================================================
+   TARJETAS
+========================================================== */
+
+.card{
+
+    background:var(--color-surface);
+
+    border:1px solid var(--color-border);
+
+    border-radius:var(--radius-card);
+
+    box-shadow:var(--shadow-md);
+
+    transition:
+        transform var(--transition),
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:color-mix(in srgb,var(--color-primary) 35%,var(--color-border));
+
+    box-shadow:var(--shadow-lg);
+
+}
+
+/* ==========================================================
+   BADGE
+========================================================== */
+
+.badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    background:var(--color-primary);
+
+    color:#000;
+
+    font-size:.78rem;
+
+    font-weight:700;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
+
+}
+
+/* ==========================================================
+   UTILIDADES
+========================================================== */
+
+.text-muted{
+
+    color:var(--color-text-light);
+
+}
+
+.surface{
+
+    background:var(--color-surface);
+
+}
+
+.surface-2{
+
+    background:var(--color-surface-2);
+
+}
+
+.border{
+
+    border:1px solid var(--color-border);
 
 }

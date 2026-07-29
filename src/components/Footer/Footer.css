@@ -4,6 +4,8 @@
 
 .footer{
 
+    position:relative;
+
     margin-top:120px;
 
     padding:80px 0 35px;
@@ -12,8 +14,36 @@
 
     border-top:1px solid var(--color-border);
 
+    overflow:hidden;
+
 }
 
+.footer::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:min(500px,80%);
+
+    height:3px;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        var(--color-primary),
+        transparent
+    );
+
+}
 
 /* ==========================================================
    CABECERA
@@ -29,18 +59,25 @@
 
     text-align:center;
 
-    margin-bottom:24px;
+    margin-bottom:28px;
 
 }
-
 
 .footer-logo{
 
     width:105px;
 
-    margin-bottom:14px;
+    margin-bottom:18px;
 
     user-select:none;
+
+    transition:transform .3s;
+
+}
+
+.footer-logo:hover{
+
+    transform:scale(1.04);
 
 }
 
@@ -68,7 +105,7 @@
 
     background:var(--color-border);
 
-    margin:28px 0;
+    margin:30px 0;
 
 }
 
@@ -96,17 +133,43 @@
 
 .footer-column h3{
 
-    font-family:"Oswald";
+    position:relative;
+
+    display:inline-block;
+
+    width:max-content;
+
+    font-family:var(--font-heading);
 
     font-size:1.35rem;
 
     color:var(--color-text);
 
-    margin-bottom:24px;
+    margin-bottom:26px;
 
     letter-spacing:.04em;
 
     text-transform:uppercase;
+
+    transition:.25s;
+
+}
+
+.footer-column h3::after{
+
+    content:"";
+
+    display:block;
+
+    width:42px;
+
+    height:3px;
+
+    margin-top:8px;
+
+    border-radius:999px;
+
+    background:var(--color-primary);
 
 }
 
@@ -126,7 +189,9 @@
 
     text-decoration:none;
 
-    transition:.25s;
+    transition:
+        color .25s,
+        transform .25s;
 
 }
 
@@ -134,13 +199,23 @@
 
     color:var(--color-primary);
 
-    transform:translateX(5px);
+    transform:translateX(6px);
 
 }
 
 .footer-column svg{
 
     font-size:1.1rem;
+
+    transition:
+        color .25s,
+        transform .25s;
+
+}
+
+.footer-column a:hover svg{
+
+    transform:scale(1.15);
 
 }
 
@@ -189,6 +264,12 @@
     .footer-column{
 
         align-items:center;
+
+    }
+
+    .footer-column h3{
+
+        width:auto;
 
     }
 

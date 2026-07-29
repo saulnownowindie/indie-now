@@ -1,5 +1,5 @@
 /* ==========================================================
-   TARJETAS
+   LATEST CARD
 ========================================================== */
 
 .latest-card{
@@ -22,29 +22,29 @@
 
     border-radius:18px;
 
-    transition:
-        background .25s,
-        border-color .25s,
-        transform .25s,
-        box-shadow .25s;
+    transition:.25s;
+
+}
+
+.latest-card:last-child{
+
+    margin-bottom:0;
 
 }
 
 .latest-card:hover{
 
-    background:#2B2B2B;
+    background:var(--color-surface);
 
-    border-color:#404040;
+    border-color:var(--color-primary);
 
     transform:translateY(-4px);
 
-    box-shadow:0 10px 26px rgba(0,0,0,.28);
+    box-shadow:var(--shadow-md);
 
 }
 
-/* ==========================================================
-   ICONOS
-========================================================== */
+/* ICONO */
 
 .latest-card span{
 
@@ -52,19 +52,19 @@
 
     height:48px;
 
-    border-radius:50%;
-
     display:flex;
 
     justify-content:center;
 
     align-items:center;
 
-    background:rgba(254,250,0,.12);
+    border-radius:50%;
 
-    color:var(--color-primary);
+    background:var(--color-primary);
 
-    font-size:1.15rem;
+    color:#000;
+
+    font-size:1.1rem;
 
     transition:.25s;
 
@@ -72,15 +72,13 @@
 
 .latest-card:hover span{
 
-    background:var(--color-primary);
+    transform:scale(1.08);
 
-    color:#000;
+    box-shadow:var(--shadow-primary);
 
 }
 
-/* ==========================================================
-   TEXTO
-========================================================== */
+/* TEXTO */
 
 .latest-card strong{
 
@@ -88,11 +86,9 @@
 
     font-size:1rem;
 
-    font-weight:700;
+    line-height:1.35;
 
     color:var(--color-text);
-
-    line-height:1.35;
 
 }
 
@@ -100,11 +96,9 @@
 
     margin-top:5px;
 
-    font-size:.92rem;
-
-    line-height:1.45;
-
     color:var(--color-text-light);
+
+    font-size:.92rem;
 
 }
 
@@ -114,9 +108,9 @@
 
     margin-top:10px;
 
-    font-size:.74rem;
+    color:var(--color-text-light);
 
-    color:#9E9E9E;
+    font-size:.74rem;
 
     letter-spacing:.05em;
 

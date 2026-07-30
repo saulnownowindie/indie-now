@@ -1,0 +1,265 @@
+.button{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    border:none;
+
+    outline:none;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    white-space:nowrap;
+
+    font-family:var(--font-body);
+
+    font-size:var(--text-md);
+
+    font-weight:var(--font-bold);
+
+    border-radius:var(--radius-button);
+
+    transition:
+        background var(--transition) var(--ease-standard),
+        color var(--transition) var(--ease-standard),
+        border-color var(--transition) var(--ease-standard),
+        transform var(--transition-fast) var(--ease-standard),
+        box-shadow var(--transition) var(--ease-standard);
+
+}
+
+/* =======================================================
+   SIZES
+======================================================= */
+
+.sm{
+
+    height:36px;
+
+    padding:0 16px;
+
+    font-size:var(--text-sm);
+
+}
+
+.md{
+
+    height:44px;
+
+    padding:0 22px;
+
+}
+
+.lg{
+
+    height:52px;
+
+    padding:0 28px;
+
+    font-size:var(--text-lg);
+
+}
+
+/* =======================================================
+   VARIANTS
+======================================================= */
+
+.primary{
+
+    background:var(--color-primary);
+
+    color:#000;
+
+}
+
+.primary:hover{
+
+    background:var(--color-primary-hover);
+
+    box-shadow:var(--shadow-primary);
+
+    transform:translateY(-2px);
+
+}
+
+.secondary{
+
+    background:var(--color-surface-2);
+
+    color:var(--color-text);
+
+}
+
+.secondary:hover{
+
+    background:var(--color-border);
+
+    transform:translateY(-2px);
+
+}
+
+.outline{
+
+    background:transparent;
+
+    border:1px solid var(--color-border);
+
+    color:var(--color-text);
+
+}
+
+.outline:hover{
+
+    border-color:var(--color-primary);
+
+    color:var(--color-primary);
+
+    transform:translateY(-2px);
+
+}
+
+.ghost{
+
+    background:transparent;
+
+    color:var(--color-text);
+
+}
+
+.ghost:hover{
+
+    background:var(--color-surface-2);
+
+}
+
+.success{
+
+    background:var(--color-success);
+
+    color:white;
+
+}
+
+.success:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.danger{
+
+    background:var(--color-danger);
+
+    color:white;
+
+}
+
+.danger:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* =======================================================
+   STATES
+======================================================= */
+
+.button:active{
+
+    transform:scale(.98);
+
+}
+
+.button:focus-visible{
+
+    box-shadow:
+        0 0 0 3px color-mix(
+            in srgb,
+            var(--color-focus) 35%,
+            transparent
+        );
+
+}
+
+.button:disabled{
+
+    opacity:.55;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+    box-shadow:none;
+
+}
+
+/* =======================================================
+   FULL WIDTH
+======================================================= */
+
+.fullWidth{
+
+    width:100%;
+
+}
+
+/* =======================================================
+   ICONS
+======================================================= */
+
+.icon{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+
+}
+
+.label{
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+/* =======================================================
+   SPINNER
+======================================================= */
+
+.spinner{
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    border:2px solid currentColor;
+
+    border-top-color:transparent;
+
+    animation:spin .8s linear infinite;
+
+}
+
+@keyframes spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}

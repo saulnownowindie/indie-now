@@ -1,0 +1,59 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+   border: 1px solid transparent;
+  min-height: 28px;
+  padding: 0 10px;
+
+  border-radius: 999px;
+
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+
+  white-space: nowrap;
+
+  transition:
+    background var(--transition),
+    color var(--transition),
+    border-color var(--transition);
+}
+
+/* ===========================
+   Variants
+=========================== */
+
+.primary {
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  color: var(--color-primary);
+}
+
+.success {
+  background: color-mix(in srgb, var(--color-success) 18%, transparent);
+  border-color: color-mix(in srgb, var(--color-success) 35%, transparent);
+  color: var(--color-success);
+}
+
+.warning {
+  background: color-mix(in srgb, var(--color-warning) 18%, transparent);
+  border-color: color-mix(in srgb, var(--color-warning) 35%, transparent);
+  color: var(--color-warning);
+}
+
+.danger {
+  background: color-mix(in srgb, var(--color-danger) 18%, transparent);
+  border-color: color-mix(in srgb, var(--color-danger) 35%, transparent);
+  color: var(--color-danger);
+}
+
+.info {
+  background: rgba(59, 130, 246, .18);
+  border-color: rgba(59, 130, 246, .35);
+  color: #60a5fa;
+}
+
+.neutral {
+  background: rgba(148, 163, 184, .16);
+  border-color: rgba(148, 163, 184, .28);
+  color: #cbd5e1;
+}

@@ -1,9 +1,10 @@
 import "./AdminHeader.css";
 import { useAuth } from "../../../auth/AuthContext";
 import { Bell, Sun, Moon, Search, Menu } from "lucide-react";
-
+import Badge from "../../../components/ui/Badge";
 import { useLocation } from "react-router-dom";
 import useTheme from "../../../hooks/useTheme";
+import { CheckCircle2, Clock3, Archive, Trash2, Sparkles } from "lucide-react";
 
 const titles = {
   "/admin": "Dashboard",
@@ -31,6 +32,35 @@ export default function AdminHeader({ onMenuClick }) {
           <small>Panel de Administración</small>
           <h1>{title}</h1>
         </div>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "12px",
+          flexWrap: "wrap",
+          marginTop: "24px",
+        }}
+      >
+        <Badge variant="success" icon={<CheckCircle2 size={12} />}>
+          Publicado
+        </Badge>
+
+        <Badge variant="warning" icon={<Clock3 size={12} />}>
+          Borrador
+        </Badge>
+
+        <Badge variant="neutral" icon={<Archive size={12} />}>
+          Archivado
+        </Badge>
+
+        <Badge variant="danger" icon={<Trash2 size={12} />}>
+          Papelera
+        </Badge>
+
+        <Badge variant="info" icon={<Sparkles size={12} />}>
+          Nuevo
+        </Badge>
       </div>
 
       <div className="admin-header__right">

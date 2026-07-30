@@ -41,8 +41,8 @@ export default function Merch() {
   }, [animating]);
 
   return (
-    <section className="merch section">
-      <div className="container panel">
+    <section className="merch section container">
+      <div className="panel">
         <div className="merch-header">
           <h2 className="section-title">{homeData.merch.title}</h2>
           <p className="section-subtitle">{homeData.merch.subtitle}</p>
@@ -56,12 +56,11 @@ export default function Merch() {
             >
               ←
             </button>
-
-
             <img
+              key={currentProduct.id}
               src={currentProduct.image}
               alt={currentProduct.name}
-              className="merch-photo"
+              className={`merch-photo ${direction === "next" ? "photo-in-next" : "photo-in-prev"}`}
             />
 
             <button

@@ -4,7 +4,6 @@
 
 .merch{
 
-    width:min(1600px,96%);
 
     margin:60px auto 0;
 
@@ -517,6 +516,45 @@
 
         transform:scale(1);
 
+    }
+
+}
+.photo-in-next{
+
+    animation:photoInNext .4s ease;
+
+}
+
+.photo-in-prev{
+
+    animation:photoInPrev .4s ease;
+
+}
+
+@keyframes photoInNext{
+
+    from{
+        opacity:0;
+        transform:translateX(28px) scale(.97);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0) scale(1);
+    }
+
+}
+
+@keyframes photoInPrev{
+
+    from{
+        opacity:0;
+        transform:translateX(-28px) scale(.97);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0) scale(1);
     }
 
 }

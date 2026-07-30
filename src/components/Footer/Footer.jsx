@@ -38,65 +38,77 @@ export default function Footer() {
 
             <h3>Explorar</h3>
 
-            <a href="#">Inicio</a>
+            <div className="footer-links">
 
-            <a href="#">Sesiones</a>
+              <a href="#">Inicio</a>
 
-            <a href="#">Noticias</a>
+              <a href="#">Sesiones</a>
 
-            <a href="#">Merch</a>
+              <a href="#">Noticias</a>
 
-          </div>
+              <a href="#">Merch</a>
 
-          <div className="footer-column">
-
-            <h3>Redes</h3>
-
-            <a
-              href="https://www.instagram.com/indienownow/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FaInstagram />
-              Instagram
-            </a>
-
-            <a
-              href="https://www.youtube.com/@INDIENOW"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FaYoutube />
-              YouTube
-            </a>
-
-            <a
-              href="https://open.spotify.com/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FaSpotify />
-              Spotify
-            </a>
-
-            <a
-              href="https://www.tiktok.com/@indienownow"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FaTiktok />
-              TikTok
-            </a>
+            </div>
 
           </div>
+
+<div className="footer-column">
+
+  <h3>Redes</h3>
+
+  <div className="footer-links">
+
+    <a
+      href="https://www.instagram.com/indienownow/"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <FaInstagram />
+      Instagram
+    </a>
+
+    <a
+      href="https://www.youtube.com/@INDIENOW"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <FaYoutube />
+      YouTube
+    </a>
+
+    <a
+      href="https://open.spotify.com/"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <FaSpotify />
+      Spotify
+    </a>
+
+    <a
+      href="https://www.tiktok.com/@indienownow"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <FaTiktok />
+      TikTok
+    </a>
+
+  </div>
+
+</div>
 
           <div className="footer-column">
 
             <h3>Contacto</h3>
 
-            <span>Paraguay</span>
+            <div className="footer-links">
 
-            <span>indienowforcontact@gmail.com</span>
+              <span>Paraguay</span>
+
+              <span>indienowforcontact@gmail.com</span>
+
+            </div>
 
           </div>
 

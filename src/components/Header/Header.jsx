@@ -1,40 +1,52 @@
 import "./Header.css";
 import logo from "../../assets/images/indie-nowlogo-blancov2.png";
 
-import { useEffect, useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-
-import {
-    FaInstagram,
-    FaYoutube,
-    FaSpotify,
-    FaTiktok
-} from "react-icons/fa";
+import { FaInstagram, FaYoutube, FaSpotify, FaTiktok } from "react-icons/fa";
 
 export default function Header() {
 
     const [scrolled, setScrolled] = useState(false);
+    const lastScrollY = useRef(0);
+    const ticking = useRef(false);
+    const headerRef = useRef(null);
 
     useEffect(() => {
 
-        const handleScroll = () => {
+        const updateHeader = () => {
+            const currentY = window.scrollY;
+            const delta = currentY - lastScrollY.current;
 
-            setScrolled(window.scrollY > 120);
+            setScrolled(currentY > 120);
 
+            if (headerRef.current) {
+                if (currentY > 160 && delta > 4) {
+                    headerRef.current.style.transform = "translateY(-100%)";
+                } else if (delta < -4 || currentY < 160) {
+                    headerRef.current.style.transform = "translateY(0)";
+                }
+            }
+
+            lastScrollY.current = currentY;
+            ticking.current = false;
         };
 
-        window.addEventListener("scroll", handleScroll);
+        const handleScroll = () => {
+            if (!ticking.current) {
+                window.requestAnimationFrame(updateHeader);
+                ticking.current = true;
+            }
+        };
 
+        window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
-
     }, []);
 
     return (
+        <header ref={headerRef} className={scrolled ? "header scrolled" : "header"}>
 
-        <header className={scrolled ? "header scrolled" : "header"}>
-
-            <div className="header-container">
+            <div className="container header-container">
 
                 <Link
                     to="/"

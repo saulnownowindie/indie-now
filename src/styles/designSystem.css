@@ -33,14 +33,21 @@
     --font-heading:"Oswald",sans-serif;
     --font-body:"Inter",sans-serif;
 
+
+
     /* ======================================================
        LAYOUT
     ====================================================== */
 
-    --container-width:1600px;
-    --content-width:1600px;
-    --sidebar-width:280px;
+    --container-max:1760px;
+
     --header-height:86px;
+
+    --sidebar-width:250px;
+
+    --content-gap:44px;
+    --container-padding:18px;
+
 
     /* ======================================================
        ESPACIADO
@@ -85,6 +92,20 @@
     --transition-slow:.45s;
 
 }
+/* ==========================================================
+   GLOBAL CONTAINER
+========================================================== */
+
+.container{
+
+    width:min(var(--container-max),96vw);
+
+    margin-inline:auto;
+
+    padding-inline:var(--container-padding);
+
+}
+
 
 /* ==========================================================
    DARK MODE
@@ -118,17 +139,6 @@
 
 }
 
-/* ==========================================================
-   CONTENEDOR
-========================================================== */
-
-.container{
-
-    width:min(var(--container-width),96%);
-
-    margin-inline:auto;
-
-}
 
 /* ==========================================================
    SECCIONES

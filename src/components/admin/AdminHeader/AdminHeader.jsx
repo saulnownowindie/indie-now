@@ -1,14 +1,9 @@
 import "./AdminHeader.css";
-
-import {
-  Bell,
-  SunMoon,
-  Search,
-  Menu,
-  ChartColumn,
-} from "lucide-react";
+import { useAuth } from "../../../auth/AuthContext";
+import { Bell, Sun, Moon, Search, Menu } from "lucide-react";
 
 import { useLocation } from "react-router-dom";
+import useTheme from "../../../hooks/useTheme";
 
 const titles = {
   "/admin": "Dashboard",
@@ -20,86 +15,59 @@ const titles = {
 };
 
 export default function AdminHeader({ onMenuClick }) {
-
   const location = useLocation();
-
   const title = titles[location.pathname] ?? "Panel";
 
+  const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
   return (
-
     <header className="admin-header">
-
       <div className="admin-header__left">
-
-        <button
-          className="mobile-menu"
-          onClick={onMenuClick}
-        >
+        <button className="mobile-menu" onClick={onMenuClick}>
           <Menu size={22} />
         </button>
 
         <div>
-
           <small>Panel de Administración</small>
-
           <h1>{title}</h1>
-
         </div>
-
       </div>
 
-<div className="admin-header__right">
+      <div className="admin-header__right">
+        <div className="admin-search">
+          <Search size={18} />
 
-  <div className="admin-search">
+          <input type="text" placeholder="Buscar noticias, reels, merch..." />
+        </div>
 
-    <Search size={18} />
+        <button
+          className="header-icon"
+          title="Cambiar tema"
+          onClick={toggleTheme}
+        >
+          {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
 
-    <input
-      type="text"
-      placeholder="Buscar noticias, reels, merch..."
-    />
+        <button className="header-icon" title="Notificaciones">
+          <Bell size={20} />
+        </button>
 
-  </div>
+        <button className="header-profile" title={user?.name ?? "Mi cuenta"}>
+          <img
+            src={user?.avatar || "/avatars/dwith.jpg"}
+            alt={user?.name || "Administrador"}
+            className="header-avatar"
+          />
 
-  <button
-    className="header-icon"
-    title="Estadísticas"
-  >
-    <ChartColumn size={20} />
-  </button>
+          <div className="header-user-info">
+            <span className="header-user-name">
+              {user?.name || "Administrador"}
+            </span>
 
-<button
-  className="header-icon"
-  title="Cambiar tema"
->
-  <SunMoon
-    size={22}
-    strokeWidth={2.5}
-  />
-</button>
-
-  <button
-    className="header-icon"
-    title="Notificaciones"
-  >
-    <Bell size={20} />
-  </button>
-
-  <button
-    className="header-profile"
-    title="Mi cuenta"
-  >
-    <img
-      src="/avatars/dwith.jpg"
-      alt="Administrador"
-      className="header-avatar"
-    />
-  </button>
-
-</div>
-
+            <small className="header-user-role">{user?.role || ""}</small>
+          </div>
+        </button>
+      </div>
     </header>
-
   );
-
 }

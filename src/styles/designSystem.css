@@ -108,34 +108,58 @@
 
 
 /* ==========================================================
-   DARK MODE
+   LIGHT THEME
 ========================================================== */
 
-@media(prefers-color-scheme:dark){
+html.light{
 
-    :root{
+    --color-background:#F7F7F8;
 
-        --color-background:#09090B;
+    --color-surface:#FFFFFF;
 
-        --color-surface:#151518;
+    --color-surface-2:#F3F4F6;
 
-        --color-surface-2:#1D1D22;
+    --color-text:#18181B;
 
-        --color-text:#F4F4F5;
+    --color-text-light:#6B7280;
 
-        --color-text-light:#A1A1AA;
+    --color-border:#E5E7EB;
 
-        --color-border:#2E2E35;
+    --shadow-sm:0 4px 12px rgba(0,0,0,.05);
 
-        --shadow-sm:0 6px 18px rgba(0,0,0,.35);
+    --shadow-md:0 10px 30px rgba(0,0,0,.07);
 
-        --shadow-md:0 12px 28px rgba(0,0,0,.45);
+    --shadow-lg:0 18px 50px rgba(0,0,0,.08);
 
-        --shadow-lg:0 20px 42px rgba(0,0,0,.55);
+    --shadow-primary:0 16px 40px rgba(254,250,0,.22);
 
-        --shadow-primary:0 16px 40px rgba(254,250,0,.18);
+}
 
-    }
+/* ==========================================================
+   DARK THEME
+========================================================== */
+
+html.dark{
+
+    --color-background:#09090B;
+
+    --color-surface:#151518;
+
+    --color-surface-2:#1D1D22;
+
+    --color-text:#F4F4F5;
+
+    --color-text-light:#A1A1AA;
+
+    --color-border:#2E2E35;
+
+    --shadow-sm:0 6px 18px rgba(0,0,0,.35);
+
+    --shadow-md:0 12px 28px rgba(0,0,0,.45);
+
+    --shadow-lg:0 20px 42px rgba(0,0,0,.55);
+
+    --shadow-primary:0 16px 40px rgba(254,250,0,.18);
 
 }
 

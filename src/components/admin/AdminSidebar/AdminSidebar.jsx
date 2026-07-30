@@ -1,5 +1,6 @@
 import "./AdminSidebar.css";
-
+import { useAuth } from "../../../auth/AuthContext";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Newspaper,
@@ -10,7 +11,6 @@ import {
   LogOut,
 } from "lucide-react";
 
-import { NavLink } from "react-router-dom";
 
 const user = {
   name: "Saúl González",
@@ -53,6 +53,13 @@ const menu = [
 ];
 
 export default function AdminSidebar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    logout();
+    navigate("/login");
+  }
   return (
     <aside className="admin-sidebar">
       <div className="admin-sidebar__logo">
@@ -62,10 +69,7 @@ export default function AdminSidebar() {
             srcSet="/indie-nowlogo-blancov2.png"
           />
 
-          <img
-            src="/indie-nowlogo.png"
-            alt="Indie Now"
-          />
+          <img src="/indie-nowlogo.png" alt="Indie Now" />
         </picture>
       </div>
 
@@ -78,9 +82,7 @@ export default function AdminSidebar() {
               key={item.to}
               to={item.to}
               end={item.end}
-              className={({ isActive }) =>
-                isActive ? "active" : ""
-              }
+              className={({ isActive }) => (isActive ? "active" : "")}
             >
               <Icon size={20} />
 
@@ -93,22 +95,24 @@ export default function AdminSidebar() {
       <div className="admin-sidebar__footer">
         <div className="admin-user">
           <img
-            src={user.avatar}
-            alt={user.name}
+            src={user?.avatar || "/avatars/dwith.jpg"}
+            alt={user?.name || "Administrador"}
           />
 
           <div className="admin-user__info">
-            <strong>{user.name}</strong>
+            <strong>{user?.name || "Administrador"}</strong>
 
-            <small>{user.role}</small>
+            <small>{user?.role || ""}</small>
           </div>
         </div>
 
-        <button className="logout-button">
-          <LogOut size={18} />
-
-          <span>Cerrar sesión</span>
-        </button>
+<button
+  className="logout-button"
+  onClick={handleLogout}
+>
+  <LogOut size={18} />
+  <span>Cerrar sesión</span>
+</button>
       </div>
     </aside>
   );

@@ -198,43 +198,39 @@
 
 .header-profile{
 
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
     padding:0;
 
-    width:44px;
-
-    height:44px;
-
     border:none;
-
-    border-radius:50%;
-
-    overflow:hidden;
 
     background:none;
 
     cursor:pointer;
 
-    transition:.25s;
-
-}
-
-.header-profile:hover{
-
-    transform:scale(1.06);
-
-    box-shadow:0 0 0 3px rgba(254,250,0,.25);
-
 }
 
 .header-avatar{
 
-    width:100%;
+    width:44px;
 
-    height:100%;
+    height:44px;
+
+    min-width:44px;
+
+    min-height:44px;
+
+    border-radius:50%;
 
     object-fit:cover;
 
     display:block;
+
+    border:2px solid var(--color-accent);
 
 }
 @media(max-width:768px){
@@ -262,3 +258,48 @@
     }
 
 }
+
+.header-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    background:none;
+
+    border:none;
+
+    cursor:pointer;
+
+}
+
+.header-user-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    line-height:1.2;
+
+}
+
+.header-user-name{
+
+    font-weight:600;
+
+    color:var(--color-text);
+
+}
+
+.header-user-role{
+
+    color:var(--color-text-light);
+
+    font-size:.78rem;
+
+}
+

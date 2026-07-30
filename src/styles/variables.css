@@ -33,39 +33,43 @@
 
 }
 
-/* Tema Claro */
+/* ===========================
+   Tema Claro (por defecto)
+=========================== */
 
+html.light,
 :root {
 
   --bg: #FAFAFA;
+
   --surface: #FFFFFF;
+
   --surface-hover: #F5F5F5;
 
   --border: #E5E7EB;
 
   --text: #111827;
+
   --text-secondary: #6B7280;
 
 }
 
-/* Tema Oscuro */
+/* ===========================
+   Tema Oscuro
+=========================== */
 
-@media (prefers-color-scheme: dark) {
+html.dark {
 
-  :root {
+  --bg: #09090B;
 
-    --bg: #09090B;
+  --surface: #151518;
 
-    --surface: #151518;
+  --surface-hover: #1D1D22;
 
-    --surface-hover: #1D1D22;
+  --border: #2E2E35;
 
-    --border: #2E2E35;
+  --text: #F5F5F5;
 
-    --text: #F5F5F5;
-
-    --text-secondary: #A1A1AA;
-
-  }
+  --text-secondary: #A1A1AA;
 
 }

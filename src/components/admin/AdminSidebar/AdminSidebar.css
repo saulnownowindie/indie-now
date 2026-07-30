@@ -226,25 +226,7 @@
   border-radius: 999px;
 }
 
-/* ==========================
-   RESPONSIVE
-========================== */
 
-@media (max-width: 1100px) {
-
-  .admin-sidebar {
-    width: 88px;
-  }
-
-  .admin-sidebar__logo img {
-    width: 48px;
-  }
-
-  .admin-sidebar__nav span,
-  .admin-user div,
-  .logout-button span {
-    display: none;
-  }
 .admin-sidebar__nav{
 
     flex:1;
@@ -258,7 +240,7 @@
     padding:24px 16px;
 
 }
-  
+
 .admin-sidebar__nav a{
 
     position:relative;
@@ -310,6 +292,26 @@
     transform:translateX(4px);
 
 }
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 1100px) {
+
+  .admin-sidebar {
+    width: 88px;
+  }
+
+  .admin-sidebar__logo img {
+    width: 48px;
+  }
+
+  .admin-sidebar__nav span,
+  .admin-user div,
+  .logout-button span {
+    display: none;
+  }
+
 
   .admin-user {
     justify-content: center;

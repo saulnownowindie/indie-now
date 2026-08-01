@@ -8,54 +8,71 @@ import {
 
 const ThemeContext = createContext(null);
 
+const STORAGE_KEY = "theme-preference";
+
+function getSystemTheme() {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+
 export function ThemeProvider({ children }) {
-  const getInitialTheme = () => {
-    const saved = localStorage.getItem("theme");
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-    if (saved === "light" || saved === "dark") {
-      return saved;
-    }
+    const initial =
+      saved === "light" || saved === "dark"
+        ? saved
+        : getSystemTheme();
 
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  };
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(initial);
 
-  const [theme, setTheme] = useState(getInitialTheme);
+    return initial;
+  });
 
   useEffect(() => {
-    const html = document.documentElement;
-
-    html.classList.remove("light", "dark");
-    html.classList.add(theme);
-
-    localStorage.setItem("theme", theme);
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(theme);
   }, [theme]);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
 
     const handleChange = (e) => {
-      if (!localStorage.getItem("theme")) {
+      if (!localStorage.getItem(STORAGE_KEY)) {
         setTheme(e.matches ? "dark" : "light");
       }
     };
 
     media.addEventListener("change", handleChange);
 
-    return () => media.removeEventListener("change", handleChange);
+    return () =>
+      media.removeEventListener("change", handleChange);
   }, []);
 
   const toggleTheme = () => {
-    setTheme((current) =>
-      current === "dark" ? "light" : "dark"
-    );
+    const nextTheme =
+      theme === "dark"
+        ? "light"
+        : "dark";
+
+    localStorage.setItem(STORAGE_KEY, nextTheme);
+
+    setTheme(nextTheme);
+  };
+
+  const resetThemeToSystem = () => {
+    localStorage.removeItem(STORAGE_KEY);
+
+    setTheme(getSystemTheme());
   };
 
   const value = useMemo(
     () => ({
       theme,
       toggleTheme,
+      resetThemeToSystem,
       setTheme,
     }),
     [theme]

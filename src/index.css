@@ -27,6 +27,7 @@
 html{
 
     scroll-behavior:smooth;
+        background:var(--color-background);
 
 
 }
@@ -64,6 +65,8 @@ body{
 #root{
 
     min-height:100vh;
+
+    background:var(--color-background);
 
 }
 

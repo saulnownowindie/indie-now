@@ -8,7 +8,6 @@ import { AuthProvider } from "./auth/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 
 import "./index.css";
-import "./styles/variables.css";
 import "./styles/designSystem.css";
 import "./styles/typography.css";
 import "./styles/utilities.css";

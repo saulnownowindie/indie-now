@@ -7,19 +7,22 @@
 
   top: 0;
   left: 0;
-  z-index: 1000;
 
   width: 100%;
+
+  z-index: 1000;
 
   background: color-mix(in srgb, var(--color-surface) 92%, transparent);
   backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--color-border);
+
   transform: translateY(0);
+
   transition:
     background var(--transition),
     border-color var(--transition),
     box-shadow var(--transition),
-    transform 0.3s ease;
+    transform .3s ease;
 }
 
 .header.header-hidden {
@@ -34,36 +37,41 @@
    CONTAINER
 ======================================32px==================== */
 
-.header-container {
-  width: 100%;
-  max-width: 1180px;
-  margin-inline: auto;
-  min-height: 64px;
+.header-container{
 
-  display: grid;
-  padding-block: 8px;
+    width:100%;
+    max-width:1180px;
 
-  grid-template-columns: 140px 1fr 190px;
+    margin-inline:auto;
 
-  align-items: center;
+    min-height:64px;
 
-  gap: 20px;
+    display:grid;
+
+    padding-block:8px;
+
+    grid-template-columns:140px 1fr 190px;
+
+    align-items:center;
+
+    gap:20px;
+
 }
 
 /* ==========================================================
    LOGO
 ========================================================== */
 
-.logo {
-  width: 125px;
+.logo{
+    width:125px;
 
-  display: flex;
+    display:flex;
 
-  align-items: center;
+    align-items:center;
 
-  transition:
-    opacity var(--transition),
-    transform var(--transition);
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
 }
 
 .logo img {
@@ -75,13 +83,14 @@
 .logo:hover {
   transform: scale(1.03);
 }
+.logo.hide{
 
-.logo.hide {
-  opacity: 0;
+    opacity:0;
 
-  transform: translateY(-14px);
+    transform:translateY(-14px);
 
-  pointer-events: none;
+    pointer-events:none;
+
 }
 
 /* ==========================================================
@@ -101,7 +110,7 @@ nav {
 
   justify-content: center;
 
-  gap: 30px;
+  gap: 36px;
 
   list-style: none;
 
@@ -131,9 +140,11 @@ nav {
 
   letter-spacing: 0.08em;
 
-  transition:
-    color var(--transition-fast),
-    transform var(--transition-fast);
+transition:
+    background var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform 0.3s ease;
 }
 
 .nav a:hover {
@@ -182,8 +193,9 @@ nav {
 }
 
 .socials a {
-  width: 40px;
-  height: 40px;
+    width:42px;
+
+    height:42px;
   flex-shrink: 0;
 
   display: flex;
@@ -211,7 +223,8 @@ nav {
 }
 
 .socials svg {
-  font-size: 1rem;
+  font-size:.95rem;
+
 }
 
 .socials a:hover {

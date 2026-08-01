@@ -1,17 +1,12 @@
-html{
-
-    color-scheme:light dark;
-
+html {
+    color-scheme: light dark;
 }
 
-body{
-
-    background:var(--bg);
-
-    color:var(--text);
+body {
+    background: var(--color-background);
+    color: var(--color-text);
 
     transition:
         background .25s,
         color .25s;
-
 }

@@ -1,5 +1,5 @@
 import "./Dashboard.css";
-import Badge from "../../../components/ui/Badge";
+import Badge from "../../../components/admin/ui/Badge";
 import DashboardCard from "../../../components/admin/DashboardCard/DashboardCard";import {
     Newspaper,
     Clapperboard,

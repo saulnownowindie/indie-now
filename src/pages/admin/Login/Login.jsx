@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../auth/AuthContext";
 import { Mail, LockKeyhole, Eye, EyeOff } from "lucide-react";
-import Button from "../../../components/ui/Button";
-import Input from "../../../components/ui/Input";
+import Button from "../../../components/admin/ui/Button";
+import Input from "../../../components/admin/ui/Input";
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();

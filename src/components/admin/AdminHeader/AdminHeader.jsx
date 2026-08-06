@@ -1,7 +1,7 @@
 import "./AdminHeader.css";
 import { useAuth } from "../../../auth/AuthContext";
 import { Bell, Sun, Moon, Search, Menu } from "lucide-react";
-import Badge from "../../../components/ui/Badge";
+import Badge from "../ui/Badge";
 import { useLocation } from "react-router-dom";
 import useTheme from "../../../hooks/useTheme";
 import { CheckCircle2, Clock3, Archive, Trash2, Sparkles } from "lucide-react";

@@ -1,4 +1,3 @@
-
 import { Routes, Route } from "react-router-dom";
 
 import PublicLayout from "./layouts/PublicLayout/PublicLayout";
@@ -23,12 +22,11 @@ import AdminSessions from "./pages/admin/Sessions/Sessions";
 import AdminReels from "./pages/admin/Reels/Reels";
 import AdminMerch from "./pages/admin/Merch/Merch";
 import Configuracion from "./pages/admin/Configuracion/Configuracion";
-
+import Categories from "./pages/admin/Categories/Categories";
 
 export default function App() {
   return (
     <Routes>
-
       {/* Sitio público */}
 
       <Route element={<PublicLayout />}>
@@ -41,10 +39,7 @@ export default function App() {
 
       {/* Login */}
 
-      <Route
-        path="/admin/login"
-        element={<Login />}
-      />
+      <Route path="/admin/login" element={<Login />} />
 
       {/* Panel */}
 
@@ -56,38 +51,19 @@ export default function App() {
           </ProtectedRoute>
         }
       >
-        <Route
-          index
-          element={<Dashboard />}
-        />
+        <Route path="categories" element={<Categories />} />
+        <Route index element={<Dashboard />} />
 
-        <Route
-          path="news"
-          element={<AdminNews />}
-        />
+        <Route path="news" element={<AdminNews />} />
 
-        <Route
-          path="sessions"
-          element={<AdminSessions />}
-        />
+        <Route path="sessions" element={<AdminSessions />} />
 
-        <Route
-          path="reels"
-          element={<AdminReels />}
-        />
+        <Route path="reels" element={<AdminReels />} />
 
-        <Route
-          path="merch"
-          element={<AdminMerch />}
-        />
+        <Route path="merch" element={<AdminMerch />} />
 
-        <Route
-          path="settings"
-          element={<Configuracion />}
-        />
-
+        <Route path="settings" element={<Configuracion />} />
       </Route>
-
     </Routes>
   );
 }

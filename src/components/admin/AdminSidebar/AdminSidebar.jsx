@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Newspaper,
+  Tags,
   Clapperboard,
   Film,
   ShoppingBag,
@@ -11,12 +12,6 @@ import {
   LogOut,
 } from "lucide-react";
 
-
-const user = {
-  name: "Saúl González",
-  role: "Administrador",
-  avatar: "/avatars/dwith.jpg",
-};
 
 const menu = [
   {
@@ -29,6 +24,12 @@ const menu = [
     to: "/admin/news",
     label: "Noticias",
     icon: Newspaper,
+  },
+
+  {
+    to: "/admin/categories",
+    label: "Categorías",
+    icon: Tags,
   },
   {
     to: "/admin/sessions",
@@ -58,7 +59,7 @@ export default function AdminSidebar() {
 
   function handleLogout() {
     logout();
-    navigate("/login");
+    navigate("/admin/login");
   }
   return (
     <aside className="admin-sidebar">
@@ -106,13 +107,10 @@ export default function AdminSidebar() {
           </div>
         </div>
 
-<button
-  className="logout-button"
-  onClick={handleLogout}
->
-  <LogOut size={18} />
-  <span>Cerrar sesión</span>
-</button>
+        <button className="logout-button" onClick={handleLogout}>
+          <LogOut size={18} />
+          <span>Cerrar sesión</span>
+        </button>
       </div>
     </aside>
   );

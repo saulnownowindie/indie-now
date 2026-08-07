@@ -1,0 +1,41 @@
+.search-input{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    width:320px;
+
+    padding:0 16px;
+
+    height:44px;
+
+    background:var(--color-surface);
+
+    border:1px solid var(--color-border);
+
+    border-radius:12px;
+
+}
+
+.search-input input{
+
+    flex:1;
+
+    border:none;
+
+    background:transparent;
+
+    outline:none;
+
+    color:var(--color-text);
+
+}
+
+.search-input svg{
+
+    color:var(--color-text-light);
+
+}

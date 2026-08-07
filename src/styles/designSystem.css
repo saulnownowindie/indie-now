@@ -11,6 +11,7 @@
     ====================================================== */
 
     --color-primary:#FEFA00;
+    --color-accent: var(--color-primary);
     --color-primary-hover:#E5E100;
     --color-focus:#FEFA00;
 

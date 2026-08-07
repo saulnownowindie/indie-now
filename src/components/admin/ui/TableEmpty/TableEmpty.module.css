@@ -1,0 +1,39 @@
+.empty{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:260px;
+
+    text-align:center;
+
+}
+
+.empty h3{
+
+    margin:0 0 8px;
+
+    font-size:1.45rem;
+
+    font-weight:700;
+
+    color:var(--color-text);
+
+}
+
+.empty p{
+
+    margin:0;
+
+    max-width:420px;
+
+    color:var(--color-text-muted);
+
+    line-height:1.6;
+
+}

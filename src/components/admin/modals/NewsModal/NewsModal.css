@@ -244,16 +244,14 @@
 }
 
 .form-group label {
-  font-size: 0.95rem;
-  font-weight: 600;
-
-  color: var(--color-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
 }
 
-.form-group label span {
-  margin-left: 4px;
-
-  color: var(--color-danger);
+.form-group label .required {
+    margin-left: 4px;
+    color: var(--color-text);
 }
 
 .form-group input {
@@ -315,3 +313,13 @@
 }
 
 
+.form-error {
+  display: block;
+
+  margin-top: -4px;
+
+  color: var(--color-danger);
+
+  font-size: 0.82rem;
+  line-height: 1.4;
+}

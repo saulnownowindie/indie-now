@@ -2,13 +2,14 @@ import "./NewsModal.css";
 
 import { useEffect, useState } from "react";
 import useCategories from "../../../../hooks/useCategories";
-
+import { useQueryClient } from "@tanstack/react-query";
 import api from "../../../../services/api";
 
 import Select from "../../ui/Select";
 import ImageUploader from "../../ui/ImageUploader";
 
 export default function NewsModal({ open, onClose }) {
+  const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [platform, setPlatform] = useState("");
@@ -18,10 +19,7 @@ export default function NewsModal({ open, onClose }) {
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
 
-  const {
-    data: categories = [],
-    isLoading,
-  } = useCategories();
+  const { data: categories = [], isLoading } = useCategories();
 
   const platforms = [
     {
@@ -113,10 +111,9 @@ export default function NewsModal({ open, onClose }) {
 
         formData.append("file", cover);
 
-        const mediaResponse = await api.post(
-          "/media",
-          formData
-        );
+        const mediaResponse = await api.post("/media", formData);
+
+        console.log("Imagen subida:", mediaResponse.data.media);
 
         coverImageId = mediaResponse.data.media.id;
       }
@@ -129,16 +126,17 @@ export default function NewsModal({ open, onClose }) {
         coverImageId,
       });
 
-      console.log(
-        "Noticia creada:",
-        newsResponse.data
-      );
+      console.log("Noticia creada:", newsResponse.data);
+
+      await queryClient.invalidateQueries({
+        queryKey: ["news"],
+      });
 
       handleClose();
     } catch (error) {
       console.error(
         "Error al crear la noticia:",
-        error.response?.data || error
+        error.response?.data || error,
       );
     } finally {
       setSaving(false);
@@ -146,6 +144,10 @@ export default function NewsModal({ open, onClose }) {
   }
 
   function handleClose() {
+    if (saving) {
+      return;
+    }
+
     setTitle("");
     setCategory("");
     setPlatform("");
@@ -160,10 +162,11 @@ export default function NewsModal({ open, onClose }) {
   function handleTitleChange(event) {
     setTitle(event.target.value);
 
-    if (errors.title) {
+    if (errors.title || errors.submit) {
       setErrors((current) => ({
         ...current,
         title: "",
+        submit: "",
       }));
     }
   }
@@ -171,10 +174,11 @@ export default function NewsModal({ open, onClose }) {
   function handleCategoryChange(value) {
     setCategory(value);
 
-    if (errors.category) {
+    if (errors.category || errors.submit) {
       setErrors((current) => ({
         ...current,
         category: "",
+        submit: "",
       }));
     }
   }
@@ -182,10 +186,11 @@ export default function NewsModal({ open, onClose }) {
   function handlePlatformChange(value) {
     setPlatform(value);
 
-    if (errors.platform) {
+    if (errors.platform || errors.submit) {
       setErrors((current) => ({
         ...current,
         platform: "",
+        submit: "",
       }));
     }
   }
@@ -193,10 +198,11 @@ export default function NewsModal({ open, onClose }) {
   function handleUrlChange(event) {
     setUrl(event.target.value);
 
-    if (errors.url) {
+    if (errors.url || errors.submit) {
       setErrors((current) => ({
         ...current,
         url: "",
+        submit: "",
       }));
     }
   }
@@ -214,21 +220,15 @@ export default function NewsModal({ open, onClose }) {
         }
       }}
     >
-      <div
-        className="modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="new-news-title"
-      >
+      <div className="modal">
         <div className="modal-header">
-          <h2 id="new-news-title">
-            Nueva noticia
-          </h2>
+          <h2>Nueva noticia</h2>
 
           <button
             type="button"
             className="modal-close"
             onClick={handleClose}
+            disabled={saving}
             aria-label="Cerrar"
           >
             ✕
@@ -239,8 +239,7 @@ export default function NewsModal({ open, onClose }) {
           <div className="form-grid">
             <div className="form-group">
               <label htmlFor="news-title">
-                Título{" "}
-                <span className="required">*</span>
+                Título <span className="required">*</span>
               </label>
 
               <input
@@ -249,19 +248,13 @@ export default function NewsModal({ open, onClose }) {
                 placeholder="Título de la noticia"
                 value={title}
                 onChange={handleTitleChange}
+                disabled={saving}
                 aria-invalid={Boolean(errors.title)}
-                aria-describedby={
-                  errors.title
-                    ? "news-title-error"
-                    : undefined
-                }
+                aria-describedby={errors.title ? "news-title-error" : undefined}
               />
 
               {errors.title && (
-                <span
-                  id="news-title-error"
-                  className="form-error"
-                >
+                <span id="news-title-error" className="form-error">
                   {errors.title}
                 </span>
               )}
@@ -271,8 +264,7 @@ export default function NewsModal({ open, onClose }) {
               <Select
                 label={
                   <>
-                    Categoría{" "}
-                    <span className="required">*</span>
+                    Categoría <span className="required">*</span>
                   </>
                 }
                 value={category}
@@ -282,22 +274,17 @@ export default function NewsModal({ open, onClose }) {
                     ? "Cargando categorías..."
                     : "Seleccione una categoría"
                 }
-                disabled={isLoading}
+                disabled={isLoading || saving}
               >
                 {categories.map((item) => (
-                  <Select.Item
-                    key={item.id}
-                    value={String(item.id)}
-                  >
+                  <Select.Item key={item.id} value={String(item.id)}>
                     {item.name}
                   </Select.Item>
                 ))}
               </Select>
 
               {errors.category && (
-                <span className="form-error">
-                  {errors.category}
-                </span>
+                <span className="form-error">{errors.category}</span>
               )}
             </div>
           </div>
@@ -307,35 +294,29 @@ export default function NewsModal({ open, onClose }) {
               <Select
                 label={
                   <>
-                    Plataforma{" "}
-                    <span className="required">*</span>
+                    Plataforma <span className="required">*</span>
                   </>
                 }
                 value={platform}
                 onValueChange={handlePlatformChange}
                 placeholder="Seleccione una plataforma"
+                disabled={saving}
               >
                 {platforms.map((item) => (
-                  <Select.Item
-                    key={item.value}
-                    value={item.value}
-                  >
+                  <Select.Item key={item.value} value={item.value}>
                     {item.label}
                   </Select.Item>
                 ))}
               </Select>
 
               {errors.platform && (
-                <span className="form-error">
-                  {errors.platform}
-                </span>
+                <span className="form-error">{errors.platform}</span>
               )}
             </div>
 
             <div className="form-group">
               <label htmlFor="news-url">
-                URL{" "}
-                <span className="required">*</span>
+                URL <span className="required">*</span>
               </label>
 
               <input
@@ -344,30 +325,24 @@ export default function NewsModal({ open, onClose }) {
                 placeholder="Pega la URL del contenido"
                 value={url}
                 onChange={handleUrlChange}
+                disabled={saving}
                 aria-invalid={Boolean(errors.url)}
-                aria-describedby={
-                  errors.url
-                    ? "news-url-error"
-                    : undefined
-                }
+                aria-describedby={errors.url ? "news-url-error" : undefined}
               />
 
               {errors.url && (
-                <span
-                  id="news-url-error"
-                  className="form-error"
-                >
+                <span id="news-url-error" className="form-error">
                   {errors.url}
                 </span>
               )}
             </div>
           </div>
 
-          <ImageUploader
-            label="Portada"
-            value={cover}
-            onChange={setCover}
-          />
+          <ImageUploader label="Portada" value={cover} onChange={setCover} />
+
+          {errors.submit && (
+            <div className="form-error form-error-submit">{errors.submit}</div>
+          )}
         </div>
 
         <div className="modal-footer">

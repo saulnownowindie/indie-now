@@ -1,86 +1,92 @@
 import "./News.css";
 
-import { newsData } from "../../data/newsData";
 import NewsCard from "../../components/NewsCard/NewsCard";
+import usePublicNews from "../../hooks/usePublicNews";
 
 export default function News() {
+  const {
+    data: news = [],
+    isLoading,
+    isError,
+  } = usePublicNews();
 
-    const featured = newsData[0];
+  const featured =
+    news.find((item) => item.featured) || news[0];
 
-    const secondary = newsData[1];
+  const secondary = news.find(
+    (item) => item.id !== featured?.id,
+  );
 
-    const grid = newsData.slice(2);
+  const grid = news.filter(
+    (item) =>
+      item.id !== featured?.id &&
+      item.id !== secondary?.id,
+  );
 
-    return (
+  return (
+    <main className="news-page">
+      <section className="news-hero">
+        <h1>Noticias</h1>
 
-        <main className="news-page">
+        <p>
+          Últimos lanzamientos, sesiones y novedades de
+          Indie Now.
+        </p>
+      </section>
 
-            <section className="news-hero">
+      {isLoading && (
+        <div className="news-loading">
+          Cargando noticias...
+        </div>
+      )}
 
-                <h1>Noticias</h1>
+      {isError && (
+        <div className="news-loading">
+          No se pudieron cargar las noticias.
+        </div>
+      )}
 
-                <p>
+      {!isLoading &&
+        !isError &&
+        news.length === 0 && (
+          <div className="news-loading">
+            Todavía no hay noticias publicadas.
+          </div>
+        )}
 
-                    Últimos lanzamientos, sesiones y novedades de Indie Now.
-
-                </p>
-
-            </section>
-
+      {!isLoading &&
+        !isError &&
+        news.length > 0 && (
+          <>
             <section className="news-top">
-
+              {featured && (
                 <div className="featured-news">
-
-                    <NewsCard
-
-                        news={featured}
-
-                        featured
-
-                    />
-
+                  <NewsCard
+                    news={featured}
+                    featured
+                  />
                 </div>
+              )}
 
-                {
-
-                    secondary &&
-
-                    <div className="secondary-news">
-
-                        <NewsCard
-
-                            news={secondary}
-
-                        />
-
-                    </div>
-
-                }
-
+              {secondary && (
+                <div className="secondary-news">
+                  <NewsCard news={secondary} />
+                </div>
+              )}
             </section>
 
-            <section className="news-grid">
-
-                {
-
-                    grid.map(item => (
-
-                        <NewsCard
-
-                            key={item.id}
-
-                            news={item}
-
-                        />
-
-                    ))
-
-                }
-
-            </section>
-
-        </main>
-
-    );
-
+            {grid.length > 0 && (
+              <section className="news-grid">
+                {grid.map((item) => (
+                  <NewsCard
+                    key={item.id}
+                    news={item}
+                  />
+                ))}
+              </section>
+            )}
+          </>
+        )}
+    </main>
+  );
 }

@@ -1,5 +1,7 @@
 import "./Footer.css";
 
+import { Link } from "react-router-dom";
+
 import logo from "../../assets/images/indie-nowlogo.png";
 
 import {
@@ -40,13 +42,13 @@ export default function Footer() {
 
             <div className="footer-links">
 
-              <a href="#">Inicio</a>
+              <Link to="/">Inicio</Link>
 
-              <a href="#">Sesiones</a>
+              <Link to="/sesiones">Sesiones</Link>
 
-              <a href="#">Noticias</a>
+              <Link to="/noticias">Noticias</Link>
 
-              <a href="#">Merch</a>
+              <Link to="/merch">Merch</Link>
 
             </div>
 

@@ -1,0 +1,25 @@
+/* ==========================================================
+   HOME
+========================================================== */
+
+.home{
+
+    display:flex;
+
+    flex-direction:column;
+
+    width:100%;
+
+}
+
+/* Hero y Merch ya traen la clase .container:
+   dentro de la Home el contenedor es este wrapper,
+   así no se duplican ancho ni padding. */
+
+.home .container{
+
+    width:100%;
+
+    padding-inline:0;
+
+}

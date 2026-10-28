@@ -297,7 +297,178 @@ export const homeData = {
       },
     ],
   },
-  news: [],
+  news: [
+    {
+      id: 1,
+      category: "Noticias",
+      title: "El indie paraguayo se toma los escenarios de verano",
+      date: "18 Julio 2026",
+      image: coverTakeMeOut,
+      url: "#",
+    },
+    {
+      id: 2,
+      category: "Noticias",
+      title: "Nuevos sellos independientes que hay que seguir",
+      date: "16 Julio 2026",
+      image: coverWhiteTeeth,
+      url: "#",
+    },
+    {
+      id: 3,
+      category: "Noticias",
+      title: "La escena bedroom pop prepara su propio festival",
+      date: "14 Julio 2026",
+      image: coverSomething,
+      url: "#",
+    },
+  ],
+
+  pressNotes: [
+    {
+      id: 1,
+      category: "Nota de Prensa",
+      title: "Serotonin: el debut que mezcla shoegaze y nostalgia",
+      date: "8 Julio 2026",
+      image: serotoninLogo,
+      url: "#",
+    },
+    {
+      id: 2,
+      category: "Nota de Prensa",
+      title: "Take Me Out y una reinvención del rock de garage",
+      date: "5 Julio 2026",
+      image: coverTakeMeOut,
+      url: "#",
+    },
+    {
+      id: 3,
+      category: "Nota de Prensa",
+      title: "White Teeth Teens: himnos para la generación ansiosa",
+      date: "2 Julio 2026",
+      image: coverWhiteTeeth,
+      url: "#",
+    },
+  ],
+
+  sessions: [
+    {
+      id: 1,
+      category: "Session #14",
+      title: "Firulais — Indie Sounds Session",
+      date: "15 Julio 2026",
+      image: serotoninLogo,
+      url: "https://www.youtube.com/watch?v=YVQp1E9Ng4Y",
+    },
+    {
+      id: 2,
+      category: "Session #13",
+      title: "Los Perros — Indie Sounds Session",
+      date: "1 Julio 2026",
+      image: coverTakeMeOut,
+      url: "#",
+    },
+    {
+      id: 3,
+      category: "Session #12",
+      title: "Nube — Indie Sounds Session",
+      date: "18 Junio 2026",
+      image: coverWhiteTeeth,
+      url: "#",
+    },
+  ],
+
+  mustSee: [
+    {
+      id: 1,
+      category: "Playlist",
+      title: "Playlist de YouTube: lo mejor del mes",
+      image: coverTakeMeOut,
+      url: "https://www.youtube.com/@INDIENOW/playlists",
+    },
+    {
+      id: 2,
+      category: "Festivales",
+      title: "Festivales 2026: agenda y coberturas",
+      image: mockupTakeMeOut,
+      url: "#",
+    },
+    {
+      id: 3,
+      category: "Coberturas",
+      title: "Coberturas: lo que dejó la temporada",
+      image: mockupWhiteTeeth,
+      url: "#",
+    },
+  ],
+
+  spotifyPlaylist: {
+    title: "Rock Paraguayo",
+    description: "La playlist de Indie Now para descubrir la escena local.",
+    url: "https://open.spotify.com/user/23nomspw5w0lofcqo0bbgj8du?si=24dcebd47c76406f",
+  },
+
+  submitMusic: [
+    {
+      id: 1,
+      name: "Groover",
+      description:
+        "Llegá a curadores, radios y playlists de todo el mundo.",
+      url: "https://groover.co",
+    },
+    {
+      id: 2,
+      name: "Musosoup",
+      description:
+        "Conectá tu música con medios, blogs y sincronizaciones.",
+      url: "https://musosoup.com",
+    },
+    {
+      id: 3,
+      name: "Independiza",
+      description:
+        "Distribuí y gestioná tu música de forma independiente.",
+      url: "https://www.independizamusica.com",
+    },
+  ],
+
+  reels: [
+    {
+      id: 1,
+      platform: "Reel",
+      title: "Backstage: la sesión de Firulais",
+      image: serotoninLogo,
+      url: "https://www.instagram.com/indienownow/",
+    },
+    {
+      id: 2,
+      platform: "Reel",
+      title: "Así suena el nuevo single de Take Me Out",
+      image: coverTakeMeOut,
+      url: "https://www.instagram.com/indienownow/",
+    },
+    {
+      id: 3,
+      platform: "Reel",
+      title: "3 discos para empezar la semana",
+      image: coverSomething,
+      url: "https://www.instagram.com/indienownow/",
+    },
+    {
+      id: 4,
+      platform: "Cobertura",
+      title: "Lo que pasó en el festival",
+      image: mockupTakeMeOut,
+      url: "https://www.instagram.com/indienownow/",
+    },
+    {
+      id: 5,
+      platform: "Reel",
+      title: "White Teeth Teens en vivo",
+      image: coverWhiteTeeth,
+      url: "https://www.instagram.com/indienownow/",
+    },
+  ],
 
   playlists: [],
 };

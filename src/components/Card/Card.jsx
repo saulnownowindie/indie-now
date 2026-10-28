@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Card.css";
 
-export default function Card({ image, category, title, date, url }) {
+export default function Card({ image, category, title, date, url, showPlay = false }) {
   const [failedImage, setFailedImage] = useState(null);
 
   const showImage = Boolean(image) && failedImage !== image;
@@ -26,6 +26,12 @@ export default function Card({ image, category, title, date, url }) {
           >
             <span>INDIE NOW</span>
           </div>
+        )}
+
+        {showPlay && (
+          <span className="card-play" aria-hidden="true">
+            ▶
+          </span>
         )}
       </div>
 

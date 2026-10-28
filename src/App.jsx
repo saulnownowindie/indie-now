@@ -9,6 +9,8 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 
 import Home from "./pages/Home/Home";
 import News from "./pages/News/News";
+import Reviews from "./pages/Reviews/Reviews";
+import MustSee from "./pages/MustSee/MustSee";
 import Reels from "./pages/Reels/Reels";
 import Sessions from "./pages/Sessions/Sessions";
 import MerchPage from "./pages/Merch/Merch";
@@ -32,7 +34,9 @@ export default function App() {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/noticias" element={<News />} />
+        <Route path="/resenas" element={<Reviews />} />
         <Route path="/sesiones" element={<Sessions />} />
+        <Route path="/no-podes-perderte" element={<MustSee />} />
         <Route path="/reels" element={<Reels />} />
         <Route path="/merch" element={<MerchPage />} />
       </Route>

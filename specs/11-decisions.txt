@@ -20,10 +20,12 @@ CONTENIDO Y ORIGEN
 HEADER Y NAVEGACIÓN
 - Logo centrado inicialmente con la frase "Descubrí música que vale la pena escuchar."
 - Header compacto y sticky al hacer scroll.
-- Nav: Noticias | Sesiones | No Podés Perderte | Merch.
+- Nav: Noticias | Reels | Sesiones | No Podés Perderte | Merch.
 - Sin "Reseñas" en el nav. La ruta /resenas no se enlaza desde la Home ni desde el header.
 - Sin "Inicio" en el nav (el logo lleva a Home).
-- Sin "Reels" en el nav. La ruta /reels se mantiene oculta.
+- En la Home (/), Noticias, Reels, No Podés Perderte y Merch son anclas que hacen scroll suave a su sección en lugar de navegar a otra página.
+- Sesiones mantiene navegación a su ruta porque la Home no tiene sección de sesiones.
+- Fuera de la Home esos mismos ítems navegan normalmente a su ruta.
 
 LO ÚLTIMO
 - Sidebar independiente del contenido principal.
@@ -34,6 +36,8 @@ LO ÚLTIMO
 
 SECCIONES DE LA HOME
 - Orden vigente: Hero → Lo Nuevo Que Vale → Noticias → Reels → No Podés Perderte → Merch → Envíanos tu música.
+- Cada sección tiene un id estable para anclas: lo-nuevo, noticias, reels, no-podes-perderte, merch, envianos-musica.
+- Las secciones usan scroll-margin-top para que el header fijo no tape los títulos al navegar por anclas.
 - Sin sección de Reseñas.
 - Sin grilla de Indie Sounds Sessions.
 - No Podés Perderte: 3 cards (Playlist, Festivales, Coberturas) e incluir playlist de Spotify.

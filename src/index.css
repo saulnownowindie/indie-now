@@ -32,6 +32,24 @@ html{
 
 }
 
+/* Compensa el header fijo al navegar por anclas dentro de la Home */
+
+section[id]{
+
+    scroll-margin-top:calc(var(--header-height) + 24px);
+
+}
+
+@media (prefers-reduced-motion:reduce){
+
+    html{
+
+        scroll-behavior:auto;
+
+    }
+
+}
+
 body{
 
     min-height:100vh;

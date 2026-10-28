@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Merch.css";
 import { homeData } from "../../data/homeData";
 
-export default function Merch() {
+export default function Merch({ id }) {
   const products = homeData.merch.tshirts;
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -36,7 +36,7 @@ export default function Merch() {
   }, [animating]);
 
   return (
-    <section className="merch section container">
+    <section id={id} className="merch section container">
       <div className="panel">
         <div className="merch-header">
           <h2 className="section-title">{homeData.merch.title}</h2>

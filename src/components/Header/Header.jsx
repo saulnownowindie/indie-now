@@ -1,7 +1,7 @@
 import "./Header.css";
 
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import {
   FaInstagram,
   FaYoutube,
@@ -13,10 +13,15 @@ import logo from "../../assets/images/indie-nowlogo-blancov2.png";
 import { homeData } from "../../data/homeData";
 
 const NAV_ITEMS = [
-  { to: "/noticias", label: "Noticias" },
+  { to: "/noticias", label: "Noticias", sectionId: "noticias" },
+  { to: "/reels", label: "Reels", sectionId: "reels" },
   { to: "/sesiones", label: "Sesiones" },
-  { to: "/no-podes-perderte", label: "No Podés Perderte" },
-  { to: "/merch", label: "Merch" },
+  {
+    to: "/no-podes-perderte",
+    label: "No Podés Perderte",
+    sectionId: "no-podes-perderte",
+  },
+  { to: "/merch", label: "Merch", sectionId: "merch" },
 ];
 
 const SOCIALS = [
@@ -67,6 +72,27 @@ export default function Header() {
   const toggleRef = useRef(null);
   const closeRef = useRef(null);
 
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
+
+  const [pendingSection, setPendingSection] = useState(null);
+
+  const handleSectionClick = (event, sectionId) => {
+    if (!document.getElementById(sectionId)) {
+      return;
+    }
+
+    event.preventDefault();
+
+    setMenuOpen(false);
+    setPendingSection((previous) => ({
+      id: sectionId,
+      token: (previous?.token ?? 0) + 1,
+    }));
+
+    window.history.replaceState(null, "", `#${sectionId}`);
+  };
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
 
@@ -101,6 +127,23 @@ export default function Header() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [menuOpen]);
+
+  useEffect(() => {
+    if (!pendingSection || menuOpen) return;
+
+    const target = document.getElementById(pendingSection.id);
+
+    if (!target) return;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    target.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }, [pendingSection, menuOpen]);
 
   return (
     <>
@@ -138,14 +181,25 @@ export default function Header() {
             <ul className="nav">
               {NAV_ITEMS.map((item) => (
                 <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    className={({ isActive }) =>
-                      isActive ? "active" : ""
-                    }
-                  >
-                    {item.label}
-                  </NavLink>
+                  {isHome && item.sectionId ? (
+                    <a
+                      href={`#${item.sectionId}`}
+                      onClick={(event) =>
+                        handleSectionClick(event, item.sectionId)
+                      }
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <NavLink
+                      to={item.to}
+                      className={({ isActive }) =>
+                        isActive ? "active" : ""
+                      }
+                    >
+                      {item.label}
+                    </NavLink>
+                  )}
                 </li>
               ))}
             </ul>
@@ -187,15 +241,26 @@ export default function Header() {
           <ul>
             {NAV_ITEMS.map((item) => (
               <li key={item.to}>
-                <NavLink
-                  to={item.to}
-                  className={({ isActive }) =>
-                    isActive ? "active" : ""
-                  }
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item.label}
-                </NavLink>
+                {isHome && item.sectionId ? (
+                  <a
+                    href={`#${item.sectionId}`}
+                    onClick={(event) =>
+                      handleSectionClick(event, item.sectionId)
+                    }
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <NavLink
+                    to={item.to}
+                    className={({ isActive }) =>
+                      isActive ? "active" : ""
+                    }
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {item.label}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>

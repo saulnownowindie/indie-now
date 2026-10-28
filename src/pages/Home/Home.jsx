@@ -15,7 +15,7 @@ export default function Home() {
     <div className="home container">
       <Hero />
 
-      <section className="home-section">
+      <section className="home-section" id="lo-nuevo">
         <SectionTitle title="Lo Nuevo Que Vale" linkTo="/noticias" />
 
         <div className="home-cards">
@@ -32,7 +32,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-section">
+      <section className="home-section" id="noticias">
         <SectionTitle title="Noticias" linkTo="/noticias" />
 
         <div className="home-cards home-cards--three">
@@ -49,7 +49,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-section">
+      <section className="home-section" id="reels">
         <SectionTitle title="Reels" />
 
         <Carousel label="Reels de Indie Now" className="carousel-reels">
@@ -65,7 +65,7 @@ export default function Home() {
         </Carousel>
       </section>
 
-      <section className="home-section">
+      <section className="home-section" id="no-podes-perderte">
         <SectionTitle
           title="No Podés Perderte"
           linkTo="/no-podes-perderte"
@@ -107,9 +107,9 @@ export default function Home() {
         </a>
       </section>
 
-      <Merch />
+      <Merch id="merch" />
 
-      <section className="home-section">
+      <section className="home-section" id="envianos-musica">
         <SectionTitle title="Envíanos tu música" />
 
         <div className="submit-grid">

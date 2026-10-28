@@ -1,7 +1,7 @@
 import api from "./api";
 
 export async function login(credentials) {
-  const { data } = await api.post("/auth/login", credentials);
+  const { data } = await api.post("/api/auth/login", credentials);
 
   localStorage.setItem("token", data.token);
   localStorage.setItem("user", JSON.stringify(data.user));

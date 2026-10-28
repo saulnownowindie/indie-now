@@ -21,9 +21,11 @@ import {
 
 export const homeData = {
   hero: {
-    title: "Nuestra Última Sesión en Vivo",
+    title: "ÚLTIMA INDIE SOUNDS SESSION",
 
     youtube: "https://www.youtube.com/embed/YVQp1E9Ng4Y",
+
+    youtubeUrl: "https://www.youtube.com/watch?v=YVQp1E9Ng4Y",
   },
 
   latestLeft: [

@@ -4,23 +4,26 @@ import { homeData } from "../../data/homeData";
 export default function Hero() {
   return (
     <section className="hero container">
-      <SidebarLatest
-        title="Lo Último"
-        items={homeData.latestLeft}
-        className="left"
-      />
-
       <section className="hero-center">
-        <span className="hero-tag">{homeData.hero.title}</span>
+        <h1 className="hero-tag">{homeData.hero.title}</h1>
 
         <div className="video-wrapper">
-          <iframe src={homeData.hero.youtube} title="YouTube" allowFullScreen />
+          <iframe
+            src={homeData.hero.youtube}
+            title={homeData.hero.title}
+            allowFullScreen
+          />
         </div>
 
         <div className="hero-buttons">
-          {/* <button className="btn-primary">
+          <a
+            className="btn-primary"
+            href={homeData.hero.youtubeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Ver en YouTube
-          </button> */}
+          </a>
         </div>
       </section>
       <SidebarLatest

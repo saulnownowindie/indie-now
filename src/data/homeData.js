@@ -1,4 +1,7 @@
 import serotoninLogo from "../assets/images/serotonin.jpg";
+import coverSomething from "../assets/images/something in the way.jpg";
+import coverTakeMeOut from "../assets/images/take me out.jpg";
+import coverWhiteTeeth from "../assets/images/white teeth teens.jpg";
 import mockupSerotonin from "../assets/merch/mockup-serotonin.jpg";
 import mockupSerotonin2 from "../assets/merch/mockup-serotonin-2.jpg";
 
@@ -27,6 +30,40 @@ export const homeData = {
 
     youtubeUrl: "https://www.youtube.com/watch?v=YVQp1E9Ng4Y",
   },
+
+  newWorth: [
+    {
+      id: 1,
+      category: "Sesión",
+      title: "Firulais y una sesión que redefine el indie local",
+      date: "15 Julio 2026",
+      image: serotoninLogo,
+      url: "https://www.youtube.com/watch?v=YVQp1E9Ng4Y",
+    },
+    {
+      id: 2,
+      category: "Reseña",
+      title: "Take Me Out: guitarras que no piden permiso",
+      date: "12 Julio 2026",
+      image: coverTakeMeOut,
+      url: "#",
+    },
+    {
+      id: 3,
+      category: "Noticias",
+      title: "Something In The Way y el nuevo rumbo del sello",
+      date: "10 Julio 2026",
+      image: coverSomething,
+      url: "#",
+    },
+    {
+      id: 4,
+      category: "Playlist",
+      title: "White Teeth Teens: la playlist de la semana",
+      image: coverWhiteTeeth,
+      url: "#",
+    },
+  ],
 
   latestLeft: [
     {

@@ -220,7 +220,9 @@ export default function News() {
         </DataTable>
       </PageLayout>
 
-      <NewsModal open={open} onClose={() => setOpen(false)} />
+      {open && (
+        <NewsModal onClose={() => setOpen(false)} />
+      )}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import "./NewsModal.css";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useCategories from "../../../../hooks/useCategories";
 import { useQueryClient } from "@tanstack/react-query";
 import api from "../../../../services/api";
@@ -8,7 +8,7 @@ import api from "../../../../services/api";
 import Select from "../../ui/Select";
 import ImageUploader from "../../ui/ImageUploader";
 
-export default function NewsModal({ open, onClose }) {
+export default function NewsModal({ onClose }) {
   const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -51,18 +51,6 @@ export default function NewsModal({ open, onClose }) {
       label: "Otro",
     },
   ];
-
-  useEffect(() => {
-    if (open) {
-      setTitle("");
-      setCategory("");
-      setPlatform("");
-      setUrl("");
-      setCover(null);
-      setErrors({});
-      setSaving(false);
-    }
-  }, [open]);
 
   function validateForm() {
     const newErrors = {};
@@ -205,10 +193,6 @@ export default function NewsModal({ open, onClose }) {
         submit: "",
       }));
     }
-  }
-
-  if (!open) {
-    return null;
   }
 
   return (

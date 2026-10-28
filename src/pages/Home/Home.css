@@ -4,11 +4,15 @@
 
 .home{
 
+    --home-section-space:clamp(64px,8vw,128px);
+
     display:flex;
 
     flex-direction:column;
 
     width:100%;
+
+    padding-bottom:clamp(16px,2vw,32px);
 
 }
 
@@ -30,7 +34,21 @@
 
 .home-section{
 
-    margin-top:var(--space-section);
+    margin-top:var(--home-section-space);
+
+}
+
+/* Merch trae .section: alineamos su ritmo con el resto de la Home. */
+
+.home .section{
+
+    margin-top:var(--home-section-space);
+
+}
+
+.home-section .section-heading{
+
+    margin-bottom:clamp(22px,2.4vw,34px);
 
 }
 
@@ -314,12 +332,6 @@
 }
 
 @media (max-width:768px){
-
-    .home-section{
-
-        margin-top:var(--space-2xl);
-
-    }
 
     .home-cards{
 

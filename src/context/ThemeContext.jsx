@@ -1,12 +1,6 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
-const ThemeContext = createContext(null);
+import ThemeContext from "./themeContext";
 
 const STORAGE_KEY = "theme-preference";
 
@@ -39,9 +33,9 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
 
-    const handleChange = (e) => {
+    const handleChange = (event) => {
       if (!localStorage.getItem(STORAGE_KEY)) {
-        setTheme(e.matches ? "dark" : "light");
+        setTheme(event.matches ? "dark" : "light");
       }
     };
 
@@ -51,40 +45,30 @@ export function ThemeProvider({ children }) {
       media.removeEventListener("change", handleChange);
   }, []);
 
-  const toggleTheme = () => {
-    const nextTheme =
-      theme === "dark"
-        ? "light"
-        : "dark";
+  function toggleTheme() {
+    const nextTheme = theme === "dark" ? "light" : "dark";
 
     localStorage.setItem(STORAGE_KEY, nextTheme);
 
     setTheme(nextTheme);
-  };
+  }
 
-  const resetThemeToSystem = () => {
+  function resetThemeToSystem() {
     localStorage.removeItem(STORAGE_KEY);
 
     setTheme(getSystemTheme());
-  };
+  }
 
-  const value = useMemo(
-    () => ({
-      theme,
-      toggleTheme,
-      resetThemeToSystem,
-      setTheme,
-    }),
-    [theme]
-  );
+  const value = {
+    theme,
+    toggleTheme,
+    resetThemeToSystem,
+    setTheme,
+  };
 
   return (
     <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
-}
-
-export function useThemeContext() {
-  return useContext(ThemeContext);
 }

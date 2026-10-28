@@ -3,31 +3,43 @@
 ========================================================== */
 
 .hero{
+
     width:100%;
 
     display:grid;
 
     grid-template-columns:
+        var(--sidebar-width)
         minmax(0,1fr)
         var(--sidebar-width);
 
-    gap:var(--content-gap);
+    gap:clamp(20px,2.5vw,var(--content-gap));
 
     align-items:start;
+
 }
+
 /* ==========================================================
    CONTENIDO CENTRAL
 ========================================================== */
 
 .hero-center{
 
-    background:var(--color-surface);
+    position:relative;
+
+    background:
+        radial-gradient(
+            120% 80% at 50% 0%,
+            color-mix(in srgb,var(--color-primary) 7%,transparent),
+            transparent 58%
+        ),
+        var(--color-surface);
 
     border:1px solid var(--color-border);
 
     border-radius:var(--radius-section);
 
-    padding:24px;
+    padding:clamp(14px,1.6vw,22px);
 
     box-shadow:var(--shadow-md);
 
@@ -58,17 +70,25 @@
 
     justify-content:center;
 
-    gap:20px;
+    gap:clamp(14px,2vw,24px);
 
-    margin:0 0 22px;
+    margin:0 0 clamp(20px,2.2vw,30px);
+
+    padding-inline:4px;
 
     font-family:var(--font-heading);
 
-    font-size:clamp(1.35rem,2vw,2rem);
+    font-size:clamp(1.45rem,2.5vw,2.65rem);
 
-    font-weight:600;
+    font-weight:var(--font-semibold);
+
+    line-height:1.08;
+
+    letter-spacing:.1em;
 
     text-align:center;
+
+    text-transform:uppercase;
 
     color:var(--color-text);
 
@@ -82,11 +102,21 @@
 
     flex:1;
 
-    max-width:180px;
+    max-width:96px;
 
-    height:2px;
+    height:1px;
 
-    background:var(--color-border);
+    background:linear-gradient(
+        90deg,
+        transparent,
+        color-mix(in srgb,var(--color-primary) 75%,var(--color-border))
+    );
+
+}
+
+.hero-tag::after{
+
+    transform:scaleX(-1);
 
 }
 
@@ -96,13 +126,17 @@
 
 .video-wrapper{
 
+    position:relative;
+
+    isolation:isolate;
+
     width:100%;
 
     aspect-ratio:16/9;
 
     overflow:hidden;
 
-    border-radius:22px;
+    border-radius:clamp(14px,1.5vw,20px);
 
     background:#000;
 
@@ -122,9 +156,39 @@
 
 }
 
+.video-wrapper::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:1;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,.22) 0%,
+            transparent 20%,
+            transparent 68%,
+            rgba(0,0,0,.46) 100%
+        ),
+        radial-gradient(
+            120% 90% at 50% 50%,
+            transparent 58%,
+            rgba(0,0,0,.22) 100%
+        );
+
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+
+}
+
 /* ==========================================================
    BOTONES
-========================================================= */
+========================================================== */
 
 .hero-buttons{
 
@@ -132,7 +196,7 @@
 
     justify-content:center;
 
-    margin-top:24px;
+    margin-top:clamp(24px,2.6vw,36px);
 
 }
 
@@ -144,11 +208,13 @@
 
     justify-content:center;
 
-    min-height:var(--button-height-md);
+    gap:12px;
 
-    padding:0 28px;
+    min-height:var(--button-height-lg);
 
-    border-radius:var(--radius-button);
+    padding:0 30px;
+
+    border-radius:var(--radius-full);
 
     background:var(--color-primary);
 
@@ -158,9 +224,15 @@
 
     font-size:var(--text-md);
 
-    font-weight:var(--font-semibold);
+    font-weight:var(--font-bold);
+
+    letter-spacing:.01em;
 
     text-decoration:none;
+
+    box-shadow:
+        0 12px 32px color-mix(in srgb,var(--color-primary) 28%,transparent),
+        inset 0 0 0 1px rgba(255,255,255,.2);
 
     transition:
         background var(--transition),
@@ -173,7 +245,9 @@
 
     background:var(--color-primary-hover);
 
-    box-shadow:var(--shadow-primary);
+    box-shadow:
+        0 16px 40px color-mix(in srgb,var(--color-primary) 38%,transparent),
+        inset 0 0 0 1px rgba(255,255,255,.28);
 
     transform:translateY(-2px);
 
@@ -183,13 +257,39 @@
 
     outline:2px solid var(--color-focus);
 
-    outline-offset:3px;
+    outline-offset:4px;
+
+}
+
+.hero-cta-icon{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:26px;
+
+    height:26px;
+
+    padding-left:2px;
+
+    border-radius:var(--radius-full);
+
+    background:#18181B;
+
+    color:var(--color-primary);
+
+    font-size:.62rem;
+
+    line-height:1;
 
 }
 
 /* ==========================================================
    RESPONSIVE
-========================================================= */
+========================================================== */
 
 @media (max-width:1024px){
 
@@ -198,6 +298,8 @@
         grid-template-columns:minmax(0,1fr);
 
     }
+
+    .hero .left,
 
     .hero .right{
 
@@ -211,7 +313,7 @@
 
     .hero{
 
-        padding-top:32px;
+        padding-top:24px;
 
         gap:18px;
 
@@ -219,13 +321,43 @@
 
     .hero-center{
 
-        padding:18px;
+        padding:12px;
+
+        border-radius:24px;
 
     }
 
     .hero-tag{
 
-        font-size:1.2rem;
+        gap:12px;
+
+        margin-bottom:18px;
+
+        font-size:1.25rem;
+
+        letter-spacing:.08em;
+
+    }
+
+    .hero-tag::before,
+
+    .hero-tag::after{
+
+        max-width:40px;
+
+    }
+
+    .hero-buttons{
+
+        margin-top:22px;
+
+    }
+
+    .hero-buttons .btn-primary{
+
+        width:100%;
+
+        max-width:320px;
 
     }
 

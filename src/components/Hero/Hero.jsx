@@ -1,9 +1,19 @@
 import "./Hero.css";
+
+import { FaPlay } from "react-icons/fa";
+
 import SidebarLatest from "./SidebarLatest/SidebarLatest";
 import { homeData } from "../../data/homeData";
+
 export default function Hero() {
   return (
     <section className="hero container">
+      <SidebarLatest
+        title="Lo Último"
+        items={homeData.latestLeft}
+        className="left"
+      />
+
       <section className="hero-center">
         <h1 className="hero-tag">{homeData.hero.title}</h1>
 
@@ -22,10 +32,15 @@ export default function Hero() {
             target="_blank"
             rel="noopener noreferrer"
           >
+            <span className="hero-cta-icon" aria-hidden="true">
+              <FaPlay />
+            </span>
+
             Ver en YouTube
           </a>
         </div>
       </section>
+
       <SidebarLatest
         title="Lo Último"
         items={homeData.latestRight}

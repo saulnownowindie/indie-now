@@ -3,7 +3,7 @@ import "./Login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "../../../auth/AuthContext";
+import { useAuth } from "../../../auth/useAuth";
 import { login as loginRequest } from "../../../services/authService";
 
 import {

@@ -121,37 +121,13 @@
    VARIANTES
 ========================================================= */
 
-.carousel-reviews .carousel-track > *{
-
-    flex:0 0 calc((100% - (var(--space-md) * 2)) / 3);
-
-    min-width:0;
-
-}
-
 .carousel-reels .carousel-track > *{
 
     flex:0 0 clamp(165px,20vw,225px);
 
 }
 
-@media (max-width:1024px){
-
-    .carousel-reviews .carousel-track > *{
-
-        flex-basis:calc((100% - var(--space-md)) / 2);
-
-    }
-
-}
-
 @media (max-width:768px){
-
-    .carousel-reviews .carousel-track > *{
-
-        flex-basis:min(320px,85%);
-
-    }
 
     .carousel-reels .carousel-track > *{
 

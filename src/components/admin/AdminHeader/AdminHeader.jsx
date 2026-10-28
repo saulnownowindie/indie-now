@@ -3,7 +3,7 @@ import "./AdminHeader.css";
 import { useLocation } from "react-router-dom";
 import { Bell, Sun, Moon, Search, Menu } from "lucide-react";
 
-import { useAuth } from "../../../auth/AuthContext";
+import { useAuth } from "../../../auth/useAuth";
 import useTheme from "../../../hooks/useTheme";
 
 const titles = {

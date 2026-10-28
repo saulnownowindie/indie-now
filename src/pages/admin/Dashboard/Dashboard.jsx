@@ -1,6 +1,7 @@
 import "./Dashboard.css";
-import Badge from "../../../components/admin/ui/Badge";
-import DashboardCard from "../../../components/admin/DashboardCard/DashboardCard";import {
+import DashboardCard from "../../../components/admin/DashboardCard/DashboardCard";
+
+import {
     Newspaper,
     Clapperboard,
     Film,

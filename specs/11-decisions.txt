@@ -1,37 +1,57 @@
 DECISIONES
-DECISIONES
 
 LAYOUT Y HOME
 - Hero principal: Indie Sounds Session.
 - Home como portada editorial, no feed cronológico.
 - Cards visuales con imagen protagonista.
 - Ancho máximo del contenido: 1440px, centrado.
+- Desktop: Hero simétrico de 3 columnas: SidebarLatest izquierda (homeData.latestLeft), video central y SidebarLatest derecha (homeData.latestRight).
+- Las dos sidebars se titulan "Lo Último" y enmarcan el video como contexto editorial.
+- Menos de 1024px: el Hero pasa a una columna; las sidebars se ocultan y "Lo Último" vive dentro del drawer.
 
 CONTENIDO Y ORIGEN
 - La web reutiliza contenido que Indie Now ya publica en sus otras redes: Instagram, Reels, Shorts, TikTok y YouTube.
-- Se muestra: noticias, novedades, Indie Sounds Sessions, curiosidades, coberturas y playlists (Spotify, TikTok, Shorts).
-- No se muestra: contenido de clientes ni Alertas Indie (promociones pagas).
+- Se muestra: noticias, novedades, curiosidades, coberturas, playlists, reels, merch y envío de música.
+- Indie Sounds Sessions no tiene grilla propia en la Home: se produce 1 o 2 veces al año y su única presencia es el video principal del Hero.
+- No hay sección de Reseñas en la Home, ni curadura de prensa, ni Alertas Indie (promociones pagas).
 - La web organiza y redirige a cada plataforma; no obliga a crear contenido exclusivo.
 - Cada card o video enlaza a su publicación original.
 
 HEADER Y NAVEGACIÓN
 - Logo centrado inicialmente con la frase "Descubrí música que vale la pena escuchar."
 - Header compacto y sticky al hacer scroll.
-- Nav: Noticias | Reseñas | Sesiones | No Podés Perderte | Merch.
+- Nav: Noticias | Sesiones | No Podés Perderte | Merch.
+- Sin "Reseñas" en el nav. La ruta /resenas no se enlaza desde la Home ni desde el header.
 - Sin "Inicio" en el nav (el logo lleva a Home).
 - Sin "Reels" en el nav. La ruta /reels se mantiene oculta.
 
 LO ÚLTIMO
 - Sidebar independiente del contenido principal.
-- Desktop: UNA sola columna, a la derecha del video.
+- Desktop: dos columnas laterales, una a cada lado del video, para lograr simetría visual.
 - Mobile: vive dentro del drawer. Nunca debajo del video.
 - Mobile con drawer (menú + Lo Último).
+- Las sidebars son informativas: no incluyen botones ni iconos de control sin función real.
 
 SECCIONES DE LA HOME
-- Reseñas en Home: solo Notas de Prensa (carrusel). "Alertas Indie" queda fuera de la web.
+- Orden vigente: Hero → Lo Nuevo Que Vale → Noticias → Reels → No Podés Perderte → Merch → Envíanos tu música.
+- Sin sección de Reseñas.
+- Sin grilla de Indie Sounds Sessions.
 - No Podés Perderte: 3 cards (Playlist, Festivales, Coberturas) e incluir playlist de Spotify.
 - Merch en Home: carrusel (decisión consciente, distinto del wireframe), con "Ver todo →" y responsive.
 - Envíanos tu música: Groover, Musosoup, Independiza.
+
+HERO: ESTÉTICA PREMIUM
+- Gradiente sutil sobre el video (viñeta inferior y brillo tenue) para dar clima cinematográfico sin tapar el contenido ni los controles.
+- Título editorial en mayúsculas, con mayor jerarquía tipográfica, tracking amplio y líneas decorativas discretas.
+- CTA de YouTube en formato píldora, con icono de play, peso visual alto y foco accesible.
+- Espaciado cinematográfico: aire generoso alrededor del título, el video y el CTA; el video sigue siendo el protagonista.
+- La decoración nunca debe parecer un control interactivo.
+
+ESPACIADO ENTRE SECCIONES
+- Una sola variable de ritmo vertical para la Home: clamp(64px, 8vw, 128px).
+- No acumular margin-top y padding-block en la misma separación.
+- Títulos de sección con separación inferior amplia y consistente.
+- Evitar secciones visualmente "pequeñas" o apretadas: cada bloque debe respirar y compartir el mismo ritmo vertical.
 
 RESPONSIVE
 - Breakpoints (360/390/430/768/1024/1440/1920) son tamaños de VALIDACIÓN.
@@ -45,5 +65,5 @@ DATOS
 ORDEN DE EJECUCIÓN
 1. Quick wins (/merch dice "Sesiones", footer con href="#", Home.css vacío) + container 1440px.
 2. Header + drawer móvil.
-3. Hero (quitar sidebar duplicada, Lo Último al drawer).
-4. Bloques de la Home.
+3. Hero: 3 columnas en Desktop, estética premium y CTA; Lo Último al drawer en Mobile.
+4. Bloques de la Home sin Reseñas ni grilla de Sessions, con espaciado consistente.

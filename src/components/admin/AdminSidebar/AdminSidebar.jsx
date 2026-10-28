@@ -1,5 +1,5 @@
 import "./AdminSidebar.css";
-import { useAuth } from "../../../auth/AuthContext";
+import { useAuth } from "../../../auth/useAuth";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,

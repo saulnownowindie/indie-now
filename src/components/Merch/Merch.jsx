@@ -6,20 +6,16 @@ export default function Merch() {
   const products = homeData.merch.tshirts;
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [previousIndex, setPreviousIndex] = useState(null);
   const [direction, setDirection] = useState("next");
   const [animating, setAnimating] = useState(false);
 
   const currentProduct = products[currentIndex];
-  const previousProduct =
-    previousIndex !== null ? products[previousIndex] : null;
 
   const changeProduct = (newDirection) => {
     if (animating) return;
 
     setAnimating(true);
     setDirection(newDirection);
-    setPreviousIndex(currentIndex);
 
     const nextIndex =
       newDirection === "next"
@@ -33,7 +29,6 @@ export default function Merch() {
     if (!animating) return;
 
     const timer = setTimeout(() => {
-      setPreviousIndex(null);
       setAnimating(false);
     }, 430);
 

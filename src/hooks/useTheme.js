@@ -1,5 +1,5 @@
-import { useThemeContext } from "../context/ThemeContext";
+import { useThemeContext } from "../context/themeContext";
 
 export default function useTheme() {
-    return useThemeContext();
+  return useThemeContext();
 }

@@ -3,7 +3,7 @@ import LatestCard from "../LatestCard/LatestCard";
 
 export default function SidebarLatest({ title, items, className = "" }) {
   return (
-    <aside className={`latest ${className}`}>
+    <aside className={`latest ${className}`} aria-label={title}>
 
       <h2 className="section-title">
         {title}

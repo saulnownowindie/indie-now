@@ -14,7 +14,6 @@ import { homeData } from "../../data/homeData";
 
 const NAV_ITEMS = [
   { to: "/noticias", label: "Noticias" },
-  { to: "/resenas", label: "Reseñas" },
   { to: "/sesiones", label: "Sesiones" },
   { to: "/no-podes-perderte", label: "No Podés Perderte" },
   { to: "/merch", label: "Merch" },

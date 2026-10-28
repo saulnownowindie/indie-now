@@ -50,47 +50,6 @@ export default function Home() {
       </section>
 
       <section className="home-section">
-        <SectionTitle title="Reseñas" linkTo="/resenas" />
-
-        <Carousel
-          label="Notas de Prensa"
-          className="carousel-reviews"
-        >
-          {homeData.pressNotes.map((item) => (
-            <Card
-              key={item.id}
-              image={item.image}
-              category={item.category}
-              title={item.title}
-              date={item.date}
-              url={item.url}
-            />
-          ))}
-        </Carousel>
-      </section>
-
-      <section className="home-section">
-        <SectionTitle
-          title="Indie Sounds Sessions"
-          linkTo="/sesiones"
-        />
-
-        <div className="home-cards home-cards--three">
-          {homeData.sessions.map((item) => (
-            <Card
-              key={item.id}
-              image={item.image}
-              category={item.category}
-              title={item.title}
-              date={item.date}
-              url={item.url}
-              showPlay
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="home-section">
         <SectionTitle title="Reels" />
 
         <Carousel label="Reels de Indie Now" className="carousel-reels">

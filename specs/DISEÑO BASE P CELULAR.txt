@@ -1,0 +1,60 @@
+┌────────────────────────────┐
+│ ☰              in.         │
+└────────────────────────────┘
+
+┌────────────────────────────┐
+│                            │
+│ Última Indie Sounds Session│
+│                            │
+│   [ YouTube ]              │
+│                            │
+└────────────────────────────┘
+
+Lo Nuevo Que Vale
+
+▭ Card
+▭ Card
+▭ Card
+
+Noticias
+
+▭ Card
+▭ Card
+
+Reseñas
+
+▭ Card
+▭ Card
+
+Merch
+
+▭ Producto
+▭ Producto
+
+Envíanos tu música
+
+▭ Groover
+
+▭ Musosoup
+
+▭ Independiza
+
+
+Y cuando el usuario pulse el botón ☰:
+
+┌──────────────────────────────┐
+│           MENÚ               │
+├──────────────────────────────┤
+│ Noticias                     │
+│ Reseñas                      │
+│ Sesiones                     │
+│ No Podés Perderte            │
+│ Merch                        │
+├──────────────────────────────┤
+│ LO ÚLTIMO                    │
+│                              │
+│ • Última noticia             │
+│ • Último video               │
+│ • Curiosidad                 │
+│ • Cobertura                  │
+└──────────────────────────────┘

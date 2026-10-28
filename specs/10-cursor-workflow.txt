@@ -1,0 +1,9 @@
+FLUJO CON CURSOR
+
+1. Leer únicamente los archivos de /specs.
+2. Implementar estructura sin estilos finales.
+3. Componentizar.
+4. Validar.
+5. Aplicar Design System.
+6. Agregar animaciones.
+7. Optimizar.

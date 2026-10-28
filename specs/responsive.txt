@@ -1,0 +1,151 @@
+
+
+RESPONSIVE
+
+Breakpoints:
+360
+390
+430
+768
+1024
+1440
+1920
+
+Desktop:
+Contenido centrado.
+Sidebar independiente.
+
+Mobile:
+Sidebar -> Drawer.
+
+Validación obligatoria en todos los tamaños.
+
+
+===========================================================
+RESPONSIVE STRATEGY
+===========================================================
+
+Objetivo
+
+La experiencia debe sentirse nativa tanto en escritorio
+como en dispositivos móviles.
+
+La versión móvil no es una adaptación de la versión de
+escritorio.
+
+Ambas experiencias se diseñarán desde el inicio.
+
+
+===========================================================
+BREAKPOINTS
+===========================================================
+
+Mobile S
+
+360 px
+
+
+Mobile M
+
+390 px
+
+
+Tablet
+
+768 px
+
+
+Tablet Horizontal
+
+1024 px
+
+
+Desktop
+
+1440 px
+
+
+Desktop XL
+
+1920 px
+
+
+===========================================================
+REGLAS
+===========================================================
+
+El contenido nunca ocupará todo el ancho de pantallas
+grandes.
+
+El ancho máximo será de 1440 px.
+
+El contenido permanecerá centrado.
+
+Todas las imágenes deberán escalar correctamente.
+
+Los videos conservarán formato 16:9.
+
+No existirán scrolls horizontales.
+
+Los botones deberán poder utilizarse cómodamente con el
+dedo.
+
+Las tarjetas reorganizarán automáticamente su cantidad de
+columnas dependiendo del espacio disponible.
+
+
+===========================================================
+HOME
+===========================================================
+
+Desktop
+
+Video principal a la izquierda.
+
+Lo Último permanece al costado.
+
+Carruseles muestran varias cards.
+
+
+Tablet
+
+Las cards reducen cantidad de columnas.
+
+Se mantiene la prioridad del video.
+
+
+Mobile
+
+Video ocupa el ancho disponible.
+
+Lo Último deja de mostrarse como columna.
+
+Será accesible mediante un panel lateral.
+
+El menú principal también será lateral.
+
+Los carruseles utilizarán desplazamiento horizontal.
+
+Las cards pasarán a una sola columna.
+
+
+===========================================================
+VALIDACIÓN
+===========================================================
+
+Antes de aprobar una pantalla deberá revisarse en:
+
+360 px
+
+390 px
+
+768 px
+
+1024 px
+
+1440 px
+
+1920 px
+
+No se considerará terminada hasta aprobar todas las
+resoluciones.

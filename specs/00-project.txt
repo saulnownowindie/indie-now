@@ -1,0 +1,122 @@
+===========================================================
+INDIE NOW
+PRODUCT SPECIFICATION
+Versión 0.1
+===========================================================
+PROYECTO
+
+Nombre: Indie Now
+
+Propósito:
+Centralizar todo el contenido de Indie Now en un único sitio.
+
+Identidad:
+No es un blog tradicional.
+No es una tienda.
+No es una revista clásica.
+
+Es una plataforma editorial de contenido musical.
+
+Secciones:
+- Noticias
+- Reseñas
+- Indie Sounds Sessions
+- No Podés Perderte
+- Merch
+- Envíanos tu música
+
+V1 excluye:
+Comentarios, cuentas de usuario, pagos, carrito, chat, foro.
+
+¿QUÉ ES INDIE NOW?
+
+Indie Now es una marca de contenido multimedia enfocada en el
+descubrimiento y difusión de música.
+
+La web será el hogar oficial del proyecto.
+
+No reemplazará YouTube, Instagram o TikTok.
+
+Su objetivo será centralizar y organizar todo el contenido
+producido por Indie Now.
+
+
+MISIÓN
+
+Descubrir música y artistas que merecen ser escuchados.
+
+Crear contenido de calidad.
+
+Impulsar bandas emergentes.
+
+Mantener un criterio editorial propio.
+
+
+VISIÓN
+
+Ser un referente de contenido musical para la comunidad
+hispanohablante.
+
+
+PÚBLICO
+
+• Oyentes
+
+• Fans de la música
+
+• Bandas
+
+• Artistas
+
+• Sellos
+
+• Comunidad Indie Now
+
+
+OBJETIVO
+
+Permitir descubrir contenido fácilmente.
+
+Mostrar el contenido más importante.
+
+Centralizar todas las plataformas.
+
+Impulsar Indie Sounds Sessions.
+
+
+PROPIEDADES EDITORIALES
+
+• Indie Sounds Sessions
+
+• Noticias
+
+• Reseñas
+
+• Curiosidades
+
+• Lo Nuevo Que Vale
+
+• Coberturas
+
+• Merch
+
+
+FUERA DEL ALCANCE (V1)
+
+No habrá:
+
+- comentarios
+
+- usuarios
+
+- pagos
+
+- carrito
+
+- editor complejo
+
+- tienda online
+
+- foro
+
+- chat

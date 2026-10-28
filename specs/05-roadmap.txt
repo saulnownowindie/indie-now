@@ -1,0 +1,85 @@
+
+ROADMAP
+
+FASE 1
+Especificación
+
+FASE 2
+Wireframe
+
+FASE 3
+Arquitectura
+
+FASE 4
+React Wireframe
+
+FASE 5
+Design System
+
+FASE 6
+UI
+
+FASE 7
+Backend
+
+FASE 8
+Testing
+
+FASE 9
+Deploy
+
+
+ROADMAP
+
+FASE 1
+
+✔ Especificación
+
+✔ SDD
+
+✔ Componentes
+
+✔ Wireframe
+
+
+FASE 2
+
+Wireframe visual.
+
+Validación.
+
+
+FASE 3
+
+Sistema de diseño.
+
+Colores.
+
+Tipografías.
+
+Iconografía.
+
+
+FASE 4
+
+Desarrollo.
+
+Responsive.
+
+Animaciones.
+
+
+FASE 5
+
+Testing.
+
+Optimización.
+
+SEO.
+
+Accesibilidad.
+
+
+FASE 6
+
+Despliegue.

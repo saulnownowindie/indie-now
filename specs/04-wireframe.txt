@@ -1,0 +1,102 @@
+ASCII HOME
+
+                in.
+
+Noticias | Reseñas | Sesiones | No Podés Perderte | Merch
+
+"Descubrí música que vale la pena escuchar."
+
+┌────────────────────────────────────────────┐      ┌─────────────┐
+│                                            │      │ LO ÚLTIMO   │
+│         ÚLTIMA SESSION                     │      │ Noticias    │
+│                                            │      │ Reels       │
+│         [ VIDEO YOUTUBE ]                  │      │ Coberturas  │
+│                                            │      │ Curiosidades│
+└────────────────────────────────────────────┘      └─────────────┘
+
+Lo Nuevo Que Vale
+[Card][Card][Card][Card]
+
+Noticias
+[Card][Card][Card]
+
+Reseñas
+Alertas Indie
+Notas de Prensa
+
+Sessions
+[Video][Video][Video]
+
+No Podés Perderte
+- Playlist
+- Festivales cubiertos
+- Coberturas
+
+Merch
+[Producto][Producto]
+
+Envíanos tu música
+Groover
+Musosoup
+Independiza
+
+Footer
+
+
+HOME
+
+HEADER
+
+↓
+
+VIDEO PRINCIPAL
+
+↓
+
+LO ÚLTIMO (columna lateral)
+
+↓
+
+LO NUEVO QUE VALE
+
+↓
+
+NOTICIAS
+
+↓
+
+RESEÑAS
+
+↓
+
+INDIE SOUNDS SESSIONS
+
+↓
+
+NO PODÉS PERDERTE
+
+↓
+
+MERCH
+
+↓
+
+ENVÍANOS TU MÚSICA
+
+↓
+
+FOOTER
+
+
+Desktop
+
+Video a la izquierda.
+
+Lista "Lo Último" a la derecha.
+
+
+Mobile
+
+Video ocupa todo el ancho.
+
+"Lo Último" pasa a un panel lateral.

@@ -1,0 +1,71 @@
+HOME
+
+Objetivo:
+Que cualquier visitante entienda Indie Now en pocos segundos.
+
+Jerarquía:
+
+1. Header
+2. Hero: Última Indie Sounds Session
+3. Sidebar "Lo Último"
+4. Lo Nuevo Que Vale
+5. Noticias
+6. Reseñas
+7. Indie Sounds Sessions
+8. No Podés Perderte
+9. Merch
+10. Envíanos tu música
+11. Footer
+
+Regla:
+Nada debe competir visualmente con la Indie Sounds Session.
+
+
+HOME
+
+Objetivo
+
+Presentar Indie Now.
+
+Destacar la última Indie Sounds Session.
+
+Guiar al usuario hacia el resto del contenido.
+
+
+Jerarquía
+
+1. Última Indie Sounds Session
+
+2. Lo Último
+
+3. Lo Nuevo Que Vale
+
+4. Noticias
+
+5. Reseñas
+
+6. Indie Sounds Sessions
+
+7. No Podés Perderte
+
+8. Merch
+
+9. Envíanos tu música
+
+
+Responsive
+
+Desktop
+
+Video principal.
+
+Lista "Lo Último" al costado.
+
+Mobile
+
+Video principal ocupa el ancho.
+
+"Lo Último" se convierte en un panel lateral
+accesible mediante el menú.
+
+Nunca pasa debajo del video.

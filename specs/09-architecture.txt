@@ -1,0 +1,22 @@
+ARQUITECTURA
+
+/specs
+/assets
+/public
+/app
+/components
+/layouts
+/sections
+/hooks
+/lib
+/types
+
+Componentes iniciales:
+Header
+HeroSession
+SidebarLatest
+Card
+Carousel
+SectionTitle
+Footer
+CTAPlatforms

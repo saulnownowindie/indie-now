@@ -1,0 +1,13 @@
+CHECKLIST
+
+[ ] Cumple el SDD
+[ ] Desktop validado
+[ ] Tablet validada
+[ ] Mobile validado
+[ ] Responsive correcto
+[ ] Sin scroll horizontal
+[ ] Componentes reutilizados
+[ ] Accesibilidad
+[ ] Rendimiento
+[ ] SEO básico
+[ ] Listo para desarrollo

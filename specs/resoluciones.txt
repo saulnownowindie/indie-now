@@ -1,0 +1,38 @@
+Breakpoints
+
+Mobile S
+
+360 px
+
+----------------
+
+Mobile M
+
+390 px
+
+----------------
+
+Tablet
+
+768 px
+
+----------------
+
+Tablet Landscape
+
+1024 px
+
+----------------
+
+Desktop
+
+1440 px
+
+----------------
+
+Desktop XL
+
+1920 px
+
+El contenido permanece centrado utilizando
+un ancho máximo de 1440 px.

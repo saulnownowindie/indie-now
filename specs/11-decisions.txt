@@ -1,0 +1,49 @@
+DECISIONES
+DECISIONES
+
+LAYOUT Y HOME
+- Hero principal: Indie Sounds Session.
+- Home como portada editorial, no feed cronológico.
+- Cards visuales con imagen protagonista.
+- Ancho máximo del contenido: 1440px, centrado.
+
+CONTENIDO Y ORIGEN
+- La web reutiliza contenido que Indie Now ya publica en sus otras redes: Instagram, Reels, Shorts, TikTok y YouTube.
+- Se muestra: noticias, novedades, Indie Sounds Sessions, curiosidades, coberturas y playlists (Spotify, TikTok, Shorts).
+- No se muestra: contenido de clientes ni Alertas Indie (promociones pagas).
+- La web organiza y redirige a cada plataforma; no obliga a crear contenido exclusivo.
+- Cada card o video enlaza a su publicación original.
+
+HEADER Y NAVEGACIÓN
+- Logo centrado inicialmente con la frase "Descubrí música que vale la pena escuchar."
+- Header compacto y sticky al hacer scroll.
+- Nav: Noticias | Reseñas | Sesiones | No Podés Perderte | Merch.
+- Sin "Inicio" en el nav (el logo lleva a Home).
+- Sin "Reels" en el nav. La ruta /reels se mantiene oculta.
+
+LO ÚLTIMO
+- Sidebar independiente del contenido principal.
+- Desktop: UNA sola columna, a la derecha del video.
+- Mobile: vive dentro del drawer. Nunca debajo del video.
+- Mobile con drawer (menú + Lo Último).
+
+SECCIONES DE LA HOME
+- Reseñas en Home: solo Notas de Prensa (carrusel). "Alertas Indie" queda fuera de la web.
+- No Podés Perderte: 3 cards (Playlist, Festivales, Coberturas) e incluir playlist de Spotify.
+- Merch en Home: carrusel (decisión consciente, distinto del wireframe), con "Ver todo →" y responsive.
+- Envíanos tu música: Groover, Musosoup, Independiza.
+
+RESPONSIVE
+- Breakpoints (360/390/430/768/1024/1440/1920) son tamaños de VALIDACIÓN.
+- En CSS usar pocos media queries (768 y 1024) y grids con auto-fit/minmax.
+- Touch targets mínimo 44px.
+
+DATOS
+- Home con mock por ahora.
+- No refactorizar api/services/hooks hasta que la Home esté completa.
+
+ORDEN DE EJECUCIÓN
+1. Quick wins (/merch dice "Sesiones", footer con href="#", Home.css vacío) + container 1440px.
+2. Header + drawer móvil.
+3. Hero (quitar sidebar duplicada, Lo Último al drawer).
+4. Bloques de la Home.

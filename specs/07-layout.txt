@@ -1,0 +1,18 @@
+LAYOUT
+
+El contenido principal vive en el centro.
+
+El sidebar "Lo Último" vive fuera del contenido principal,
+como un panel independiente similar al lateral de ChatGPT.
+
+Visible:
+Home
+Noticias
+
+Opcional:
+Reseñas
+
+Oculto:
+Sessions
+Merch
+Envíanos tu música

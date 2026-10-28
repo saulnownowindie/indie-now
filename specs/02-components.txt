@@ -1,0 +1,103 @@
+COMPONENTES
+
+Layout
+Header
+HeroSession
+SidebarLatest
+Card
+Carousel
+SectionTitle
+CTAPlatforms
+Footer
+
+CARD
+
+Imagen grande.
+Categoría.
+Título.
+Fecha opcional.
+
+HEADER
+
+Estado inicial:
+Logo centrado.
+
+Al hacer scroll:
+Logo reduce tamaño.
+Header permanece sticky.
+Animación suave.
+
+SIDEBAR
+
+Componente independiente del contenido principal.
+
+
+COMPONENTES
+
+Header
+
+Video principal
+
+Lista "Lo Último"
+
+Cards
+
+Carruseles
+
+CTA
+
+Footer
+
+
+HEADER
+
+Dos estados.
+
+Estado inicial:
+
+Logo grande.
+
+Menú.
+
+Frase de la marca.
+
+Estado scroll:
+
+Logo reducido.
+
+Header compacto.
+
+Permanece fijo.
+
+
+VIDEO PRINCIPAL
+
+Última Indie Sounds Session.
+
+Video embebido.
+
+Es el elemento más importante de la Home.
+
+
+CARD
+
+Imagen grande.
+
+Categoría.
+
+Título.
+
+Fecha opcional.
+
+Muy poco texto.
+
+La imagen siempre domina.
+
+
+CTA
+
+Groover
+
+Musosoup
+
+Independiza

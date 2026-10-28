@@ -1,0 +1,308 @@
+===========================================================
+INDIE NOW
+Software Design Document (SDD)
+Versión 0.1
+===========================================================
+
+Estado:
+Borrador inicial.
+
+Objetivo:
+Definir el producto antes de comenzar con el diseño y el desarrollo.
+
+Este documento describe QUÉ queremos construir.
+No describe cómo será implementado.
+
+===========================================================
+1. ¿QUÉ ES INDIE NOW?
+===========================================================
+
+Indie Now es una marca de contenido multimedia dedicada al
+descubrimiento y difusión de música.
+
+El proyecto produce contenido original sobre artistas,
+lanzamientos, festivales y cultura musical.
+
+La web será el centro del ecosistema Indie Now.
+
+No pretende reemplazar YouTube, Instagram o TikTok.
+
+Su objetivo es organizar el contenido y facilitar el acceso
+a todas las producciones de la marca.
+
+===========================================================
+2. MISIÓN
+===========================================================
+
+Ayudar a descubrir música y artistas que merecen ser
+escuchados mediante contenido audiovisual y editorial.
+
+Indie Now no publica contenido únicamente porque sea
+tendencia.
+
+Cada publicación responde al criterio editorial del equipo.
+
+Se podrán cubrir artistas conocidos cuando exista una razón
+editorial para hacerlo.
+
+===========================================================
+3. VISIÓN
+===========================================================
+
+Convertirse en un referente para quienes disfrutan descubrir
+música y consumir contenido relacionado con ella.
+
+Que Indie Now sea reconocido por sus producciones propias,
+especialmente por Indie Sounds Sessions y por descubrir
+nuevos artistas.
+
+===========================================================
+4. PÚBLICO
+===========================================================
+
+Personas interesadas en:
+
+- Música independiente.
+- Rock.
+- Pop alternativo.
+- Dream Pop.
+- Shoegaze.
+- Bedroom Pop.
+- Indie Folk.
+- Escenas emergentes.
+
+También personas interesadas en cultura musical en general.
+
+===========================================================
+5. OBJETIVO DE LA WEB
+===========================================================
+
+La web será el hogar oficial de Indie Now.
+
+Permitirá acceder fácilmente a:
+
+- Noticias.
+- Reseñas.
+- Indie Sounds Sessions.
+- Curiosidades.
+- Coberturas.
+- Merch.
+- Redes sociales.
+
+No será un blog tradicional.
+
+No será una revista digital.
+
+No será una tienda online.
+
+===========================================================
+6. HOME
+===========================================================
+
+La portada no seguirá un orden cronológico.
+
+Será una portada editorial.
+
+El equipo decidirá qué contenido destacar.
+
+La última Indie Sounds Session tendrá el mayor protagonismo
+visual.
+
+Existirá una columna lateral mostrando el contenido más
+reciente publicado.
+
+===========================================================
+7. ESTRUCTURA GENERAL
+===========================================================
+
+HEADER
+
+↓
+
+Última Indie Sounds Session
+(Video principal de YouTube)
+
+↓
+
+Lo Nuevo Que Vale
+
+↓
+
+Noticias
+
+↓
+
+Reseñas
+
+    ├── Alertas Indie
+
+    └── Notas de Prensa
+
+↓
+
+Indie Sounds Sessions
+
+↓
+
+No Podés Perderte
+
+    • Playlist de YouTube
+
+    • Festivales
+
+    • Coberturas
+
+↓
+
+Merch
+
+↓
+
+Envíanos tu música
+
+↓
+
+Footer
+
+===========================================================
+8. DESCRIPCIÓN DE LAS SECCIONES
+===========================================================
+
+HOME
+
+Página principal del proyecto.
+
+Será el punto de entrada a todo el ecosistema Indie Now.
+
+
+LO NUEVO QUE VALE
+
+Selección editorial.
+
+Mostrará el contenido que Indie Now considere más importante,
+independientemente de la fecha de publicación.
+
+
+NOTICIAS
+
+Sección destinada a noticias relacionadas con la música.
+
+
+RESEÑAS
+
+Agrupa contenido editorial propio.
+
+Incluye:
+
+
+Alertas Indie
+
+Contenido dedicado a:
+
+- Bandas emergentes.
+- Nuevos lanzamientos.
+- Artistas que Indie Now desea destacar.
+
+
+Notas de Prensa
+
+Publicaciones tipo carrusel.
+
+Generalmente incluyen:
+
+- Quién es el artista.
+- Historia.
+- Novedades.
+- Fotografías.
+- Lanzamiento reciente.
+
+
+INDIE SOUNDS SESSIONS
+
+Serie principal de Indie Now.
+
+Reúne todas las sesiones en vivo realizadas por el proyecto.
+
+
+NO PODÉS PERDERTE
+
+Accesos rápidos hacia contenido importante.
+
+Inicialmente incluirá:
+
+- Playlist de YouTube.
+- Festivales.
+- Coberturas.
+
+
+MERCH
+
+Catálogo oficial de Indie Now.
+
+Cada producto mostrará:
+
+- Fotografías.
+- Diferentes vistas.
+- Material.
+- Talles.
+- Tabla de medidas.
+
+No habrá compras online en la primera versión.
+
+
+ENVÍANOS TU MÚSICA
+
+Espacio destinado a músicos.
+
+Permitirá acceder a:
+
+- Groover.
+- Musosoup.
+- Independiza.
+
+===========================================================
+9. COLUMNA LATERAL
+===========================================================
+
+Mostrará el contenido más reciente publicado.
+
+Ejemplos:
+
+- Última noticia.
+- Último video.
+- Última cobertura.
+- Última publicación.
+
+Será una mezcla cronológica de todo el contenido reciente.
+
+===========================================================
+10. PRINCIPIOS
+===========================================================
+
+La web debe reutilizar el contenido que ya produce Indie Now.
+
+No debe obligar al equipo a crear contenido exclusivo.
+
+Su función principal será organizar el contenido y dirigir
+al usuario hacia las plataformas donde fue publicado cuando
+corresponda.
+
+===========================================================
+11. FUERA DEL ALCANCE (VERSIÓN 1)
+===========================================================
+
+No incluir:
+
+- Sistema de usuarios.
+- Comentarios.
+- Foro.
+- Chat.
+- Carrito.
+- Pagos.
+- Tienda online.
+- Panel de administración avanzado.
+- Editor complejo de contenido.
+
+===========================================================
+FIN DEL DOCUMENTO
+===========================================================

@@ -1,0 +1,16 @@
+.reel-modal {
+  width: min(760px, 96vw);
+  height: auto;
+  max-height: min(92vh, 860px);
+}
+
+.reel-modal .image-preview img {
+  max-height: 340px;
+  aspect-ratio: 9 / 16;
+}
+
+@media (max-width: 768px) {
+  .reel-modal {
+    width: 100%;
+  }
+}

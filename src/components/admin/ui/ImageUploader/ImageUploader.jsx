@@ -1,14 +1,30 @@
 import "./ImageUploader.css";
 
-import { useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { ImagePlus, Trash2 } from "lucide-react";
 
 export default function ImageUploader({
   label,
   value,
   onChange,
+  existingUrl = null,
 }) {
   const inputRef = useRef(null);
+
+  const objectUrl = useMemo(
+    () => (value ? URL.createObjectURL(value) : null),
+    [value],
+  );
+
+  useEffect(() => {
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [objectUrl]);
+
+  const previewUrl = objectUrl || existingUrl;
 
   function handleFile(file) {
     if (!file) return;
@@ -18,6 +34,8 @@ export default function ImageUploader({
 
   function handleInput(e) {
     handleFile(e.target.files[0]);
+
+    e.target.value = "";
   }
 
   function handleDrop(e) {
@@ -51,7 +69,7 @@ export default function ImageUploader({
         onChange={handleInput}
       />
 
-      {!value ? (
+      {!previewUrl ? (
         <div
           className="image-dropzone"
           onClick={() => inputRef.current?.click()}
@@ -73,7 +91,7 @@ export default function ImageUploader({
         <div className="image-preview">
 
           <img
-            src={URL.createObjectURL(value)}
+            src={previewUrl}
             alt="Preview"
           />
 

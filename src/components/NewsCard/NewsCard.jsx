@@ -7,6 +7,8 @@ import {
   FaFacebook,
 } from "react-icons/fa";
 
+import { resolveMediaUrl } from "../../utils/mediaUrl";
+
 function PlatformIcon({ platform }) {
   switch (platform) {
     case "INSTAGRAM":
@@ -36,24 +38,6 @@ function formatDate(date) {
   }).format(new Date(date));
 }
 
-function getCoverUrl(coverImage) {
-  if (!coverImage?.url) return null;
-
-  if (
-    coverImage.url.startsWith("http://") ||
-    coverImage.url.startsWith("https://")
-  ) {
-    return coverImage.url;
-  }
-
-  const apiUrl =
-    import.meta.env.VITE_API_URL || "http://localhost:3000/api";
-
-  const apiOrigin = apiUrl.replace(/\/api\/?$/, "");
-
-  return `${apiOrigin}${coverImage.url}`;
-}
-
 export default function NewsCard({
   news,
   featured = false,
@@ -67,7 +51,7 @@ export default function NewsCard({
 
   const date = formatDate(news.publishedAt);
 
-  const coverUrl = getCoverUrl(news.coverImage);
+  const coverUrl = resolveMediaUrl(news.coverImage?.url);
 
   const supportedPlatform = [
     "INSTAGRAM",

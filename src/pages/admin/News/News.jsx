@@ -15,6 +15,8 @@ import { Clock3, Archive, Trash2, Sparkles } from "lucide-react";
 
 import useNews from "../../../hooks/useNews";
 
+import { resolveMediaUrl } from "../../../utils/mediaUrl";
+
 export default function News() {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState("all");
@@ -183,14 +185,7 @@ export default function News() {
                 <td>
                   {item.coverImage?.url ? (
                     <img
-                      src={
-                        item.coverImage.url.startsWith("http")
-                          ? item.coverImage.url
-                          : `${import.meta.env.VITE_API_URL.replace(
-                              "/api",
-                              "",
-                            )}${item.coverImage.url}`
-                      }
+                      src={resolveMediaUrl(item.coverImage.url)}
                       alt={item.title}
                       className="news-table-cover"
                     />

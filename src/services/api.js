@@ -1,16 +1,9 @@
 import axios from "axios";
 import { getStoredToken } from "./authService";
-
-const configuredBaseUrl = (
-  import.meta.env.VITE_API_URL || "http://localhost:3000"
-).replace(/\/+$/, "");
-
-const baseURL = configuredBaseUrl.endsWith("/api")
-  ? configuredBaseUrl
-  : `${configuredBaseUrl}/api`;
+import { getApiBaseUrl } from "../utils/apiUrl";
 
 const api = axios.create({
-  baseURL,
+  baseURL: getApiBaseUrl(),
 });
 
 api.interceptors.request.use((config) => {

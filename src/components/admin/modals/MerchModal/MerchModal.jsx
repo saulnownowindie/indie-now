@@ -189,17 +189,22 @@ export default function MerchModal({ onClose, merch = null }) {
             />
           </div>
 
-          <div className="form-group" style={{ flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
-            <input
-              type="checkbox"
-              id="featured"
-              checked={form.featured}
-              onChange={(e) => updateField("featured", e.target.checked)}
-              disabled={saving}
-            />
-            <label htmlFor="featured" style={{ margin: 0 }}>Destacar en la Home</label>
+          <div className="merch-toggle-container">
+            <div className="merch-toggle-text">
+              <label htmlFor="featured">Destacar en la Home</label>
+              <p>Este producto aparecerá en la sección principal de la página.</p>
+            </div>
+            <label className="switch">
+              <input
+                type="checkbox"
+                id="featured"
+                checked={form.featured}
+                onChange={(e) => updateField("featured", e.target.checked)}
+                disabled={saving}
+              />
+              <span className="slider round"></span>
+            </label>
           </div>
-
           <ImageUploader
             label="Imagen del producto"
             value={coverFile}

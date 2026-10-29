@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"/home/saul/Escritorio/web/indie-now/.claude/hooks/code-agent-auto-commit.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,3 @@
+# BEGIN code-agent-auto-commit
+notify = ["cac", "run", "--tool", "codex", "--worktree", "/home/saul/Escritorio/web/indie-now", "--config", "/home/saul/.config/code-agent-auto-commit/config.json"]
+# END code-agent-auto-commit

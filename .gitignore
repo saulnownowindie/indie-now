@@ -18,3 +18,6 @@ Archivador.zip
 .vscode/
 .DS_Store
 
+# Estado del plugin de documentación automática
+.opencode/doc-sync-state.json
+

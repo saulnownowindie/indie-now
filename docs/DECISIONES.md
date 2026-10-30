@@ -403,6 +403,12 @@ código y, cuando la sesión de trabajo queda inactiva, encarga al agente
 pedido; conviene revisarlos antes de darlos por buenos. El complemento corre en
 el entorno local (no en el sitio publicado) y se puede desactivar si molesta.
 
+**Detalle de funcionamiento:** el agente **@documentador** hereda el modelo de
+lenguaje de la sesión que disparó la actualización, para no depender de una
+configuración por defecto que podría no estar disponible. Si su sesión no
+termina correctamente, el punto de control no avanza y la actualización se
+reintenta a los 5 minutos.
+
 ---
 
 ## Cómo agregar una decisión nueva

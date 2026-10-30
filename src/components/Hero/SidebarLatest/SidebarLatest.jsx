@@ -1,7 +1,12 @@
 import "./SidebarLatest.css";
 import LatestCard from "../LatestCard/LatestCard";
 
-export default function SidebarLatest({ title, items, className = "" }) {
+export default function SidebarLatest({
+  title,
+  items,
+  className = "",
+  loading = false,
+}) {
   return (
     <aside className={`latest ${className}`} aria-label={title}>
 
@@ -11,12 +16,20 @@ export default function SidebarLatest({ title, items, className = "" }) {
 
       <div className="latest-content">
 
-        {items.map((item) => (
-          <LatestCard
-            key={item.id}
-            item={item}
-          />
-        ))}
+        {loading
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <div
+                key={index}
+                className="latest-skeleton"
+                aria-hidden="true"
+              />
+            ))
+          : items.map((item) => (
+              <LatestCard
+                key={item.id}
+                item={item}
+              />
+            ))}
 
       </div>
 

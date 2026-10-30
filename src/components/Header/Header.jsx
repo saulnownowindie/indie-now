@@ -11,6 +11,7 @@ import {
 
 import logo from "../../assets/images/indie-nowlogo-blancov2.png";
 import { homeData } from "../../data/homeData";
+import useLatestContent from "../../hooks/useLatestContent";
 
 const NAV_ITEMS = [
   { to: "/noticias", label: "Noticias", sectionId: "noticias" },
@@ -74,6 +75,13 @@ export default function Header() {
 
   const { pathname } = useLocation();
   const isHome = pathname === "/";
+
+  const { items: latestItems } = useLatestContent();
+
+  const latestRight =
+    latestItems.length > 0
+      ? latestItems.slice(-3)
+      : homeData.latestRight;
 
   const [pendingSection, setPendingSection] = useState(null);
 
@@ -270,7 +278,7 @@ export default function Header() {
           <h2 className="drawer-latest-title">Lo Último</h2>
 
           <ul>
-            {homeData.latestRight.map((item) => {
+            {latestRight.map((item) => {
               const Icon = item.icon;
 
               return (

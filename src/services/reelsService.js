@@ -5,6 +5,11 @@ export async function getReels() {
   return data;
 }
 
+export async function getPublicReels() {
+  const { data } = await api.get("/reels/public");
+  return data;
+}
+
 export async function createReel(reel) {
   const { data } = await api.post("/reels", reel);
   return data;

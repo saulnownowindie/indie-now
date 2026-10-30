@@ -5,5 +5,7 @@ export default function usePublicNews() {
   return useQuery({
     queryKey: ["public-news"],
     queryFn: getPublicNews,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
   });
 }

@@ -2,7 +2,7 @@ import "./Footer.css";
 
 import { Link } from "react-router-dom";
 
-import logo from "../../assets/images/indie-nowlogo.png";
+import logo from "../../assets/images/indie-nowlogo-512.webp";
 
 import {
   FaInstagram,
@@ -23,6 +23,10 @@ export default function Footer() {
             src={logo}
             alt="Indie Now"
             className="footer-logo"
+            width="512"
+            height="512"
+            loading="lazy"
+            decoding="async"
           />
 
           <p className="footer-description">

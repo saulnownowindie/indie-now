@@ -30,7 +30,9 @@
 
     margin-bottom:14px;
 
-    color:var(--color-primary);
+    color:var(--color-text);
+
+    color:color-mix(in srgb,var(--color-primary) 38%,var(--color-text));
 
     font-size:var(--text-xs);
 
@@ -476,6 +478,12 @@
 
     }
 
+    .reels-grid[aria-label="Cargando reels"] .reel-card-skeleton:nth-child(n+3){
+
+        display:none;
+
+    }
+
 }
 
 @media (max-width:640px){
@@ -483,6 +491,12 @@
     .reels-grid{
 
         grid-template-columns:minmax(0,340px);
+
+    }
+
+    .reels-grid[aria-label="Cargando reels"] .reel-card-skeleton:nth-child(n+2){
+
+        display:none;
 
     }
 

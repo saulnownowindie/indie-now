@@ -62,7 +62,7 @@ export default function NewsModal({ onClose, news = null }) {
 
   const [coverFile, setCoverFile] = useState(null);
   const [existingCoverUrl, setExistingCoverUrl] = useState(
-    resolveMediaUrl(news?.coverImage?.url),
+    resolveMediaUrl(news?.coverImage?.url, 640),
   );
   const [removeCover, setRemoveCover] = useState(false);
 

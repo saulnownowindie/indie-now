@@ -146,7 +146,7 @@ export default function PlaylistsPage() {
           {!isLoading &&
             !isError &&
             filteredPlaylists.map((item) => {
-              const coverUrl = resolveMediaUrl(item.coverUrl);
+              const coverUrl = resolveMediaUrl(item.coverUrl, 160);
               const platform = getPlaylistPlatform(item.platform);
               const PlatformIcon = platform.icon;
 
@@ -159,6 +159,7 @@ export default function PlaylistsPage() {
                         alt={item.title}
                         className="playlists-table-cover"
                         loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <span className="playlists-table-no-cover">

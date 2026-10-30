@@ -66,6 +66,7 @@ export default function AdminHeader({ onMenuClick }) {
             src={user?.avatar || "/avatars/dwith.jpg"}
             alt={user?.name || "Administrador"}
             className="header-avatar"
+            decoding="async"
           />
 
           <div className="header-user-info">

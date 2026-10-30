@@ -97,12 +97,12 @@ export default function MerchPage() {
           )}
 
           {!isLoading && !isError && filteredMerch.map((item) => {
-            const coverUrl = resolveMediaUrl(item.coverImage?.url || item.imageUrl);
+            const coverUrl = resolveMediaUrl(item.coverImage?.url || item.imageUrl, 160);
             return (
               <tr key={item.id}>
                 <td>
                   {coverUrl ? (
-                    <img src={coverUrl} alt={item.name} className="merch-table-cover" loading="lazy" />
+                    <img src={coverUrl} alt={item.name} className="merch-table-cover" loading="lazy" decoding="async" />
                   ) : (
                     <span className="merch-table-no-cover">Sin imagen</span>
                   )}

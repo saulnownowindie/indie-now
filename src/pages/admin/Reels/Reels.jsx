@@ -256,6 +256,7 @@ export default function Reels() {
             filteredReels.map((reel) => {
               const coverUrl = resolveMediaUrl(
                 reel.coverImage?.url || reel.coverUrl,
+                160,
               );
               const previewStatus = getPreviewStatus(reel);
               const isQueueing =
@@ -271,6 +272,7 @@ export default function Reels() {
                         alt={reel.title}
                         className="reels-table-cover"
                         loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <span className="reels-table-no-cover">

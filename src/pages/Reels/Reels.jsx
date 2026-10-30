@@ -16,7 +16,7 @@ import {
   normalizePublicReel,
 } from "../../utils/publicContent";
 
-const SKELETON_COUNT = 6;
+const SKELETON_COUNT = 3;
 
 const FILTERS = [
   { value: "ALL", label: "Todos" },
@@ -88,6 +88,8 @@ export default function Reels() {
           backstage y momentos de la escena indie.
         </p>
       </header>
+
+      <h2 className="sr-only">Listado de reels</h2>
 
       {showFilters && (
         <div className="reels-toolbar">

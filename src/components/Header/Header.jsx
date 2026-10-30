@@ -9,7 +9,7 @@ import {
   FaTiktok,
 } from "react-icons/fa";
 
-import logo from "../../assets/images/indie-nowlogo-blancov2.png";
+import logo from "../../assets/images/indie-nowlogo-blancov2-512.webp";
 import { homeData } from "../../data/homeData";
 import useLatestContent from "../../hooks/useLatestContent";
 
@@ -76,7 +76,7 @@ export default function Header() {
   const { pathname } = useLocation();
   const isHome = pathname === "/";
 
-  const { items: latestItems } = useLatestContent();
+  const { items: latestItems } = useLatestContent({ enabled: menuOpen });
 
   const latestRight =
     latestItems.length > 0
@@ -177,7 +177,13 @@ export default function Header() {
               className="logo"
               aria-label="Indie Now, ir al inicio"
             >
-              <img src={logo} alt="Indie Now" />
+              <img
+                src={logo}
+                alt="Indie Now"
+                width="512"
+                height="512"
+                decoding="async"
+              />
             </Link>
 
             <p className="tagline">

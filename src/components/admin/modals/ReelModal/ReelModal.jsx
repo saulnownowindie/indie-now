@@ -113,7 +113,7 @@ export default function ReelModal({ onClose, reel = null }) {
   });
   const [coverFile, setCoverFile] = useState(null);
   const [existingCoverUrl, setExistingCoverUrl] = useState(
-    resolveMediaUrl(reel?.coverImage?.url || reel?.coverUrl),
+    resolveMediaUrl(reel?.coverImage?.url || reel?.coverUrl, 640),
   );
   const [removeCover, setRemoveCover] = useState(false);
   const [extractedCoverId, setExtractedCoverId] = useState(null);
@@ -250,7 +250,7 @@ export default function ReelModal({ onClose, reel = null }) {
         throw new Error("La plataforma no devolvió una portada.");
       }
 
-      setExistingCoverUrl(resolveMediaUrl(result.coverUrl));
+      setExistingCoverUrl(resolveMediaUrl(result.coverUrl, 640));
       setExtractedCoverId(result.media?.id ?? null);
       setCoverFile(null);
       setRemoveCover(false);
@@ -1021,6 +1021,7 @@ export default function ReelModal({ onClose, reel = null }) {
                   <img
                     src={generatedPreview.posterUrl}
                     alt="Poster del preview"
+                    decoding="async"
                   />
 
                   <span className="reel-cover-hint">

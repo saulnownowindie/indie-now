@@ -30,7 +30,9 @@
 
     margin-bottom:14px;
 
-    color:var(--color-primary);
+    color:var(--color-text);
+
+    color:color-mix(in srgb,var(--color-primary) 38%,var(--color-text));
 
     font-size:var(--text-xs);
 
@@ -329,6 +331,12 @@
 
     }
 
+    .news-grid[aria-label="Cargando noticias"] .news-card-skeleton:nth-child(n+3){
+
+        display:none;
+
+    }
+
 }
 
 @media (max-width:640px){
@@ -336,6 +344,12 @@
     .news-grid{
 
         grid-template-columns:1fr;
+
+    }
+
+    .news-grid[aria-label="Cargando noticias"] .news-card-skeleton:nth-child(n+2){
+
+        display:none;
 
     }
 

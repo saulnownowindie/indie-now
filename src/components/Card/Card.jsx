@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Card.css";
 
-export default function Card({
+function Card({
   image,
   category,
   title,
@@ -25,6 +25,7 @@ export default function Card({
             src={image}
             alt={title}
             loading="lazy"
+            decoding="async"
             onError={() => setFailedImage(image)}
           />
         ) : (
@@ -77,3 +78,5 @@ export default function Card({
 
   return <article className="card">{content}</article>;
 }
+
+export default memo(Card);

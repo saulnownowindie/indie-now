@@ -1,6 +1,8 @@
 import "./LatestCard.css";
 
-export default function LatestCard({ item }) {
+import { memo } from "react";
+
+function LatestCard({ item }) {
   const Icon = item.icon;
 
   return (
@@ -21,3 +23,5 @@ export default function LatestCard({ item }) {
     </a>
   );
 }
+
+export default memo(LatestCard);

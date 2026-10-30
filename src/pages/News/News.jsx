@@ -15,7 +15,7 @@ import {
   normalizePublicNews,
 } from "../../utils/publicContent";
 
-const SKELETON_COUNT = 6;
+const SKELETON_COUNT = 3;
 
 function NewsCardSkeleton() {
   return (
@@ -57,6 +57,8 @@ export default function News() {
           Lanzamientos, sesiones y novedades de la escena indie.
         </p>
       </header>
+
+      <h2 className="sr-only">Listado de noticias</h2>
 
       {isLoading && (
         <div className="news-grid" aria-label="Cargando noticias">

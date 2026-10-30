@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 import ReelVideo from "./ReelVideo";
 import {
@@ -111,7 +111,7 @@ function getPreviewWidth() {
   return window.matchMedia("(max-width: 768px)").matches ? 360 : 800;
 }
 
-export default function ReelCard({
+function ReelCard({
   image,
   title,
   platform,
@@ -238,6 +238,7 @@ export default function ReelCard({
         src={image}
         alt={title}
         loading="lazy"
+        decoding="async"
         onError={() => setFailedImage(image)}
       />
     );
@@ -358,3 +359,5 @@ export default function ReelCard({
     </article>
   );
 }
+
+export default memo(ReelCard);

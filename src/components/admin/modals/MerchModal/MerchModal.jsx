@@ -43,7 +43,7 @@ export default function MerchModal({ onClose, merch = null }) {
 
   const [coverFile, setCoverFile] = useState(null);
   const [existingCoverUrl, setExistingCoverUrl] = useState(
-    resolveMediaUrl(merch?.coverImage?.url || merch?.imageUrl)
+    resolveMediaUrl(merch?.coverImage?.url || merch?.imageUrl, 640)
   );
   const [removeCover, setRemoveCover] = useState(false);
   const [errors, setErrors] = useState({});

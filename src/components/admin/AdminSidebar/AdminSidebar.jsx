@@ -76,7 +76,7 @@ export default function AdminSidebar() {
             srcSet="/indie-nowlogo-blancov2.png"
           />
 
-          <img src="/indie-nowlogo.png" alt="Indie Now" />
+          <img src="/indie-nowlogo.png" alt="Indie Now" decoding="async" />
         </picture>
       </div>
 
@@ -104,6 +104,7 @@ export default function AdminSidebar() {
           <img
             src={user?.avatar || "/avatars/dwith.jpg"}
             alt={user?.name || "Administrador"}
+            decoding="async"
           />
 
           <div className="admin-user__info">

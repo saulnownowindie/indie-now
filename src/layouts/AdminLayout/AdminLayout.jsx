@@ -1,9 +1,11 @@
 import "./AdminLayout.css";
 
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
 import AdminSidebar from "../../components/admin/AdminSidebar/AdminSidebar";
 import AdminHeader from "../../components/admin/AdminHeader/AdminHeader";
+import RouteFallback from "../../components/RouteFallback/RouteFallback";
 
 export default function AdminLayout() {
   return (
@@ -14,7 +16,9 @@ export default function AdminLayout() {
         <AdminHeader />
 
         <div className="admin-content">
-          <Outlet />
+          <Suspense fallback={<RouteFallback />}>
+            <Outlet />
+          </Suspense>
         </div>
       </main>
     </div>

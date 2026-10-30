@@ -182,6 +182,7 @@ export default function ImageUploader({
           <img
             src={previewUrl}
             alt="Preview"
+            decoding="async"
           />
 
           {isDragging && (

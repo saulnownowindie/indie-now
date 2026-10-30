@@ -55,7 +55,7 @@ export default function PlaylistModal({ onClose, playlist = null }) {
 
   const [coverFile, setCoverFile] = useState(null);
   const [existingCoverUrl, setExistingCoverUrl] = useState(
-    resolveMediaUrl(playlist?.coverUrl),
+    resolveMediaUrl(playlist?.coverUrl, 640),
   );
   const [removeCover, setRemoveCover] = useState(false);
   const [errors, setErrors] = useState({});

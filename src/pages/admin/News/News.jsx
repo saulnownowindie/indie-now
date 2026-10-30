@@ -252,9 +252,11 @@ export default function News() {
                 <td>
                   {item.coverImage?.url ? (
                     <img
-                      src={resolveMediaUrl(item.coverImage.url)}
+                      src={resolveMediaUrl(item.coverImage.url, 160)}
                       alt={item.title}
                       className="news-table-cover"
+                      loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <span className="news-table-no-cover">Sin portada</span>

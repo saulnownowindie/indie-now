@@ -175,7 +175,12 @@ export default function NewsDetail() {
 
         {news.image && (
           <figure className="news-detail-cover">
-            <img src={news.image} alt={news.title} />
+            <img
+              src={news.image}
+              alt={news.title}
+              fetchPriority="high"
+              decoding="async"
+            />
           </figure>
         )}
 

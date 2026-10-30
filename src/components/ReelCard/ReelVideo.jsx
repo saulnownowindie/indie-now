@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 
 import "./ReelVideo.css";
@@ -69,7 +69,7 @@ function getSaveData() {
   return Boolean(navigator.connection?.saveData);
 }
 
-export default function ReelVideo({
+function ReelVideo({
   src,
   poster,
   title = "Reel",
@@ -253,6 +253,7 @@ export default function ReelVideo({
             src={poster}
             alt=""
             loading="lazy"
+            decoding="async"
           />
         ) : (
           <div className="reel-video__poster reel-video__poster--empty" />
@@ -304,3 +305,5 @@ export default function ReelVideo({
     </div>
   );
 }
+
+export default memo(ReelVideo);

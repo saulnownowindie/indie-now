@@ -257,7 +257,9 @@
 
     line-height:1;
 
-    color:var(--color-primary);
+    color:var(--color-text);
+
+    color:color-mix(in srgb,var(--color-primary) 38%,var(--color-text));
 
 }
 

@@ -1,7 +1,10 @@
 import "./SidebarLatest.css";
+
+import { memo } from "react";
+
 import LatestCard from "../LatestCard/LatestCard";
 
-export default function SidebarLatest({
+function SidebarLatest({
   title,
   items,
   className = "",
@@ -36,3 +39,5 @@ export default function SidebarLatest({
     </aside>
   );
 }
+
+export default memo(SidebarLatest);

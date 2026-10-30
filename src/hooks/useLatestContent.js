@@ -31,9 +31,9 @@ function sortByDateDesc(a, b) {
   return bTime - aTime;
 }
 
-export default function useLatestContent() {
-  const newsQuery = usePublicNews();
-  const reelsQuery = usePublicReels();
+export default function useLatestContent({ enabled = true } = {}) {
+  const newsQuery = usePublicNews(undefined, { enabled });
+  const reelsQuery = usePublicReels(undefined, { enabled });
 
   const items = useMemo(() => {
     const news = mapPublicList(newsQuery.data, normalizePublicNews)

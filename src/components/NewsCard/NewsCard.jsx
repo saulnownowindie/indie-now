@@ -1,5 +1,7 @@
 import "./NewsCard.css";
 
+import { memo } from "react";
+
 import {
   FaInstagram,
   FaYoutube,
@@ -38,7 +40,7 @@ function formatDate(date) {
   }).format(new Date(date));
 }
 
-export default function NewsCard({
+function NewsCard({
   news,
   featured = false,
 }) {
@@ -51,7 +53,7 @@ export default function NewsCard({
 
   const date = formatDate(news.publishedAt);
 
-  const coverUrl = resolveMediaUrl(news.coverImage?.url);
+  const coverUrl = resolveMediaUrl(news.coverImage?.url, 900);
 
   const supportedPlatform = [
     "INSTAGRAM",
@@ -79,6 +81,8 @@ export default function NewsCard({
           <img
             src={coverUrl}
             alt={news.title}
+            loading="lazy"
+            decoding="async"
           />
         ) : (
           <div className="news-placeholder">
@@ -129,3 +133,5 @@ export default function NewsCard({
     </article>
   );
 }
+
+export default memo(NewsCard);

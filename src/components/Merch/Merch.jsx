@@ -15,9 +15,11 @@ function normalizeProduct(product) {
     details: Array.isArray(product.details)
       ? product.details.filter((detail) => detail?.label && detail?.value)
       : [],
-    image: resolveMediaUrl(product.coverImage?.url || product.imageUrl),
+    image: resolveMediaUrl(product.coverImage?.url || product.imageUrl, 900),
     gallery: Array.isArray(product.gallery)
-      ? product.gallery.map(resolveMediaUrl).filter(Boolean)
+      ? product.gallery
+          .map((url) => resolveMediaUrl(url, 900))
+          .filter(Boolean)
       : [],
     badge: product.badge || "",
     url: product.url || "#",
@@ -132,6 +134,8 @@ export default function Merch({ id }) {
                 key={currentProduct.id}
                 src={currentProduct.image}
                 alt={currentProduct.name}
+                loading="lazy"
+                decoding="async"
                 className={`merch-photo ${direction === "next" ? "photo-in-next" : "photo-in-prev"}`}
               />
 

@@ -309,6 +309,10 @@ export default function ReelModal({ onClose, reel = null }) {
       const start = Number(form.previewStart) || 0;
       const result = await makePreview(previewFile, start, 4, 360);
 
+      if (!result.poster) {
+        throw new Error("No se pudo generar el poster del preview.");
+      }
+
       setGeneratedPreview({
         ...result,
         clipUrl: URL.createObjectURL(result.clip),

@@ -173,6 +173,11 @@ export default function ReelModal({ onClose, reel = null }) {
       [field]: value,
     }));
 
+    if (field === "url") {
+      setExtractedCoverId(null);
+      setCoverNotice("");
+    }
+
     if (errors[field] || errors.submit) {
       setErrors((current) => ({
         ...current,
@@ -306,7 +311,13 @@ export default function ReelModal({ onClose, reel = null }) {
     setPreviewNotice("");
 
     try {
-      const start = Number(form.previewStart) || 0;
+      const start =
+        previewFile && previewDuration > 0
+          ? Math.min(
+              Number(form.previewStart) || 0,
+              Math.max(0, previewDuration - 0.5),
+            )
+          : Number(form.previewStart) || 0;
       const result = await makePreview(previewFile, start, 4, 360);
 
       if (!result.poster) {
@@ -577,7 +588,10 @@ export default function ReelModal({ onClose, reel = null }) {
 
   const previewStart = Number(form.previewStart) || 0;
   const sliderMax = previewFile
-    ? Math.min(600, Math.max(1, Math.floor(previewDuration || 1)))
+    ? Math.min(
+        600,
+        Math.max(1, Math.floor((previewDuration || 2) - 1)),
+      )
     : 600;
 
   return (
@@ -929,7 +943,7 @@ export default function ReelModal({ onClose, reel = null }) {
                 </button>
               )}
 
-              {!previewFile && !generatedPreview?.isNew && (
+              {!previewFile && !generatedPreview?.isNew && form.url.trim() && (
                 <button
                   type="button"
                   className="reel-extract-button"

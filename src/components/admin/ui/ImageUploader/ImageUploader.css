@@ -48,6 +48,7 @@
   transition:
     border-color 0.25s,
     background 0.25s,
+    box-shadow 0.25s,
     transform 0.2s;
 }
 
@@ -59,6 +60,19 @@
 
 .image-dropzone:active {
   transform: scale(0.99);
+}
+
+.image-dropzone.is-dragging,
+.image-dropzone.is-dragging:hover {
+  border-color: var(--color-primary);
+
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--color-primary) 18%, transparent),
+    0 0 32px color-mix(in srgb, var(--color-primary) 35%, transparent);
+
+  transform: scale(1.01);
 }
 
 /* ==========================================================
@@ -110,6 +124,42 @@
   border: 1px solid var(--color-border);
 
   background: var(--color-surface);
+
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+
+.image-preview.is-dragging {
+  border-color: var(--color-primary);
+
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--color-primary) 18%, transparent),
+    0 0 32px color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.image-preview-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: color-mix(in srgb, var(--color-primary) 18%, rgba(0, 0, 0, 0.55));
+
+  backdrop-filter: blur(2px);
+
+  color: #fff;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  pointer-events: none;
 }
 
 .image-preview img {
@@ -131,6 +181,8 @@
 
   top: 16px;
   right: 16px;
+
+  z-index: 1;
 
   display: flex;
   align-items: center;
@@ -155,6 +207,19 @@
 
 .image-remove:hover {
   background: var(--color-danger);
+}
+
+/* ==========================================================
+   ERROR
+========================================================= */
+
+.image-uploader-error {
+  margin: 0;
+
+  color: var(--color-danger);
+
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 /* ==========================================================

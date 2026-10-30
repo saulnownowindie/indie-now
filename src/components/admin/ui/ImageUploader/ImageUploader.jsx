@@ -1,7 +1,15 @@
 import "./ImageUploader.css";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ImagePlus, Trash2 } from "lucide-react";
+
+const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4 MB
+
+const ALLOWED_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+];
 
 export default function ImageUploader({
   label,
@@ -10,6 +18,10 @@ export default function ImageUploader({
   existingUrl = null,
 }) {
   const inputRef = useRef(null);
+  const dragDepth = useRef(0);
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [error, setError] = useState("");
 
   const objectUrl = useMemo(
     () => (value ? URL.createObjectURL(value) : null),
@@ -26,8 +38,23 @@ export default function ImageUploader({
 
   const previewUrl = objectUrl || existingUrl;
 
+  function validateFile(file) {
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setError("Formato no válido. Usa JPG, PNG o WEBP.");
+      return false;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      setError("La imagen supera los 4MB.");
+      return false;
+    }
+
+    setError("");
+    return true;
+  }
+
   function handleFile(file) {
-    if (!file) return;
+    if (!file || !validateFile(file)) return;
 
     onChange(file);
   }
@@ -38,19 +65,67 @@ export default function ImageUploader({
     e.target.value = "";
   }
 
+  function handleDragEnter(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    dragDepth.current += 1;
+    setIsDragging(true);
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+  }
+
+  function handleDragLeave(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    dragDepth.current = Math.max(0, dragDepth.current - 1);
+
+    if (dragDepth.current === 0) {
+      setIsDragging(false);
+    }
+  }
+
   function handleDrop(e) {
     e.preventDefault();
+    e.stopPropagation();
 
-    handleFile(e.dataTransfer.files[0]);
+    dragDepth.current = 0;
+    setIsDragging(false);
+
+    handleFile(e.dataTransfer.files?.[0]);
+  }
+
+  function openFilePicker() {
+    inputRef.current?.click();
+  }
+
+  function handleDropzoneKeyDown(e) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openFilePicker();
+    }
   }
 
   function removeImage() {
+    setError("");
+
     onChange(null);
 
     if (inputRef.current) {
       inputRef.current.value = "";
     }
   }
+
+  const dragProps = {
+    onDragEnter: handleDragEnter,
+    onDragOver: handleDragOver,
+    onDragLeave: handleDragLeave,
+    onDrop: handleDrop,
+  };
 
   return (
     <div className="image-uploader">
@@ -64,36 +139,48 @@ export default function ImageUploader({
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp"
         hidden
         onChange={handleInput}
       />
 
       {!previewUrl ? (
         <div
-          className="image-dropzone"
-          onClick={() => inputRef.current?.click()}
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={handleDrop}
+          className={`image-dropzone${isDragging ? " is-dragging" : ""}`}
+          role="button"
+          tabIndex={0}
+          aria-label="Seleccionar imagen"
+          onClick={openFilePicker}
+          onKeyDown={handleDropzoneKeyDown}
+          {...dragProps}
         >
           <ImagePlus size={46} />
 
-          <h3>Arrastra una imagen</h3>
+          <h3>{isDragging ? "Suelta la imagen aquí" : "Arrastra una imagen"}</h3>
 
           <p>o haz clic para seleccionarla</p>
 
           <small>
-            JPG · PNG · WEBP
+            JPG · PNG · WEBP · Máx. 4MB
           </small>
 
         </div>
       ) : (
-        <div className="image-preview">
+        <div
+          className={`image-preview${isDragging ? " is-dragging" : ""}`}
+          {...dragProps}
+        >
 
           <img
             src={previewUrl}
             alt="Preview"
           />
+
+          {isDragging && (
+            <div className="image-preview-overlay">
+              Suelta para reemplazar la imagen
+            </div>
+          )}
 
           <button
             type="button"
@@ -106,6 +193,12 @@ export default function ImageUploader({
           </button>
 
         </div>
+      )}
+
+      {error && (
+        <p className="image-uploader-error" role="alert">
+          {error}
+        </p>
       )}
 
     </div>

@@ -46,6 +46,7 @@ export default function NewsModal({ onClose, news = null }) {
 
   const [form, setForm] = useState({
     title: news?.title ?? "",
+    content: news?.content ?? "",
     category: news?.categoryId
       ? String(news.categoryId)
       : news?.category?.id
@@ -156,6 +157,7 @@ export default function NewsModal({ onClose, news = null }) {
     try {
       const payload = {
         title: form.title.trim(),
+        content: form.content.trim() || null,
         platform: form.platform,
         url: form.url.trim(),
         categoryId: Number(form.category),
@@ -415,6 +417,29 @@ export default function NewsModal({ onClose, news = null }) {
                 {errors.url}
               </span>
             )}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="news-content">
+              Contenido de la noticia
+            </label>
+
+            <textarea
+              id="news-content"
+              placeholder="Escribí aquí el cuerpo de la noticia..."
+              value={form.content}
+              onChange={(event) =>
+                updateField("content", event.target.value)
+              }
+              disabled={saving}
+              rows={10}
+              maxLength={50000}
+            />
+
+            <span className="form-hint">
+              Se muestra en la página de detalle de la noticia.
+              Podés separar párrafos con saltos de línea.
+            </span>
           </div>
 
           <Toggle

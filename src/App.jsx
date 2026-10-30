@@ -9,6 +9,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 
 import Home from "./pages/Home/Home";
 import News from "./pages/News/News";
+import NewsDetail from "./pages/News/NewsDetail";
 import Reviews from "./pages/Reviews/Reviews";
 import MustSee from "./pages/MustSee/MustSee";
 import Reels from "./pages/Reels/Reels";
@@ -34,6 +35,7 @@ export default function App() {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/noticias" element={<News />} />
+        <Route path="/noticias/:slug" element={<NewsDetail />} />
         <Route path="/resenas" element={<Reviews />} />
         <Route path="/sesiones" element={<Sessions />} />
         <Route path="/no-podes-perderte" element={<MustSee />} />

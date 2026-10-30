@@ -95,7 +95,8 @@ export default function Home() {
                   category={item.category}
                   title={item.title}
                   date={item.date}
-                  url={item.url}
+                  to={item.slug ? `/noticias/${item.slug}` : undefined}
+                  url={item.slug ? undefined : item.url}
                 />
               ))}
         </div>

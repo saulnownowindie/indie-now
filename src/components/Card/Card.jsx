@@ -1,7 +1,16 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Card.css";
 
-export default function Card({ image, category, title, date, url, showPlay = false }) {
+export default function Card({
+  image,
+  category,
+  title,
+  date,
+  url,
+  to,
+  showPlay = false,
+}) {
   const [failedImage, setFailedImage] = useState(null);
 
   const showImage = Boolean(image) && failedImage !== image;
@@ -44,6 +53,14 @@ export default function Card({ image, category, title, date, url, showPlay = fal
       </div>
     </>
   );
+
+  if (to) {
+    return (
+      <Link className="card" to={to}>
+        {content}
+      </Link>
+    );
+  }
 
   if (url) {
     return (

@@ -12,6 +12,11 @@ export async function getPublicNews(section) {
   return data;
 }
 
+export async function getPublicNewsBySlug(slug) {
+  const { data } = await api.get(`/news/${encodeURIComponent(slug)}`);
+  return data;
+}
+
 export async function createNews(news) {
   const { data } = await api.post("/news", news);
   return data;

@@ -73,11 +73,14 @@ export function normalizePublicNews(item) {
 
   return {
     id: `news-${item.id}`,
+    slug: item.slug || "",
     category: item.category?.name || "Noticias",
     title: item.title,
     date: formatNewsDate(publishedAt),
     image: resolveMediaUrl(item.coverImage?.url),
     url: item.url || "#",
+    content: item.content || "",
+    author: item.author?.name || "",
     publishedAt,
   };
 }

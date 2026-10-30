@@ -13,7 +13,10 @@ import SearchInput from "../../../components/admin/ui/SearchInput/SearchInput";
 import ReelModal from "../../../components/admin/modals/ReelModal";
 
 import useReels from "../../../hooks/useReels";
-import { deleteReel } from "../../../services/reelsService";
+import {
+  deleteReel,
+  requestReelPreview,
+} from "../../../services/reelsService";
 import { resolveMediaUrl } from "../../../utils/mediaUrl";
 
 const platformLabels = {
@@ -25,6 +28,32 @@ const platformLabels = {
   THREADS: "Threads",
   OTHER: "Otro",
 };
+
+const previewStatusConfig = {
+  ready: { label: "Preview listo", variant: "success" },
+  pending: { label: "Preview pendiente", variant: "warning" },
+  processing: { label: "Procesando…", variant: "info" },
+  failed: { label: "Sin preview", variant: "danger" },
+};
+
+function getPreviewStatus(reel) {
+  if (reel.previewUrl) {
+    return previewStatusConfig.ready;
+  }
+
+  return (
+    previewStatusConfig[reel.previewStatus] ||
+    previewStatusConfig.failed
+  );
+}
+
+function canQueuePreview(reel) {
+  return (
+    !reel.previewUrl &&
+    reel.previewStatus !== "pending" &&
+    reel.previewStatus !== "processing"
+  );
+}
 
 function formatDate(reel) {
   const value = reel.publishedAt || reel.createdAt;
@@ -62,6 +91,27 @@ export default function Reels() {
       setActionError(
         error.response?.data?.message ||
           "No se pudo eliminar el reel. Intenta nuevamente.",
+      );
+    },
+  });
+
+  const queuePreview = useMutation({
+    mutationFn: ({ id, previewStart }) =>
+      requestReelPreview(id, previewStart ?? 1, false),
+
+    onSuccess: async () => {
+      setActionError("");
+
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["reels"] }),
+        queryClient.invalidateQueries({ queryKey: ["public-reels"] }),
+      ]);
+    },
+
+    onError: (error) => {
+      setActionError(
+        error.response?.data?.message ||
+          "No se pudo encolar el preview. Intenta nuevamente.",
       );
     },
   });
@@ -146,6 +196,7 @@ export default function Reels() {
             { key: "cover", label: "Portada" },
             { key: "title", label: "Título" },
             { key: "platform", label: "Plataforma" },
+            { key: "preview", label: "Preview" },
             { key: "status", label: "Estado" },
             { key: "date", label: "Fecha" },
             { key: "actions", label: "Acciones" },
@@ -153,7 +204,7 @@ export default function Reels() {
         >
           {isLoading && (
             <tr>
-              <td colSpan={6}>
+              <td colSpan={7}>
                 <TableEmpty
                   title="Cargando reels"
                   description="Obteniendo reels desde el servidor."
@@ -164,7 +215,7 @@ export default function Reels() {
 
           {isError && (
             <tr>
-              <td colSpan={6}>
+              <td colSpan={7}>
                 <TableEmpty
                   title="No se pudieron cargar los reels"
                   description="Verifica que la API esté funcionando."
@@ -175,7 +226,7 @@ export default function Reels() {
 
           {!isLoading && !isError && filteredReels.length === 0 && (
             <tr>
-              <td colSpan={6}>
+              <td colSpan={7}>
                 <TableEmpty
                   title={search ? "Sin resultados" : "No hay reels"}
                   description={
@@ -194,6 +245,10 @@ export default function Reels() {
               const coverUrl = resolveMediaUrl(
                 reel.coverImage?.url || reel.coverUrl,
               );
+              const previewStatus = getPreviewStatus(reel);
+              const isQueueing =
+                queuePreview.isPending &&
+                queuePreview.variables?.id === reel.id;
 
               return (
                 <tr key={reel.id}>
@@ -220,6 +275,43 @@ export default function Reels() {
 
                   <td>
                     {platformLabels[reel.platform] || reel.platform || "—"}
+                  </td>
+
+                  <td>
+                    <div className="reels-preview-cell">
+                      <Badge variant={previewStatus.variant}>
+                        {previewStatus.label}
+                      </Badge>
+
+                      {canQueuePreview(reel) && (
+                        <div className="reels-preview-actions">
+                          <button
+                            type="button"
+                            className="reels-inline-action"
+                            onClick={() => openEditModal(reel)}
+                            disabled={isDeleting}
+                          >
+                            Subir archivo
+                          </button>
+
+                          <button
+                            type="button"
+                            className="reels-inline-action"
+                            onClick={() =>
+                              queuePreview.mutate({
+                                id: reel.id,
+                                previewStart: reel.previewStart ?? 1,
+                              })
+                            }
+                            disabled={isQueueing || isDeleting}
+                          >
+                            {isQueueing
+                              ? "Encolando…"
+                              : "Generar con worker"}
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </td>
 
                   <td>

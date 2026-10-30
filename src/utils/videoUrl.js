@@ -39,13 +39,21 @@ function insertCloudinaryTransform(url, resourceType, transform) {
 }
 
 /** Inserta optimizaciones de Cloudinary en el clip de preview. */
-export function getPreviewVideoUrl(url) {
-  return insertCloudinaryTransform(url, "video", "f_auto,q_auto");
+export function getPreviewVideoUrl(url, width = 800) {
+  return insertCloudinaryTransform(
+    url,
+    "video",
+    `f_auto,q_auto,w_${width},c_limit`,
+  );
 }
 
 /** Inserta optimizaciones de Cloudinary en el poster del preview. */
-export function getPreviewPosterUrl(url) {
-  return insertCloudinaryTransform(url, "image", "f_auto,q_auto,w_360");
+export function getPreviewPosterUrl(url, width = 800) {
+  return insertCloudinaryTransform(
+    url,
+    "image",
+    `f_auto,q_auto,w_${width},c_limit`,
+  );
 }
 
 /** Obtiene el ID de un video de YouTube desde cualquiera de sus formatos. */

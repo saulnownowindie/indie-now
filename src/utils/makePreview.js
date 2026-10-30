@@ -1,4 +1,4 @@
-export async function makePreview(file, start, duration = 4, width = 360) {
+export async function makePreview(file, start, duration = 4, width = 720) {
   if (!window.MediaRecorder) throw new Error("Este navegador no soporta la generación de previews.");
   const url = URL.createObjectURL(file);
   try {
@@ -14,11 +14,11 @@ export async function makePreview(file, start, duration = 4, width = 360) {
     v.currentTime = Math.max(start, 0.01);
     await new Promise((r) => (v.onseeked = r));
     ctx.drawImage(v, 0, 0, width, h);
-    const poster = await new Promise((r) => canvas.toBlob(r, "image/jpeg", 0.8));
+    const poster = await new Promise((r) => canvas.toBlob(r, "image/jpeg", 0.9));
 
     const mime = ["video/mp4;codecs=avc1", "video/webm;codecs=vp9", "video/webm"].find((t) => MediaRecorder.isTypeSupported(t));
     if (!mime) throw new Error("No hay un formato de grabación compatible.");
-    const rec = new MediaRecorder(canvas.captureStream(24), { mimeType: mime, videoBitsPerSecond: 700000 });
+    const rec = new MediaRecorder(canvas.captureStream(24), { mimeType: mime, videoBitsPerSecond: 2500000 });
     const chunks = [];
     rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
     const stopped = new Promise((r) => (rec.onstop = r));

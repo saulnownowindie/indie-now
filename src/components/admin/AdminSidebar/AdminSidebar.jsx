@@ -8,6 +8,7 @@ import {
   Clapperboard,
   Film,
   ShoppingBag,
+  ListMusic,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -45,6 +46,11 @@ const menu = [
     to: "/admin/merch",
     label: "Merch",
     icon: ShoppingBag,
+  },
+  {
+    to: "/admin/playlists",
+    label: "Playlists",
+    icon: ListMusic,
   },
   {
     to: "/admin/settings",

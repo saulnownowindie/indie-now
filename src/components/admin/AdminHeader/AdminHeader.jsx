@@ -12,6 +12,7 @@ const titles = {
   "/admin/sessions": "Sesiones",
   "/admin/reels": "Reels",
   "/admin/merch": "Merch",
+  "/admin/playlists": "Playlists",
   "/admin/settings": "Configuración",
 };
 

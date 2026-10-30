@@ -24,6 +24,7 @@ import AdminNews from "./pages/admin/News/News";
 import AdminSessions from "./pages/admin/Sessions/Sessions";
 import AdminReels from "./pages/admin/Reels/Reels";
 import AdminMerch from "./pages/admin/Merch/Merch";
+import AdminPlaylists from "./pages/admin/Playlists/Playlists";
 import Configuracion from "./pages/admin/Configuracion/Configuracion";
 import Categories from "./pages/admin/Categories/Categories";
 
@@ -67,6 +68,8 @@ export default function App() {
         <Route path="reels" element={<AdminReels />} />
 
         <Route path="merch" element={<AdminMerch />} />
+
+        <Route path="playlists" element={<AdminPlaylists />} />
 
         <Route path="settings" element={<Configuracion />} />
       </Route>

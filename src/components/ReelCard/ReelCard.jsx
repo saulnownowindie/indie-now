@@ -103,6 +103,14 @@ function getSaveData() {
   return Boolean(navigator.connection?.saveData);
 }
 
+function getPreviewWidth() {
+  if (typeof window === "undefined" || !window.matchMedia) {
+    return 800;
+  }
+
+  return window.matchMedia("(max-width: 768px)").matches ? 360 : 800;
+}
+
 export default function ReelCard({
   image,
   title,
@@ -120,6 +128,7 @@ export default function ReelCard({
   const [canHover] = useState(getCanHover);
   const [reducedMotion] = useState(getReducedMotion);
   const [saveData] = useState(getSaveData);
+  const [previewWidth, setPreviewWidth] = useState(getPreviewWidth);
 
   const showImage = Boolean(image) && failedImage !== image;
 
@@ -129,9 +138,11 @@ export default function ReelCard({
     videoUrl || (isDirectVideoUrl(url) ? url : null);
 
   const hasPreview = Boolean(previewUrl);
-  const previewSrc = hasPreview ? getPreviewVideoUrl(previewUrl) : null;
+  const previewSrc = hasPreview
+    ? getPreviewVideoUrl(previewUrl, previewWidth)
+    : null;
   const previewPoster = posterUrl
-    ? getPreviewPosterUrl(posterUrl)
+    ? getPreviewPosterUrl(posterUrl, previewWidth)
     : image;
 
   const youtubeId =
@@ -165,6 +176,21 @@ export default function ReelCard({
       console.log(`[ReelCard] ${title}: ${strategy}`);
     }
   }, [strategy, title]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) {
+      return undefined;
+    }
+
+    const query = window.matchMedia("(max-width: 768px)");
+    const handleChange = () => setPreviewWidth(getPreviewWidth());
+
+    query.addEventListener?.("change", handleChange);
+
+    return () => {
+      query.removeEventListener?.("change", handleChange);
+    };
+  }, []);
 
   const handleCardEnter = () => {
     if (canHoverIframe) {

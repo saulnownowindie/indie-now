@@ -106,6 +106,24 @@ export function normalizePublicReel(item) {
   };
 }
 
+export function normalizePublicPlaylist(item) {
+  if (!item?.title) return null;
+
+  const publishedAt = item.publishedAt || item.createdAt || null;
+
+  return {
+    id: `playlist-${item.id}`,
+    title: item.title,
+    platformCode: item.platform || "OTHER",
+    image: resolveMediaUrl(item.coverUrl),
+    url: item.url || item.spotifyUrl || "#",
+    description: item.description || "",
+    ownerName: item.ownerName || "",
+    tracksCount: item.tracksCount ?? null,
+    publishedAt,
+  };
+}
+
 export function mapPublicList(data, normalize) {
   if (!Array.isArray(data)) return [];
 

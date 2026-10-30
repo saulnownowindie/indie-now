@@ -3,6 +3,11 @@ import "./ReelModal.css";
 
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import {
+  FaInstagram,
+  FaTiktok,
+  FaYoutube,
+} from "react-icons/fa";
 
 import ImageUploader from "../../ui/ImageUploader";
 import Select from "../../ui/Select";
@@ -21,14 +26,17 @@ const platforms = [
   {
     value: "INSTAGRAM",
     label: "Instagram",
+    icon: FaInstagram,
   },
   {
     value: "TIKTOK",
     label: "TikTok",
+    icon: FaTiktok,
   },
   {
     value: "YOUTUBE",
     label: "YouTube",
+    icon: FaYoutube,
   },
 ];
 
@@ -318,7 +326,7 @@ export default function ReelModal({ onClose, reel = null }) {
               Math.max(0, previewDuration - 0.5),
             )
           : Number(form.previewStart) || 0;
-      const result = await makePreview(previewFile, start, 4, 360);
+      const result = await makePreview(previewFile, start, 4, 720);
 
       if (!result.poster) {
         throw new Error("No se pudo generar el poster del preview.");
@@ -661,14 +669,23 @@ export default function ReelModal({ onClose, reel = null }) {
                 placeholder="Selecciona una plataforma"
                 disabled={saving}
               >
-                {platformOptions.map((platform) => (
-                  <Select.Item
-                    key={platform.value}
-                    value={platform.value}
-                  >
-                    {platform.label}
-                  </Select.Item>
-                ))}
+                {platformOptions.map((platform) => {
+                  const PlatformIcon = platform.icon;
+
+                  return (
+                    <Select.Item
+                      key={platform.value}
+                      value={platform.value}
+                    >
+                      <span className="reel-platform-option">
+                        {PlatformIcon && (
+                          <PlatformIcon aria-hidden="true" />
+                        )}
+                        {platform.label}
+                      </span>
+                    </Select.Item>
+                  );
+                })}
               </Select>
 
               {errors.platform && (

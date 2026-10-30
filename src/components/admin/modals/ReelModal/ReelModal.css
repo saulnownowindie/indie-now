@@ -132,6 +132,18 @@
   accent-color: var(--color-primary);
 }
 
+.reel-platform-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reel-platform-option svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
 .reel-preview-actions {
   display: flex;
   align-items: center;

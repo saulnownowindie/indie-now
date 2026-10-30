@@ -1,4 +1,5 @@
 import api from "./api";
+import { uploadToCloudinary } from "./cloudinaryService";
 
 export async function getReels() {
   const { data } = await api.get("/reels");
@@ -28,64 +29,17 @@ export async function deleteReel(id) {
 }
 
 export async function uploadReelCover(file) {
-  return uploadReelAsset(file, {
+  return uploadToCloudinary(file, {
     resourceType: "image",
     folder: "reels-covers",
   });
 }
 
-export async function getReelUploadSignature(resourceType, folder) {
-  const { data } = await api.post("/media/signature", {
-    resourceType,
-    folder,
-  });
-
-  return data;
-}
-
 export async function uploadReelAsset(
   file,
-  { resourceType = "image", folder = "reels-covers" } = {},
+  options = {},
 ) {
-  const signature = await getReelUploadSignature(resourceType, folder);
-  const formData = new FormData();
-  const extension = file.type === "video/webm"
-    ? "webm"
-    : resourceType === "video"
-      ? "mp4"
-      : file.type === "image/png"
-        ? "png"
-        : "jpg";
-
-  formData.append(
-    "file",
-    file,
-    file.name || (resourceType === "video" ? "preview" : "poster") +
-      `.${extension}`,
-  );
-  formData.append("api_key", signature.apiKey);
-  formData.append("timestamp", String(signature.timestamp));
-  formData.append("signature", signature.signature);
-  formData.append("folder", signature.folder);
-
-  const response = await fetch(
-    `https://api.cloudinary.com/v1_1/${signature.cloudName}/${resourceType}/upload`,
-    {
-      method: "POST",
-      body: formData,
-    },
-  );
-
-  const data = await response.json().catch(() => null);
-
-  if (!response.ok || !data?.secure_url) {
-    throw new Error(
-      data?.error?.message ||
-        "No se pudo subir el archivo a Cloudinary.",
-    );
-  }
-
-  return data.secure_url;
+  return uploadToCloudinary(file, options);
 }
 
 export async function getReelCoverFromUrl(url) {

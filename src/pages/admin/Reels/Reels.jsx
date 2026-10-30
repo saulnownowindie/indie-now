@@ -37,22 +37,34 @@ const previewStatusConfig = {
 };
 
 function getPreviewStatus(reel) {
+  if (reel.previewStatus) {
+    return (
+      previewStatusConfig[reel.previewStatus] ||
+      previewStatusConfig.failed
+    );
+  }
+
   if (reel.previewUrl) {
     return previewStatusConfig.ready;
   }
 
-  return (
-    previewStatusConfig[reel.previewStatus] ||
-    previewStatusConfig.failed
-  );
+  return previewStatusConfig.failed;
 }
 
 function canQueuePreview(reel) {
-  return (
-    !reel.previewUrl &&
-    reel.previewStatus !== "pending" &&
-    reel.previewStatus !== "processing"
-  );
+  if (
+    reel.previewStatus === "pending" ||
+    reel.previewStatus === "processing" ||
+    reel.previewStatus === "ready"
+  ) {
+    return false;
+  }
+
+  if (reel.previewStatus === "failed") {
+    return true;
+  }
+
+  return !reel.previewUrl;
 }
 
 function formatDate(reel) {
@@ -96,8 +108,8 @@ export default function Reels() {
   });
 
   const queuePreview = useMutation({
-    mutationFn: ({ id, previewStart }) =>
-      requestReelPreview(id, previewStart ?? 1, false),
+    mutationFn: ({ id, previewStart, regenerate = false }) =>
+      requestReelPreview(id, previewStart ?? 1, regenerate),
 
     onSuccess: async () => {
       setActionError("");
@@ -301,6 +313,7 @@ export default function Reels() {
                               queuePreview.mutate({
                                 id: reel.id,
                                 previewStart: reel.previewStart ?? 1,
+                                regenerate: Boolean(reel.previewUrl),
                               })
                             }
                             disabled={isQueueing || isDeleting}

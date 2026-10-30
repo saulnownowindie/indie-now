@@ -49,8 +49,20 @@ export async function uploadReelAsset(
 ) {
   const signature = await getReelUploadSignature(resourceType, folder);
   const formData = new FormData();
+  const extension = file.type === "video/webm"
+    ? "webm"
+    : resourceType === "video"
+      ? "mp4"
+      : file.type === "image/png"
+        ? "png"
+        : "jpg";
 
-  formData.append("file", file);
+  formData.append(
+    "file",
+    file,
+    file.name || (resourceType === "video" ? "preview" : "poster") +
+      `.${extension}`,
+  );
   formData.append("api_key", signature.apiKey);
   formData.append("timestamp", String(signature.timestamp));
   formData.append("signature", signature.signature);

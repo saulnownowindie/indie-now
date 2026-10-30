@@ -135,9 +135,7 @@ export default function ReelCard({
     : image;
 
   const youtubeId =
-    getYouTubeVideoId(url) ||
-    getYouTubeVideoId(embedUrl) ||
-    (platformCode === "YOUTUBE" ? getYouTubeVideoId(url) : null);
+    getYouTubeVideoId(url) || getYouTubeVideoId(embedUrl);
 
   const isYouTube =
     Boolean(youtubeId) ||

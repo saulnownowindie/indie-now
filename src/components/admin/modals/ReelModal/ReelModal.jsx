@@ -519,7 +519,9 @@ export default function ReelModal({ onClose, reel = null }) {
     let createdId = null;
 
     try {
-      if (!isEditing) {
+      if (isEditing) {
+        await updateReel(reel.id, await buildPayload());
+      } else {
         const created = await createReel(await buildPayload());
         createdId = created.id;
       }
@@ -564,7 +566,7 @@ export default function ReelModal({ onClose, reel = null }) {
 
   const reelPreviewStatus = generatedPreview?.isNew
     ? "ready"
-    : reel?.previewStatus;
+    : reel?.previewStatus || (reel?.previewUrl ? "ready" : null);
   const previewStatusText = generatedPreview?.isNew
     ? "Preview generado"
     : previewStatusLabels[reelPreviewStatus] || "Sin preview";

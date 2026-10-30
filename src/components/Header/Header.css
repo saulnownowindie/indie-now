@@ -245,21 +245,15 @@
 
   justify-self: start;
 
-  align-self: start;
+  align-self: stretch;
 
   justify-content: flex-start;
-
-  margin-top: calc((var(--logo-size) - 44px) / 2);
 }
 
 .header.scrolled .socials {
-  align-self: center;
-
   justify-self: end;
 
   justify-content: flex-end;
-
-  margin-top: 0;
 }
 
 .socials a,

@@ -120,7 +120,7 @@
    CAROUSEL
 ========================================================== */
 
-.carousel-arrow{
+.merch-arrow{
 
     position:absolute;
 
@@ -150,7 +150,7 @@
 
 }
 
-.carousel-arrow:hover{
+.merch-arrow:hover{
 
     background:var(--color-primary);
 
@@ -160,13 +160,13 @@
 
 }
 
-.left{
+.merch-arrow--left{
 
     left:22px;
 
 }
 
-.right{
+.merch-arrow--right{
 
     right:22px;
 
@@ -408,7 +408,7 @@
 
     }
 
-    .carousel-arrow{
+    .merch-arrow{
 
         width:42px;
 
@@ -418,13 +418,13 @@
 
     }
 
-    .left{
+    .merch-arrow--left{
 
         left:12px;
 
     }
 
-    .right{
+    .merch-arrow--right{
 
         right:12px;
 

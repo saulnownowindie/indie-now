@@ -120,7 +120,7 @@ export default function Merch({ id }) {
               {hasMultipleProducts && (
                 <button
                   type="button"
-                  className="carousel-arrow left"
+                  className="merch-arrow merch-arrow--left"
                   aria-label="Producto anterior"
                   onClick={() => changeProduct("previous")}
                 >
@@ -138,7 +138,7 @@ export default function Merch({ id }) {
               {hasMultipleProducts && (
                 <button
                   type="button"
-                  className="carousel-arrow right"
+                  className="merch-arrow merch-arrow--right"
                   aria-label="Producto siguiente"
                   onClick={() => changeProduct("next")}
                 >

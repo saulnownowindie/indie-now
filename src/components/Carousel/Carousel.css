@@ -136,3 +136,16 @@
     }
 
 }
+
+/* En escritorio el track ya se desplaza con la barra o el trackpad:
+   evitamos controles duplicados debajo del carrusel. */
+
+@media (min-width:1025px){
+
+    .carousel-nav{
+
+        display:none;
+
+    }
+
+}

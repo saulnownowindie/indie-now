@@ -27,7 +27,7 @@ export default function Hero() {
         title="Lo Último"
         items={leftItems}
         loading={isLoading}
-        className="left"
+        className="hero-left"
       />
 
       <section className="hero-center">
@@ -62,7 +62,7 @@ export default function Hero() {
           title="Lo Último"
           items={rightItems}
           loading={isLoading}
-          className="right"
+          className="hero-right"
         />
       )}
     </section>

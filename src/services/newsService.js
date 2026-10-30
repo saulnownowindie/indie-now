@@ -5,8 +5,10 @@ export async function getNews() {
   return data;
 }
 
-export async function getPublicNews() {
-  const { data } = await api.get("/news/public");
+export async function getPublicNews(section) {
+  const { data } = await api.get("/news/public", {
+    params: section ? { section } : undefined,
+  });
   return data;
 }
 

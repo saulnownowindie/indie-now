@@ -30,6 +30,13 @@ const statuses = [
   { value: "PUBLISHED", label: "Publicado" },
 ];
 
+const homeSections = [
+  { value: "LO_NUEVO", label: "Lo Nuevo Que Vale" },
+  { value: "NOTICIAS", label: "Noticias" },
+  { value: "REELS", label: "Reels" },
+  { value: "NO_PODES_PERDERTE", label: "No Podés Perderte" },
+];
+
 export default function NewsModal({ onClose, news = null }) {
   const queryClient = useQueryClient();
 
@@ -48,6 +55,8 @@ export default function NewsModal({ onClose, news = null }) {
     url: news?.url ?? "",
     status: news?.status ?? "DRAFT",
     featured: news?.featured ?? false,
+    homeSection: news?.homeSection ?? "NOTICIAS",
+    sortOrder: String(news?.sortOrder ?? 0),
   });
 
   const [coverFile, setCoverFile] = useState(null);
@@ -105,6 +114,17 @@ export default function NewsModal({ onClose, news = null }) {
       newErrors.platform = "Selecciona una plataforma.";
     }
 
+    const sortOrder = Number(form.sortOrder);
+
+    if (
+      form.sortOrder === "" ||
+      !Number.isInteger(sortOrder) ||
+      sortOrder < 0
+    ) {
+      newErrors.sortOrder =
+        "Ingresa un número entero mayor o igual a 0.";
+    }
+
     if (!url) {
       newErrors.url = "La URL es obligatoria.";
     } else {
@@ -141,6 +161,8 @@ export default function NewsModal({ onClose, news = null }) {
         categoryId: Number(form.category),
         status: form.status,
         featured: form.featured,
+        homeSection: form.homeSection,
+        sortOrder: Number(form.sortOrder),
       };
 
       if (coverFile) {
@@ -309,6 +331,62 @@ export default function NewsModal({ onClose, news = null }) {
                   </Select.Item>
                 ))}
               </Select>
+            </div>
+          </div>
+
+          <div className="form-grid">
+            <div className="form-group">
+              <Select
+                label="Sección de la Home"
+                value={form.homeSection}
+                onValueChange={(value) =>
+                  updateField("homeSection", value)
+                }
+                placeholder="Selecciona una sección"
+                disabled={saving}
+              >
+                {homeSections.map((section) => (
+                  <Select.Item
+                    key={section.value}
+                    value={section.value}
+                  >
+                    {section.label}
+                  </Select.Item>
+                ))}
+              </Select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="news-sort-order">
+                Orden de aparición
+              </label>
+
+              <input
+                id="news-sort-order"
+                type="number"
+                min="0"
+                step="1"
+                value={form.sortOrder}
+                onChange={(event) =>
+                  updateField("sortOrder", event.target.value)
+                }
+                disabled={saving}
+                aria-invalid={Boolean(errors.sortOrder)}
+                aria-describedby={
+                  errors.sortOrder
+                    ? "news-sort-order-error"
+                    : undefined
+                }
+              />
+
+              {errors.sortOrder && (
+                <span
+                  id="news-sort-order-error"
+                  className="form-error"
+                >
+                  {errors.sortOrder}
+                </span>
+              )}
             </div>
           </div>
 

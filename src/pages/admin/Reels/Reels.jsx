@@ -51,7 +51,11 @@ export default function Reels() {
 
     onSuccess: async () => {
       setActionError("");
-      await queryClient.invalidateQueries({ queryKey: ["reels"] });
+
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["reels"] }),
+        queryClient.invalidateQueries({ queryKey: ["public-reels"] }),
+      ]);
     },
 
     onError: (error) => {

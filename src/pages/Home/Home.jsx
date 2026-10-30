@@ -42,8 +42,8 @@ function ReelSkeleton() {
 }
 
 export default function Home() {
-  const newsQuery = usePublicNews();
-  const reelsQuery = usePublicReels();
+  const newsQuery = usePublicNews("NOTICIAS");
+  const reelsQuery = usePublicReels("REELS");
 
   const apiNews = useMemo(
     () =>

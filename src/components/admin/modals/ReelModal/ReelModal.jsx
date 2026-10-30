@@ -50,11 +50,20 @@ const statuses = [
   },
 ];
 
+const homeSections = [
+  { value: "LO_NUEVO", label: "Lo Nuevo Que Vale" },
+  { value: "NOTICIAS", label: "Noticias" },
+  { value: "REELS", label: "Reels" },
+  { value: "NO_PODES_PERDERTE", label: "No Podés Perderte" },
+];
+
 const emptyForm = {
   title: "",
   platform: "",
   url: "",
   status: "DRAFT",
+  homeSection: "REELS",
+  sortOrder: "0",
 };
 
 export default function ReelModal({ onClose, reel = null }) {
@@ -67,6 +76,8 @@ export default function ReelModal({ onClose, reel = null }) {
     platform: reel?.platform ?? "",
     url: reel?.url ?? "",
     status: reel?.status ?? emptyForm.status,
+    homeSection: reel?.homeSection ?? emptyForm.homeSection,
+    sortOrder: String(reel?.sortOrder ?? emptyForm.sortOrder),
   });
   const [coverFile, setCoverFile] = useState(null);
   const [existingCoverUrl, setExistingCoverUrl] = useState(
@@ -130,6 +141,17 @@ export default function ReelModal({ onClose, reel = null }) {
       newErrors.platform = "Selecciona una plataforma.";
     }
 
+    const sortOrder = Number(form.sortOrder);
+
+    if (
+      form.sortOrder === "" ||
+      !Number.isInteger(sortOrder) ||
+      sortOrder < 0
+    ) {
+      newErrors.sortOrder =
+        "Ingresa un número entero mayor o igual a 0.";
+    }
+
     if (!url) {
       newErrors.url = "La URL es obligatoria.";
     } else {
@@ -164,6 +186,8 @@ export default function ReelModal({ onClose, reel = null }) {
         platform: form.platform,
         url: form.url.trim(),
         status: form.status,
+        homeSection: form.homeSection,
+        sortOrder: Number(form.sortOrder),
       };
 
       if (coverFile) {
@@ -184,6 +208,10 @@ export default function ReelModal({ onClose, reel = null }) {
 
       await queryClient.invalidateQueries({
         queryKey: ["reels"],
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: ["public-reels"],
       });
 
       onClose();
@@ -336,6 +364,62 @@ export default function ReelModal({ onClose, reel = null }) {
                   </Select.Item>
                 ))}
               </Select>
+            </div>
+          </div>
+
+          <div className="form-grid">
+            <div className="form-group">
+              <Select
+                label="Sección de la Home"
+                value={form.homeSection}
+                onValueChange={(value) =>
+                  updateField("homeSection", value)
+                }
+                placeholder="Selecciona una sección"
+                disabled={saving}
+              >
+                {homeSections.map((section) => (
+                  <Select.Item
+                    key={section.value}
+                    value={section.value}
+                  >
+                    {section.label}
+                  </Select.Item>
+                ))}
+              </Select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="reel-sort-order">
+                Orden de aparición
+              </label>
+
+              <input
+                id="reel-sort-order"
+                type="number"
+                min="0"
+                step="1"
+                value={form.sortOrder}
+                onChange={(event) =>
+                  updateField("sortOrder", event.target.value)
+                }
+                disabled={saving}
+                aria-invalid={Boolean(errors.sortOrder)}
+                aria-describedby={
+                  errors.sortOrder
+                    ? "reel-sort-order-error"
+                    : undefined
+                }
+              />
+
+              {errors.sortOrder && (
+                <span
+                  id="reel-sort-order-error"
+                  className="form-error"
+                >
+                  {errors.sortOrder}
+                </span>
+              )}
             </div>
           </div>
 

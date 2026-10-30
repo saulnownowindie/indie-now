@@ -5,8 +5,10 @@ export async function getReels() {
   return data;
 }
 
-export async function getPublicReels() {
-  const { data } = await api.get("/reels/public");
+export async function getPublicReels(section) {
+  const { data } = await api.get("/reels/public", {
+    params: section ? { section } : undefined,
+  });
   return data;
 }
 

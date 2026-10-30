@@ -243,11 +243,11 @@
 .socials {
   grid-area: socials;
 
-  justify-self: start;
+  justify-self: center;
 
   align-self: stretch;
 
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .header.scrolled .socials {

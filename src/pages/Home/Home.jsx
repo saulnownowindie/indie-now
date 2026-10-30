@@ -118,9 +118,12 @@ export default function Home() {
                 key={item.id}
                 image={item.image}
                 platform={item.platform}
+                platformCode={item.platformCode}
                 title={item.title}
                 url={item.url}
                 videoUrl={item.videoUrl}
+                previewUrl={item.previewUrl}
+                posterUrl={item.posterUrl}
                 embedUrl={item.embedUrl}
               />
             ))}

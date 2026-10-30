@@ -203,9 +203,12 @@ export default function Reels() {
               key={reel.id}
               image={reel.image}
               platform={reel.platform}
+              platformCode={reel.platformCode}
               title={reel.title}
               url={reel.url}
               videoUrl={reel.videoUrl}
+              previewUrl={reel.previewUrl}
+              posterUrl={reel.posterUrl}
               embedUrl={reel.embedUrl}
             />
           ))}

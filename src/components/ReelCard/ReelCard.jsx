@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+
 import ReelVideo from "./ReelVideo";
-import { isDirectVideoUrl } from "../../utils/videoUrl";
+import {
+  getPreviewPosterUrl,
+  getPreviewVideoUrl,
+  getYouTubeVideoId,
+  isDirectVideoUrl,
+  isYouTubeUrl,
+} from "../../utils/videoUrl";
 import "./ReelCard.css";
 
 function ReelLightbox({ embedUrl, title, platform, onClose }) {
@@ -72,16 +79,47 @@ function ReelLightbox({ embedUrl, title, platform, onClose }) {
   );
 }
 
+function getCanHover() {
+  if (typeof window === "undefined" || !window.matchMedia) {
+    return false;
+  }
+
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
+function getReducedMotion() {
+  if (typeof window === "undefined" || !window.matchMedia) {
+    return false;
+  }
+
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function getSaveData() {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+
+  return Boolean(navigator.connection?.saveData);
+}
+
 export default function ReelCard({
   image,
   title,
   platform,
+  platformCode = null,
   url,
   embedUrl = null,
   videoUrl = null,
+  previewUrl = null,
+  posterUrl = null,
 }) {
   const [failedImage, setFailedImage] = useState(null);
   const [open, setOpen] = useState(false);
+  const [showIframe, setShowIframe] = useState(false);
+  const [canHover] = useState(getCanHover);
+  const [reducedMotion] = useState(getReducedMotion);
+  const [saveData] = useState(getSaveData);
 
   const showImage = Boolean(image) && failedImage !== image;
 
@@ -89,6 +127,56 @@ export default function ReelCard({
 
   const directVideoSrc =
     videoUrl || (isDirectVideoUrl(url) ? url : null);
+
+  const hasPreview = Boolean(previewUrl);
+  const previewSrc = hasPreview ? getPreviewVideoUrl(previewUrl) : null;
+  const previewPoster = posterUrl
+    ? getPreviewPosterUrl(posterUrl)
+    : image;
+
+  const youtubeId =
+    getYouTubeVideoId(url) ||
+    getYouTubeVideoId(embedUrl) ||
+    (platformCode === "YOUTUBE" ? getYouTubeVideoId(url) : null);
+
+  const isYouTube =
+    Boolean(youtubeId) ||
+    platformCode === "YOUTUBE" ||
+    isYouTubeUrl(url) ||
+    isYouTubeUrl(embedUrl);
+
+  const canHoverIframe =
+    isYouTube &&
+    Boolean(youtubeId) &&
+    !hasPreview &&
+    !directVideoSrc &&
+    canHover &&
+    !reducedMotion &&
+    !saveData;
+
+  const strategy = hasPreview
+    ? "preview propio"
+    : directVideoSrc
+      ? "video directo"
+      : canHoverIframe
+        ? "iframe YouTube"
+        : "solo portada";
+
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      console.log(`[ReelCard] ${title}: ${strategy}`);
+    }
+  }, [strategy, title]);
+
+  const handleCardEnter = () => {
+    if (canHoverIframe) {
+      setShowIframe(true);
+    }
+  };
+
+  const handleCardLeave = () => {
+    setShowIframe(false);
+  };
 
   if (directVideoSrc) {
     return (
@@ -108,28 +196,59 @@ export default function ReelCard({
     );
   }
 
+  let media;
+
+  if (hasPreview) {
+    media = (
+      <ReelVideo
+        src={previewSrc}
+        poster={previewPoster}
+        title={title}
+        preview
+      />
+    );
+  } else if (showImage) {
+    media = (
+      <img
+        className="reel-media-cover"
+        src={image}
+        alt={title}
+        loading="lazy"
+        onError={() => setFailedImage(image)}
+      />
+    );
+  } else {
+    media = (
+      <div
+        className="reel-placeholder"
+        role="img"
+        aria-label="Imagen no disponible"
+      >
+        <span>INDIE NOW</span>
+      </div>
+    );
+  }
+
   const content = (
     <>
-      {showImage ? (
-        <img
-          src={image}
-          alt={title}
-          loading="lazy"
-          onError={() => setFailedImage(image)}
+      {media}
+
+      {showIframe && canHoverIframe && (
+        <iframe
+          className="reel-embed"
+          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=0&playsinline=1`}
+          title={`${title} (vista previa)`}
+          allow="autoplay; encrypted-media; picture-in-picture"
+          tabIndex={-1}
+          aria-hidden="true"
         />
-      ) : (
-        <div
-          className="reel-placeholder"
-          role="img"
-          aria-label="Imagen no disponible"
-        >
-          <span>INDIE NOW</span>
-        </div>
       )}
 
-      <span className="reel-play" aria-hidden="true">
-        ▶
-      </span>
+      {!hasPreview && (
+        <span className="reel-play" aria-hidden="true">
+          ▶
+        </span>
+      )}
 
       <div className="reel-overlay">
         {platform && <span className="reel-platform">{platform}</span>}
@@ -138,6 +257,15 @@ export default function ReelCard({
       </div>
     </>
   );
+
+  const cardClassName = [
+    "reel-card",
+    hasPreview && "reel-card--preview",
+    !hasPreview && "reel-card--cover",
+    showIframe && canHoverIframe && "reel-card--iframe",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   if (url && embedUrl) {
     const handleClick = (event) => {
@@ -157,11 +285,13 @@ export default function ReelCard({
     return (
       <>
         <a
-          className="reel-card"
+          className={cardClassName}
           href={url}
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
           onClick={handleClick}
+          onMouseEnter={handleCardEnter}
+          onMouseLeave={handleCardLeave}
           aria-haspopup="dialog"
         >
           {content}
@@ -182,15 +312,25 @@ export default function ReelCard({
   if (url) {
     return (
       <a
-        className="reel-card"
+        className={cardClassName}
         href={url}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
+        onMouseEnter={handleCardEnter}
+        onMouseLeave={handleCardLeave}
       >
         {content}
       </a>
     );
   }
 
-  return <article className="reel-card">{content}</article>;
+  return (
+    <article
+      className={cardClassName}
+      onMouseEnter={handleCardEnter}
+      onMouseLeave={handleCardLeave}
+    >
+      {content}
+    </article>
+  );
 }

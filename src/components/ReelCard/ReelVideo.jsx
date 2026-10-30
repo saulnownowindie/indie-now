@@ -61,13 +61,30 @@ function getCanHover() {
   return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
 
-export default function ReelVideo({ src, poster, title = "Reel" }) {
+function getSaveData() {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+
+  return Boolean(navigator.connection?.saveData);
+}
+
+export default function ReelVideo({
+  src,
+  poster,
+  title = "Reel",
+  onClick = null,
+  preview = false,
+}) {
   const videoRef = useRef(null);
   const hoverTimerRef = useRef(null);
 
   const [reducedMotion, setReducedMotion] = useState(getReducedMotion);
+  const [saveData, setSaveData] = useState(getSaveData);
   const [canHover] = useState(getCanHover);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const staticOnly = preview && (reducedMotion || saveData);
 
   const stop = useCallback((reset = true) => {
     pauseVideo(videoRef.current, reset);
@@ -109,6 +126,29 @@ export default function ReelVideo({ src, poster, title = "Reel" }) {
     };
   }, []);
 
+  /* Escucha cambios en el ahorro de datos del navegador. */
+  useEffect(() => {
+    if (typeof navigator === "undefined") {
+      return undefined;
+    }
+
+    const connection = navigator.connection;
+
+    if (!connection?.addEventListener) {
+      return undefined;
+    }
+
+    const handleChange = () => {
+      setSaveData(Boolean(connection.saveData));
+    };
+
+    connection.addEventListener("change", handleChange);
+
+    return () => {
+      connection.removeEventListener("change", handleChange);
+    };
+  }, []);
+
   /* Limpieza al desmontar. */
   useEffect(() => {
     const video = videoRef.current;
@@ -128,7 +168,7 @@ export default function ReelVideo({ src, poster, title = "Reel" }) {
 
   /* Móvil / táctil: reproduce cuando el 60% del video es visible. */
   useEffect(() => {
-    if (canHover || reducedMotion) {
+    if (canHover || reducedMotion || staticOnly) {
       return undefined;
     }
 
@@ -166,11 +206,11 @@ export default function ReelVideo({ src, poster, title = "Reel" }) {
         pauseVideo(video);
       }
     };
-  }, [canHover, reducedMotion]);
+  }, [canHover, reducedMotion, staticOnly]);
 
   /* Escritorio: reproduce al pasar el mouse con un pequeño delay. */
   const handleMouseEnter = () => {
-    if (!canHover || reducedMotion) return;
+    if (!canHover || reducedMotion || staticOnly) return;
 
     window.clearTimeout(hoverTimerRef.current);
 
@@ -180,7 +220,7 @@ export default function ReelVideo({ src, poster, title = "Reel" }) {
   };
 
   const handleMouseLeave = () => {
-    if (!canHover || reducedMotion) return;
+    if (!canHover || reducedMotion || staticOnly) return;
 
     window.clearTimeout(hoverTimerRef.current);
     stop();
@@ -195,10 +235,37 @@ export default function ReelVideo({ src, poster, title = "Reel" }) {
     start();
   };
 
+  const wrapperClassName = [
+    "reel-video",
+    staticOnly && "reel-video--static",
+    onClick && "reel-video--clickable",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  /* Con movimiento reducido o ahorro de datos solo se muestra el poster. */
+  if (staticOnly) {
+    return (
+      <div className={wrapperClassName} onClick={onClick}>
+        {poster ? (
+          <img
+            className="reel-video__poster"
+            src={poster}
+            alt=""
+            loading="lazy"
+          />
+        ) : (
+          <div className="reel-video__poster reel-video__poster--empty" />
+        )}
+      </div>
+    );
+  }
+
   return (
     <div
-      className="reel-video"
+      className={wrapperClassName}
       data-playing={isPlaying ? "true" : "false"}
+      onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -216,7 +283,7 @@ export default function ReelVideo({ src, poster, title = "Reel" }) {
         onPause={() => setIsPlaying(false)}
       />
 
-      {reducedMotion && (
+      {reducedMotion && !preview && (
         <button
           type="button"
           className="reel-video__toggle"

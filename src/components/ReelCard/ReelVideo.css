@@ -28,6 +28,32 @@
 
 }
 
+.reel-video--clickable{
+
+    cursor:pointer;
+
+}
+
+.reel-video__poster{
+
+    display:block;
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    background:#000;
+
+}
+
+.reel-video__poster--empty{
+
+    background:linear-gradient(135deg,#18181B,#27272A);
+
+}
+
 /* Botón manual para usuarios con movimiento reducido */
 
 .reel-video__toggle{

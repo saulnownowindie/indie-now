@@ -98,6 +98,9 @@ export function normalizePublicReel(item) {
     image: resolveMediaUrl(item.coverImage?.url || item.coverUrl),
     url: item.url || "#",
     videoUrl: item.videoUrl || "",
+    previewUrl: item.previewUrl || "",
+    posterUrl: item.posterUrl || "",
+    previewStatus: item.previewStatus || null,
     embedUrl: item.embedUrl || null,
     publishedAt,
   };

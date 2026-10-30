@@ -361,7 +361,8 @@ agente **@documentador**.
 - Una explicación clara reduce errores y preguntas repetidas.
 - La documentación técnica y la humana se complementan.
 
-**Consecuencia:** cada cambio importante debe actualizar `docs/`.
+**Consecuencia:** cada cambio importante debe actualizar `docs/`. Desde D-021,
+ese trabajo se hace de forma automática al quedar inactiva una sesión.
 
 ---
 
@@ -381,10 +382,33 @@ agente **@documentador**.
 
 ---
 
+## D-021 — La documentación se actualiza sola al terminar una sesión
+
+**Estado:** Vigente
+
+**Decisión:** un complemento del entorno de desarrollo revisa los cambios de
+código y, cuando la sesión de trabajo queda inactiva, encarga al agente
+**@documentador** la actualización de `docs/`.
+
+**Por qué:**
+
+- D-019 pedía actualizar la documentación con cada cambio importante, pero
+  dependía de que alguien se acordara de hacerlo.
+- La documentación desactualizada genera dudas y errores en el equipo
+  editorial.
+- Revisar solo lo que cambió evita reescribir documentos enteros y mantiene el
+  tono y la numeración existentes.
+
+**Consecuencia:** pueden aparecer cambios en `docs/` sin que nadie los haya
+pedido; conviene revisarlos antes de darlos por buenos. El complemento corre en
+el entorno local (no en el sitio publicado) y se puede desactivar si molesta.
+
+---
+
 ## Cómo agregar una decisión nueva
 
 1. Copiá el formato de arriba.
-2. Usá el siguiente número libre (`D-021`, `D-022`…).
+2. Usá el siguiente número libre (`D-022`, `D-023`…).
 3. Explicá la decisión, el motivo y la consecuencia.
 4. Si reemplaza a otra, marcá la anterior como **Reemplazada** y aclará por cuál.
 5. Si la decisión es de producto, actualizá también `specs/11-decisions.txt`.

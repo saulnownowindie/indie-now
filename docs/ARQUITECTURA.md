@@ -67,6 +67,10 @@ Es lo que ve el público y también el panel de administración.
 
 La zona `/admin` está protegida: si no hay sesión iniciada, redirige al login.
 
+> **Sobre `/resenas`:** la dirección existe, pero es una pantalla vacía y no se
+> enlaza desde el menú ni desde la Home. La decisión de producto es no mostrar
+> reseñas por ahora.
+
 ### 2.2 La API (backend)
 
 Es el "mostrador" al que el sitio le pide los datos. No tiene pantallas: solo
@@ -371,3 +375,38 @@ Y en este mismo `docs/`:
 
 - `MANUAL_DE_USUARIO.md`: cómo usar el panel.
 - `DECISIONES.md`: por qué se eligió cada cosa.
+
+---
+
+## 14. Cómo se mantiene esta documentación
+
+Estos tres archivos se actualizan solos cuando termina una sesión de trabajo en
+el entorno de desarrollo. No es una parte del sitio publicado: es una
+herramienta interna y no afecta a los visitantes.
+
+1. Un complemento local (`.opencode/plugins/doc-autosync.ts`) espera a que la
+   sesión quede inactiva y revisa qué archivos cambiaron desde la última
+   actualización documentada.
+2. Descarta los cambios que no aportan información: la propia carpeta `docs/`,
+   la configuración del entorno, imágenes, videos y archivos de bloqueo de
+   dependencias.
+3. Si encuentra cambios de fondo, abre una sesión con el agente
+   **@documentador**, que actualiza solo las secciones afectadas. Esa sesión
+   usa el mismo **modelo de lenguaje** (la inteligencia artificial que escribe)
+   que la sesión de trabajo que disparó el aviso. Así se apoya en un proveedor
+   que ya está funcionando, en lugar de depender de una configuración por
+   defecto que podría no estar disponible.
+4. Guarda el punto de control en `.opencode/doc-sync-state.json` (último commit
+   documentado y una huella del contenido), para no repetir la misma
+   actualización dos veces.
+5. Si la sesión de documentación no termina bien, **no** avanza el punto de
+   control: los cambios quedan pendientes y se reintenta después de una espera
+   de 5 minutos. Así no se pierde una actualización por un error pasajero.
+6. Si hace falta investigar un problema, se puede activar un registro de
+   diagnóstico con la variable `DOC_AUTOSYNC_DEBUG`. Por defecto no escribe
+   archivos: solo muestra mensajes en la consola del entorno de desarrollo.
+
+El equipo editorial no necesita hacer nada: cuando el panel cambia, la
+documentación se pone al día en la siguiente sesión de trabajo. Como estos
+archivos se editan sin intervención humana, conviene leer los cambios antes de
+darlos por buenos.

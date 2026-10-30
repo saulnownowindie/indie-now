@@ -31,33 +31,37 @@
 ========================================================== */
 
 .header-container {
+  --logo-size: 96px;
+
   display: grid;
 
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 
   grid-template-areas:
-    "socials brand actions"
+    "socials brand ."
     "nav nav nav";
 
   align-items: center;
 
-  gap: 8px 24px;
+  row-gap: clamp(10px, 0.9vw, 14px);
+  column-gap: clamp(16px, 2vw, 32px);
 
-  padding-block: 12px 10px;
+  padding-block: clamp(14px, 1.4vw, 20px) clamp(12px, 1.2vw, 16px);
 
   transition: padding var(--transition);
 }
 
-/* Estado compacto: logo a la izquierda, nav al centro */
+/* Estado compacto: logo a la izquierda, nav al centro, redes a la derecha.
+   Las tres columnas se mantienen iguales para que el menú quede centrado. */
 
 .header.scrolled .header-container {
-  grid-template-columns: auto 1fr auto;
+  --logo-size: 60px;
 
   grid-template-areas: "brand nav socials";
 
-  gap: 24px;
+  row-gap: 0;
 
-  padding-block: 8px;
+  padding-block: 10px;
 }
 
 /* ==========================================================
@@ -73,13 +77,15 @@
 
   align-items: center;
 
+  justify-self: center;
+
   gap: 2px;
 
   text-align: center;
 }
 
 .logo {
-  width: 96px;
+  width: var(--logo-size);
 
   display: block;
 
@@ -107,7 +113,15 @@
 }
 
 .header.scrolled .logo {
-  width: 60px;
+  width: var(--logo-size);
+}
+
+.header.scrolled .brand {
+  align-items: flex-start;
+
+  justify-self: start;
+
+  text-align: left;
 }
 
 .header.scrolled .tagline {
@@ -229,13 +243,23 @@
 .socials {
   grid-area: socials;
 
+  justify-self: start;
+
+  align-self: start;
+
   justify-content: flex-start;
+
+  margin-top: calc((var(--logo-size) - 44px) / 2);
 }
 
 .header.scrolled .socials {
-  justify-content: flex-end;
+  align-self: center;
 
   justify-self: end;
+
+  justify-content: flex-end;
+
+  margin-top: 0;
 }
 
 .socials a,
@@ -617,7 +641,9 @@
 
 @media (max-width: 1100px) {
   .header-container {
-    gap: 8px 16px;
+    row-gap: 10px;
+
+    column-gap: 16px;
   }
 
   .nav {
@@ -644,9 +670,11 @@
 
     grid-template-areas: "toggle brand socials";
 
-    gap: 8px;
+    column-gap: 8px;
 
-    padding-block: 8px;
+    row-gap: 0;
+
+    padding-block: 10px;
   }
 
   .header-nav,
@@ -661,6 +689,14 @@
   .logo,
   .header.scrolled .logo {
     width: 68px;
+  }
+
+  .header.scrolled .brand {
+    align-items: center;
+
+    justify-self: center;
+
+    text-align: center;
   }
 
   .tagline {

@@ -1,5 +1,5 @@
 .public-layout{
-    padding-top:calc(var(--header-height) + 114px);
+    padding-top:calc(var(--header-height) + 132px);
 }
 
 @media (max-width: 900px){

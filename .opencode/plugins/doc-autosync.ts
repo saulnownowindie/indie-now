@@ -82,10 +82,16 @@ type PluginContext = Parameters<typeof Plugin.define>[0] extends {
   : never
 
 function log(message: string) {
-  const line = `${new Date().toISOString()} [${PLUGIN_ID}] ${message}\n`
-  console.log(line.trimEnd())
+  console.log(`[${PLUGIN_ID}] ${message}`)
+
+  // Diagnóstico opcional: DOC_AUTOSYNC_DEBUG=1 escribe también en un archivo.
+  if (process.env.DOC_AUTOSYNC_DEBUG !== "1") return
+
   try {
-    appendFileSync("/tmp/opencode/doc-autosync-debug.log", line)
+    appendFileSync(
+      "/tmp/opencode/doc-autosync-debug.log",
+      `${new Date().toISOString()} [${PLUGIN_ID}] ${message}\n`,
+    )
   } catch {
     // El log de diagnóstico es opcional.
   }
@@ -99,6 +105,29 @@ function errorMessage(error: unknown): string {
 function toPositiveNumber(value: unknown, fallback: number): number {
   const number = typeof value === "number" ? value : Number(value)
   return Number.isFinite(number) && number >= 0 ? number : fallback
+}
+
+type ModelRef = { providerID: string; id: string }
+
+function parseModel(value: unknown): ModelRef | undefined {
+  if (typeof value === "string" && value.includes("/")) {
+    const separator = value.indexOf("/")
+    const providerID = value.slice(0, separator)
+    const id = value.slice(separator + 1)
+    if (providerID && id) return { providerID, id }
+  }
+
+  if (value && typeof value === "object") {
+    const record = value as Record<string, unknown>
+    if (
+      typeof record.providerID === "string" &&
+      typeof record.id === "string"
+    ) {
+      return { providerID: record.providerID, id: record.id }
+    }
+  }
+
+  return undefined
 }
 
 function normalizePath(path: string): string {
@@ -323,6 +352,7 @@ export default Plugin.define({
       typeof options.repo === "string" ? options.repo : undefined
     const stateOption =
       typeof options.stateFile === "string" ? options.stateFile : undefined
+    const modelOption = parseModel(options.model)
     const debounceMs = toPositiveNumber(
       options.debounceMs,
       DEFAULT_DEBOUNCE_MS,
@@ -343,7 +373,10 @@ export default Plugin.define({
 
     global[GUARD] = marker
 
-    const check = async (reason: string): Promise<void> => {
+    const check = async (
+      reason: string,
+      triggerSessionID?: string,
+    ): Promise<void> => {
       if (running || stopped) return
 
       const repo = await resolveRepo(ctx, repoOption)
@@ -395,20 +428,51 @@ export default Plugin.define({
       running = true
 
       try {
+        // El agente documentador hereda el modelo de la sesión que disparó el
+        // evento. Así usa un proveedor que ya está funcionando y no depende
+        // del modelo por defecto del proyecto.
+        let model = modelOption
+        if (!model && triggerSessionID) {
+          try {
+            const trigger = await ctx.session.get({
+              sessionID: triggerSessionID,
+            })
+            if (trigger?.model?.providerID && trigger.model.id) {
+              model = {
+                providerID: trigger.model.providerID,
+                id: trigger.model.id,
+              }
+            }
+          } catch (error) {
+            log(
+              `no se pudo leer el modelo de ${triggerSessionID}: ` +
+                errorMessage(error),
+            )
+          }
+        }
+
         log(
           `cambios detectados (${files.length} archivo(s), ${reason}); ` +
-            `se inicia ${agent}`,
+            `se inicia ${agent}${model ? ` con ${model.providerID}/${model.id}` : ""}`,
         )
 
         const session = await ctx.session.create({
           title: "docs: actualización automática",
           agent,
+          ...(model ? { model } : {}),
           location: { directory: repo },
         })
         ownSessions.add(session.id)
 
         await ctx.session.prompt({ sessionID: session.id, text: prompt })
         await ctx.session.wait({ sessionID: session.id })
+
+        const result = await ctx.session.get({ sessionID: session.id })
+        if (result?.outcome && result.outcome !== "succeeded") {
+          throw new Error(
+            `la sesión ${agent} terminó con estado "${result.outcome}"`,
+          )
+        }
 
         await writeState(file, {
           version: 1,
@@ -440,7 +504,7 @@ export default Plugin.define({
 
       timer = setTimeout(() => {
         timer = undefined
-        void check(reason)
+        void check(reason, sessionID)
       }, debounceMs)
     }
 

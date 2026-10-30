@@ -474,10 +474,17 @@ export default Plugin.define({
           )
         }
 
+        // La huella se recalcula tomando `head` como nuevo punto de partida.
+        // Si se guardara la huella calculada contra el commit anterior, la
+        // siguiente comprobación vería un conjunto de archivos distinto y
+        // lanzaría una actualización redundante.
+        const nextFiles = await collectChanges(repo, head)
+        const nextFingerprint = await fingerprint(repo, head, nextFiles)
+
         await writeState(file, {
           version: 1,
           lastCommit: head,
-          lastFingerprint: current,
+          lastFingerprint: nextFingerprint,
           lastDocumentedAt: new Date().toISOString(),
           lastRunStatus: "success",
           lastSessionID: session.id,

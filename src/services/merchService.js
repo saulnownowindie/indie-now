@@ -5,6 +5,11 @@ export async function getMerch() {
   return data;
 }
 
+export async function getPublicMerch() {
+  const { data } = await api.get("/merch");
+  return data;
+}
+
 export async function createMerch(merch) {
   const { data } = await api.post("/merch", merch);
   return data;

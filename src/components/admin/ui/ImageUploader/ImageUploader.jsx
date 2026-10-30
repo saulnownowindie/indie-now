@@ -74,8 +74,13 @@ export default function ImageUploader({
   }
 
   function handleDragOver(e) {
+    // Sin preventDefault el navegador no permite soltar el archivo.
     e.preventDefault();
-    e.dataTransfer.dropEffect = "copy";
+    e.stopPropagation();
+
+    if (e.dataTransfer) {
+      e.dataTransfer.dropEffect = "copy";
+    }
   }
 
   function handleDragLeave(e) {
@@ -99,6 +104,11 @@ export default function ImageUploader({
     handleFile(e.dataTransfer.files?.[0]);
   }
 
+  function resetDragState() {
+    dragDepth.current = 0;
+    setIsDragging(false);
+  }
+
   function openFilePicker() {
     inputRef.current?.click();
   }
@@ -120,15 +130,15 @@ export default function ImageUploader({
     }
   }
 
-  const dragProps = {
-    onDragEnter: handleDragEnter,
-    onDragOver: handleDragOver,
-    onDragLeave: handleDragLeave,
-    onDrop: handleDrop,
-  };
-
   return (
-    <div className="image-uploader">
+    <div
+      className={`image-uploader${isDragging ? " is-dragging" : ""}`}
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      onDragEnd={resetDragState}
+    >
 
       {label && (
         <label className="image-uploader-label">
@@ -152,7 +162,6 @@ export default function ImageUploader({
           aria-label="Seleccionar imagen"
           onClick={openFilePicker}
           onKeyDown={handleDropzoneKeyDown}
-          {...dragProps}
         >
           <ImagePlus size={46} />
 
@@ -168,7 +177,6 @@ export default function ImageUploader({
       ) : (
         <div
           className={`image-preview${isDragging ? " is-dragging" : ""}`}
-          {...dragProps}
         >
 
           <img

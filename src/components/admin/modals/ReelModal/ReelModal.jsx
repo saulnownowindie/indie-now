@@ -9,6 +9,7 @@ import Select from "../../ui/Select";
 
 import {
   createReel,
+  extractReelCover,
   updateReel,
   uploadReelCover,
 } from "../../../../services/reelsService";
@@ -84,6 +85,9 @@ export default function ReelModal({ onClose, reel = null }) {
     resolveMediaUrl(reel?.coverImage?.url || reel?.coverUrl),
   );
   const [removeCover, setRemoveCover] = useState(false);
+  const [extractedCoverId, setExtractedCoverId] = useState(null);
+  const [extracting, setExtracting] = useState(false);
+  const [extractError, setExtractError] = useState("");
 
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
@@ -116,6 +120,7 @@ export default function ReelModal({ onClose, reel = null }) {
 
   function handleCoverChange(file) {
     setCoverFile(file);
+    setExtractedCoverId(null);
 
     if (file) {
       setRemoveCover(false);
@@ -124,6 +129,40 @@ export default function ReelModal({ onClose, reel = null }) {
 
     setExistingCoverUrl(null);
     setRemoveCover(true);
+  }
+
+  async function handleExtractCover() {
+    const url = form.url.trim();
+
+    if (!url) {
+      setExtractError("Ingresa primero la URL del video.");
+      return;
+    }
+
+    setExtracting(true);
+    setExtractError("");
+
+    try {
+      const result = await extractReelCover(url);
+      const media = result?.media;
+
+      if (!media?.id || !media?.url) {
+        throw new Error("La portada extraída no es válida.");
+      }
+
+      setExistingCoverUrl(resolveMediaUrl(media.url));
+      setExtractedCoverId(media.id);
+      setCoverFile(null);
+      setRemoveCover(false);
+    } catch (error) {
+      setExtractError(
+        error.response?.data?.message ||
+          error.message ||
+          "No se pudo extraer la portada.",
+      );
+    } finally {
+      setExtracting(false);
+    }
   }
 
   function validateForm() {
@@ -194,6 +233,9 @@ export default function ReelModal({ onClose, reel = null }) {
         const media = await uploadReelCover(coverFile);
 
         payload.coverImageId = media.id;
+        payload.coverUrl = null;
+      } else if (extractedCoverId) {
+        payload.coverImageId = extractedCoverId;
         payload.coverUrl = null;
       } else if (removeCover) {
         payload.coverImageId = null;
@@ -422,6 +464,28 @@ export default function ReelModal({ onClose, reel = null }) {
               )}
             </div>
           </div>
+
+          <div className="reel-cover-tools">
+            <button
+              type="button"
+              className="reel-extract-button"
+              onClick={handleExtractCover}
+              disabled={saving || extracting}
+            >
+              {extracting ? "Extrayendo…" : "Extraer portada"}
+            </button>
+
+            <span className="reel-cover-hint">
+              Trae la miniatura del video y reemplaza la portada
+              actual.
+            </span>
+          </div>
+
+          {extractError && (
+            <div className="form-error" role="alert">
+              {extractError}
+            </div>
+          )}
 
           <ImageUploader
             label="Imagen de portada"

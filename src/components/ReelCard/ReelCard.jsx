@@ -1,8 +1,84 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./ReelCard.css";
 
-export default function ReelCard({ image, title, platform, url }) {
+function ReelLightbox({ embedUrl, title, platform, onClose }) {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="reel-lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div className="reel-lightbox__panel">
+        <button
+          ref={closeRef}
+          type="button"
+          className="reel-lightbox__close"
+          onClick={onClose}
+          aria-label="Cerrar video"
+        >
+          ✕
+        </button>
+
+        <div className="reel-lightbox__frame">
+          <iframe
+            src={embedUrl}
+            title={title}
+            allow="autoplay; encrypted-media; picture-in-picture; clipboard-write"
+            allowFullScreen
+          />
+        </div>
+
+        <div className="reel-lightbox__meta">
+          {platform && (
+            <span className="reel-lightbox__platform">
+              {platform}
+            </span>
+          )}
+
+          <strong>{title}</strong>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ReelCard({
+  image,
+  title,
+  platform,
+  url,
+  embedUrl = null,
+}) {
   const [failedImage, setFailedImage] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const showImage = Boolean(image) && failedImage !== image;
 
@@ -38,6 +114,46 @@ export default function ReelCard({ image, title, platform, url }) {
       </div>
     </>
   );
+
+  if (url && embedUrl) {
+    const handleClick = (event) => {
+      if (
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      setOpen(true);
+    };
+
+    return (
+      <>
+        <a
+          className="reel-card"
+          href={url}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          onClick={handleClick}
+          aria-haspopup="dialog"
+        >
+          {content}
+        </a>
+
+        {open && (
+          <ReelLightbox
+            embedUrl={embedUrl}
+            title={title}
+            platform={platform}
+            onClose={() => setOpen(false)}
+          />
+        )}
+      </>
+    );
+  }
 
   if (url) {
     return (

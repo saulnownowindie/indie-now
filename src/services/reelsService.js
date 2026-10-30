@@ -36,3 +36,9 @@ export async function uploadReelCover(file) {
 
   return data.media;
 }
+
+export async function extractReelCover(url) {
+  const { data } = await api.post("/utils/extract-cover", { url });
+
+  return data;
+}

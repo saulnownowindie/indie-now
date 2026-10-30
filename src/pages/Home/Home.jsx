@@ -119,6 +119,7 @@ export default function Home() {
                 platform={item.platform}
                 title={item.title}
                 url={item.url}
+                embedUrl={item.embedUrl}
               />
             ))}
           </Carousel>

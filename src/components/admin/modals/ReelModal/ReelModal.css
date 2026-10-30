@@ -9,6 +9,55 @@
   aspect-ratio: 9 / 16;
 }
 
+.reel-cover-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.reel-extract-button {
+  padding: 8px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.reel-extract-button:hover:not(:disabled) {
+  border-color: color-mix(
+    in srgb,
+    var(--color-primary) 45%,
+    var(--color-border)
+  );
+  background: var(--color-primary);
+  color: #18181b;
+}
+
+.reel-extract-button:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.reel-extract-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.reel-cover-hint {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  line-height: 1.4;
+}
+
 @media (max-width: 768px) {
   .reel-modal {
     width: 100%;

@@ -94,6 +94,7 @@ export function normalizePublicReel(item) {
     platformCode: item.platform || "OTHER",
     image: resolveMediaUrl(item.coverImage?.url || item.coverUrl),
     url: item.url || "#",
+    embedUrl: item.embedUrl || null,
     publishedAt,
   };
 }

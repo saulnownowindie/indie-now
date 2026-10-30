@@ -120,6 +120,7 @@ export default function Home() {
                 platform={item.platform}
                 title={item.title}
                 url={item.url}
+                videoUrl={item.videoUrl}
                 embedUrl={item.embedUrl}
               />
             ))}

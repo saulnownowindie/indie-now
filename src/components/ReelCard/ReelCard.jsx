@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import ReelVideo from "./ReelVideo";
+import { isDirectVideoUrl } from "../../utils/videoUrl";
 import "./ReelCard.css";
 
 function ReelLightbox({ embedUrl, title, platform, onClose }) {
@@ -76,6 +78,7 @@ export default function ReelCard({
   platform,
   url,
   embedUrl = null,
+  videoUrl = null,
 }) {
   const [failedImage, setFailedImage] = useState(null);
   const [open, setOpen] = useState(false);
@@ -83,6 +86,27 @@ export default function ReelCard({
   const showImage = Boolean(image) && failedImage !== image;
 
   const isExternal = Boolean(url) && /^https?:\/\//.test(url);
+
+  const directVideoSrc =
+    videoUrl || (isDirectVideoUrl(url) ? url : null);
+
+  if (directVideoSrc) {
+    return (
+      <article className="reel-card reel-card--video">
+        <ReelVideo
+          src={directVideoSrc}
+          poster={image}
+          title={title}
+        />
+
+        <div className="reel-overlay">
+          {platform && <span className="reel-platform">{platform}</span>}
+
+          <h3 className="reel-title">{title}</h3>
+        </div>
+      </article>
+    );
+  }
 
   const content = (
     <>

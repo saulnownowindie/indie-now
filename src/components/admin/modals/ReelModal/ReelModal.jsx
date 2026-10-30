@@ -62,6 +62,7 @@ const emptyForm = {
   title: "",
   platform: "",
   url: "",
+  videoUrl: "",
   status: "DRAFT",
   homeSection: "REELS",
   sortOrder: "0",
@@ -76,6 +77,7 @@ export default function ReelModal({ onClose, reel = null }) {
     title: reel?.title ?? "",
     platform: reel?.platform ?? "",
     url: reel?.url ?? "",
+    videoUrl: reel?.videoUrl ?? "",
     status: reel?.status ?? emptyForm.status,
     homeSection: reel?.homeSection ?? emptyForm.homeSection,
     sortOrder: String(reel?.sortOrder ?? emptyForm.sortOrder),
@@ -205,6 +207,20 @@ export default function ReelModal({ onClose, reel = null }) {
       }
     }
 
+    const videoUrl = form.videoUrl.trim();
+
+    if (videoUrl) {
+      try {
+        const parsedUrl = new URL(videoUrl);
+
+        if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+          throw new Error("Protocolo no válido");
+        }
+      } catch {
+        newErrors.videoUrl = "Ingresa una URL de video válida.";
+      }
+    }
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
@@ -224,6 +240,7 @@ export default function ReelModal({ onClose, reel = null }) {
         title: form.title.trim(),
         platform: form.platform,
         url: form.url.trim(),
+        videoUrl: form.videoUrl.trim() || null,
         status: form.status,
         homeSection: form.homeSection,
         sortOrder: Number(form.sortOrder),
@@ -407,6 +424,41 @@ export default function ReelModal({ onClose, reel = null }) {
                 ))}
               </Select>
             </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="reel-video-url">
+              URL del video directo (opcional)
+            </label>
+
+            <input
+              id="reel-video-url"
+              type="url"
+              placeholder="https://res.cloudinary.com/.../reel.mp4"
+              value={form.videoUrl}
+              onChange={(event) =>
+                updateField("videoUrl", event.target.value)
+              }
+              disabled={saving}
+              aria-invalid={Boolean(errors.videoUrl)}
+              aria-describedby={
+                errors.videoUrl
+                  ? "reel-video-url-error"
+                  : "reel-video-url-hint"
+              }
+            />
+
+            <span id="reel-video-url-hint" className="form-hint">
+              Archivo MP4, WebM u OGG. Si lo completás, el reel se
+              reproduce automáticamente en la grilla. Si lo dejás
+              vacío, se mantiene el enlace social con lightbox.
+            </span>
+
+            {errors.videoUrl && (
+              <span id="reel-video-url-error" className="form-error">
+                {errors.videoUrl}
+              </span>
+            )}
           </div>
 
           <div className="form-grid">

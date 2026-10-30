@@ -205,6 +205,7 @@ export default function Reels() {
               platform={reel.platform}
               title={reel.title}
               url={reel.url}
+              videoUrl={reel.videoUrl}
               embedUrl={reel.embedUrl}
             />
           ))}

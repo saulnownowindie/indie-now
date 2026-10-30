@@ -45,6 +45,20 @@
 
 }
 
+/* Video directo: la tarjeta reproduce inline y el overlay no bloquea el hover. */
+
+.reel-card--video{
+
+    cursor:default;
+
+}
+
+.reel-card--video .reel-overlay{
+
+    pointer-events:none;
+
+}
+
 .reel-card img{
 
     width:100%;

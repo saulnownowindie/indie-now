@@ -9,7 +9,7 @@ export default function LatestCard({ item }) {
         <Icon />
       </span>
 
-      <div>
+      <div className="latest-card-text">
         <strong>{item.title}</strong>
 
         <p className="latest-description">

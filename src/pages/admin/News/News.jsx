@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import "./News.css";
 
@@ -11,18 +12,49 @@ import DataTable from "../../../components/admin/ui/DataTable";
 import TableEmpty from "../../../components/admin/ui/TableEmpty";
 import NewsModal from "../../../components/admin/modals/NewsModal";
 
-import { Clock3, Archive, Trash2, Sparkles } from "lucide-react";
+import {
+  Clock3,
+  Archive,
+  Trash2,
+  Sparkles,
+  Pencil,
+} from "lucide-react";
 
 import useNews from "../../../hooks/useNews";
+import { deleteNews } from "../../../services/newsService";
 
 import { resolveMediaUrl } from "../../../utils/mediaUrl";
 
 export default function News() {
-  const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingNews, setEditingNews] = useState(null);
   const [tab, setTab] = useState("all");
   const [search, setSearch] = useState("");
+  const [actionError, setActionError] = useState("");
 
   const { data: news = [], isLoading, isError } = useNews();
+
+  const removeNews = useMutation({
+    mutationFn: deleteNews,
+
+    onSuccess: async () => {
+      setActionError("");
+
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["news"] }),
+        queryClient.invalidateQueries({ queryKey: ["public-news"] }),
+      ]);
+    },
+
+    onError: (error) => {
+      setActionError(
+        error.response?.data?.message ||
+          "No se pudo eliminar la noticia. Intenta nuevamente.",
+      );
+    },
+  });
 
   const filteredNews = news.filter((item) => {
     const matchesSearch = item.title
@@ -80,6 +112,35 @@ export default function News() {
     },
   ];
 
+  function openCreateModal() {
+    setEditingNews(null);
+    setModalOpen(true);
+  }
+
+  function openEditModal(item) {
+    setEditingNews(item);
+    setModalOpen(true);
+  }
+
+  function closeModal() {
+    setModalOpen(false);
+    setEditingNews(null);
+  }
+
+  function handleDelete(item) {
+    const confirmed = window.confirm(
+      `¿Eliminar la noticia "${item.title}"? Esta acción no se puede deshacer.`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    removeNews.mutate(item.id);
+  }
+
+  const isDeleting = removeNews.isPending;
+
   return (
     <>
       <PageLayout title="Noticias" eyebrow="Panel de Administración">
@@ -110,12 +171,18 @@ export default function News() {
             <SearchInput
               placeholder="Buscar noticias..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(event) => setSearch(event.target.value)}
             />
 
-            <Button onClick={() => setOpen(true)}>+ Nueva noticia</Button>
+            <Button onClick={openCreateModal}>+ Nueva noticia</Button>
           </div>
         </div>
+
+        {actionError && (
+          <div className="news-error" role="alert">
+            {actionError}
+          </div>
+        )}
 
         <DataTable
           columns={[
@@ -195,7 +262,9 @@ export default function News() {
                 </td>
 
                 <td>
-                  <strong>{item.title}</strong>
+                  <strong className="news-table-title">
+                    {item.title}
+                  </strong>
                 </td>
 
                 <td>{item.category?.name || "Sin categoría"}</td>
@@ -214,14 +283,45 @@ export default function News() {
                     : new Date(item.createdAt).toLocaleDateString("es-PY")}
                 </td>
 
-                <td>—</td>
+                <td>
+                  <div className="news-actions">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      icon={<Pencil size={15} />}
+                      onClick={() => openEditModal(item)}
+                      disabled={isDeleting}
+                      aria-label={`Editar ${item.title}`}
+                    >
+                      Editar
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      icon={<Trash2 size={15} />}
+                      className="news-delete-button"
+                      onClick={() => handleDelete(item)}
+                      disabled={isDeleting}
+                      aria-label={`Eliminar ${item.title}`}
+                    >
+                      {isDeleting && removeNews.variables === item.id
+                        ? "Eliminando..."
+                        : "Eliminar"}
+                    </Button>
+                  </div>
+                </td>
               </tr>
             ))}
         </DataTable>
       </PageLayout>
 
-      {open && (
-        <NewsModal onClose={() => setOpen(false)} />
+      {modalOpen && (
+        <NewsModal
+          key={editingNews?.id ?? "new"}
+          onClose={closeModal}
+          news={editingNews}
+        />
       )}
     </>
   );

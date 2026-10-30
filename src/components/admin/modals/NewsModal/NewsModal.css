@@ -339,3 +339,16 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.news-modal {
+  width: min(880px, 96vw);
+
+  height: auto;
+  max-height: min(92vh, 900px);
+}
+
+@media (max-width: 768px) {
+  .news-modal {
+    width: 100%;
+  }
+}

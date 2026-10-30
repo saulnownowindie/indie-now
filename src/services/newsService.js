@@ -24,3 +24,15 @@ export async function deleteNews(id) {
   const { data } = await api.delete(`/news/${id}`);
   return data;
 }
+
+export async function uploadNewsCover(file) {
+  const formData = new FormData();
+
+  formData.append("file", file);
+
+  const { data } = await api.post("/media", formData, {
+    params: { folder: "news" },
+  });
+
+  return data.media;
+}

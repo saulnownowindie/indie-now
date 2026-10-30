@@ -1,77 +1,119 @@
 import "./NewsModal.css";
 
 import { useState } from "react";
-import useCategories from "../../../../hooks/useCategories";
 import { useQueryClient } from "@tanstack/react-query";
-import api from "../../../../services/api";
 
-import Select from "../../ui/Select";
 import ImageUploader from "../../ui/ImageUploader";
+import Select from "../../ui/Select";
+import Toggle from "../../ui/Toggle";
 
-export default function NewsModal({ onClose }) {
+import useCategories from "../../../../hooks/useCategories";
+import {
+  createNews,
+  updateNews,
+  uploadNewsCover,
+} from "../../../../services/newsService";
+import { resolveMediaUrl } from "../../../../utils/mediaUrl";
+
+const platforms = [
+  { value: "INSTAGRAM", label: "Instagram" },
+  { value: "TIKTOK", label: "TikTok" },
+  { value: "YOUTUBE", label: "YouTube" },
+  { value: "FACEBOOK", label: "Facebook" },
+  { value: "X", label: "X" },
+  { value: "THREADS", label: "Threads" },
+  { value: "OTHER", label: "Otro" },
+];
+
+const statuses = [
+  { value: "DRAFT", label: "Borrador" },
+  { value: "PUBLISHED", label: "Publicado" },
+];
+
+export default function NewsModal({ onClose, news = null }) {
   const queryClient = useQueryClient();
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [platform, setPlatform] = useState("");
-  const [url, setUrl] = useState("");
-  const [cover, setCover] = useState(null);
+
+  const isEditing = Boolean(news);
+
+  const { data: categories = [], isLoading } = useCategories();
+
+  const [form, setForm] = useState({
+    title: news?.title ?? "",
+    category: news?.categoryId
+      ? String(news.categoryId)
+      : news?.category?.id
+        ? String(news.category.id)
+        : "",
+    platform: news?.platform ?? "",
+    url: news?.url ?? "",
+    status: news?.status ?? "DRAFT",
+    featured: news?.featured ?? false,
+  });
+
+  const [coverFile, setCoverFile] = useState(null);
+  const [existingCoverUrl, setExistingCoverUrl] = useState(
+    resolveMediaUrl(news?.coverImage?.url),
+  );
+  const [removeCover, setRemoveCover] = useState(false);
 
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
 
-  const { data: categories = [], isLoading } = useCategories();
+  function updateField(field, value) {
+    setForm((current) => ({
+      ...current,
+      [field]: value,
+    }));
 
-  const platforms = [
-    {
-      value: "INSTAGRAM",
-      label: "Instagram",
-    },
-    {
-      value: "TIKTOK",
-      label: "TikTok",
-    },
-    {
-      value: "YOUTUBE",
-      label: "YouTube",
-    },
-    {
-      value: "FACEBOOK",
-      label: "Facebook",
-    },
-    {
-      value: "X",
-      label: "X",
-    },
-    {
-      value: "THREADS",
-      label: "Threads",
-    },
-    {
-      value: "OTHER",
-      label: "Otro",
-    },
-  ];
+    if (errors[field] || errors.submit) {
+      setErrors((current) => ({
+        ...current,
+        [field]: "",
+        submit: "",
+      }));
+    }
+  }
+
+  function handleCoverChange(file) {
+    setCoverFile(file);
+
+    if (file) {
+      setRemoveCover(false);
+      return;
+    }
+
+    setExistingCoverUrl(null);
+    setRemoveCover(true);
+  }
 
   function validateForm() {
     const newErrors = {};
+    const title = form.title.trim();
+    const url = form.url.trim();
 
-    if (!title.trim()) {
+    if (!title) {
       newErrors.title = "El título es obligatorio.";
+    } else if (title.length < 5) {
+      newErrors.title = "El título debe tener al menos 5 caracteres.";
     }
 
-    if (!category) {
+    if (!form.category) {
       newErrors.category = "Selecciona una categoría.";
     }
 
-    if (!platform) {
+    if (!form.platform) {
       newErrors.platform = "Selecciona una plataforma.";
     }
 
-    if (!url.trim()) {
+    if (!url) {
       newErrors.url = "La URL es obligatoria.";
     } else {
       try {
-        new URL(url.trim());
+        const parsedUrl = new URL(url);
+
+        if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+          throw new Error("Protocolo no válido");
+        }
       } catch {
         newErrors.url = "Ingresa una URL válida.";
       }
@@ -82,50 +124,51 @@ export default function NewsModal({ onClose }) {
     return Object.keys(newErrors).length === 0;
   }
 
-  async function handleSubmit() {
-    const isValid = validateForm();
+  async function handleSubmit(event) {
+    event.preventDefault();
 
-    if (!isValid || saving) {
+    if (saving || !validateForm()) {
       return;
     }
 
     setSaving(true);
 
     try {
-      let coverImageId = null;
+      const payload = {
+        title: form.title.trim(),
+        platform: form.platform,
+        url: form.url.trim(),
+        categoryId: Number(form.category),
+        status: form.status,
+        featured: form.featured,
+      };
 
-      if (cover) {
-        const formData = new FormData();
+      if (coverFile) {
+        const media = await uploadNewsCover(coverFile);
 
-        formData.append("file", cover);
-
-        const mediaResponse = await api.post("/media", formData);
-
-        console.log("Imagen subida:", mediaResponse.data.media);
-
-        coverImageId = mediaResponse.data.media.id;
+        payload.coverImageId = media.id;
+      } else if (removeCover) {
+        payload.coverImageId = null;
       }
 
-      const newsResponse = await api.post("/news", {
-        title: title.trim(),
-        platform,
-        url: url.trim(),
-        categoryId: Number(category),
-        coverImageId,
-      });
+      if (isEditing) {
+        await updateNews(news.id, payload);
+      } else {
+        await createNews(payload);
+      }
 
-      console.log("Noticia creada:", newsResponse.data);
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["news"] }),
+        queryClient.invalidateQueries({ queryKey: ["public-news"] }),
+      ]);
 
-      await queryClient.invalidateQueries({
-        queryKey: ["news"],
-      });
-
-      handleClose();
+      onClose();
     } catch (error) {
-      console.error(
-        "Error al crear la noticia:",
-        error.response?.data || error,
-      );
+      setErrors({
+        submit:
+          error.response?.data?.message ||
+          "No se pudo guardar la noticia. Intenta nuevamente.",
+      });
     } finally {
       setSaving(false);
     }
@@ -136,63 +179,7 @@ export default function NewsModal({ onClose }) {
       return;
     }
 
-    setTitle("");
-    setCategory("");
-    setPlatform("");
-    setUrl("");
-    setCover(null);
-    setErrors({});
-    setSaving(false);
-
     onClose();
-  }
-
-  function handleTitleChange(event) {
-    setTitle(event.target.value);
-
-    if (errors.title || errors.submit) {
-      setErrors((current) => ({
-        ...current,
-        title: "",
-        submit: "",
-      }));
-    }
-  }
-
-  function handleCategoryChange(value) {
-    setCategory(value);
-
-    if (errors.category || errors.submit) {
-      setErrors((current) => ({
-        ...current,
-        category: "",
-        submit: "",
-      }));
-    }
-  }
-
-  function handlePlatformChange(value) {
-    setPlatform(value);
-
-    if (errors.platform || errors.submit) {
-      setErrors((current) => ({
-        ...current,
-        platform: "",
-        submit: "",
-      }));
-    }
-  }
-
-  function handleUrlChange(event) {
-    setUrl(event.target.value);
-
-    if (errors.url || errors.submit) {
-      setErrors((current) => ({
-        ...current,
-        url: "",
-        submit: "",
-      }));
-    }
   }
 
   return (
@@ -204,9 +191,9 @@ export default function NewsModal({ onClose }) {
         }
       }}
     >
-      <div className="modal">
+      <form className="modal news-modal" onSubmit={handleSubmit}>
         <div className="modal-header">
-          <h2>Nueva noticia</h2>
+          <h2>{isEditing ? "Editar noticia" : "Nueva noticia"}</h2>
 
           <button
             type="button"
@@ -230,11 +217,15 @@ export default function NewsModal({ onClose }) {
                 id="news-title"
                 type="text"
                 placeholder="Título de la noticia"
-                value={title}
-                onChange={handleTitleChange}
+                value={form.title}
+                onChange={(event) =>
+                  updateField("title", event.target.value)
+                }
                 disabled={saving}
                 aria-invalid={Boolean(errors.title)}
-                aria-describedby={errors.title ? "news-title-error" : undefined}
+                aria-describedby={
+                  errors.title ? "news-title-error" : undefined
+                }
               />
 
               {errors.title && (
@@ -251,8 +242,10 @@ export default function NewsModal({ onClose }) {
                     Categoría <span className="required">*</span>
                   </>
                 }
-                value={category}
-                onValueChange={handleCategoryChange}
+                value={form.category}
+                onValueChange={(value) =>
+                  updateField("category", value)
+                }
                 placeholder={
                   isLoading
                     ? "Cargando categorías..."
@@ -281,8 +274,10 @@ export default function NewsModal({ onClose }) {
                     Plataforma <span className="required">*</span>
                   </>
                 }
-                value={platform}
-                onValueChange={handlePlatformChange}
+                value={form.platform}
+                onValueChange={(value) =>
+                  updateField("platform", value)
+                }
                 placeholder="Seleccione una plataforma"
                 disabled={saving}
               >
@@ -299,33 +294,71 @@ export default function NewsModal({ onClose }) {
             </div>
 
             <div className="form-group">
-              <label htmlFor="news-url">
-                URL <span className="required">*</span>
-              </label>
-
-              <input
-                id="news-url"
-                type="url"
-                placeholder="Pega la URL del contenido"
-                value={url}
-                onChange={handleUrlChange}
+              <Select
+                label="Estado"
+                value={form.status}
+                onValueChange={(value) =>
+                  updateField("status", value)
+                }
+                placeholder="Selecciona un estado"
                 disabled={saving}
-                aria-invalid={Boolean(errors.url)}
-                aria-describedby={errors.url ? "news-url-error" : undefined}
-              />
-
-              {errors.url && (
-                <span id="news-url-error" className="form-error">
-                  {errors.url}
-                </span>
-              )}
+              >
+                {statuses.map((item) => (
+                  <Select.Item key={item.value} value={item.value}>
+                    {item.label}
+                  </Select.Item>
+                ))}
+              </Select>
             </div>
           </div>
 
-          <ImageUploader label="Portada" value={cover} onChange={setCover} />
+          <div className="form-group">
+            <label htmlFor="news-url">
+              URL <span className="required">*</span>
+            </label>
+
+            <input
+              id="news-url"
+              type="url"
+              placeholder="https://www.instagram.com/p/..."
+              value={form.url}
+              onChange={(event) =>
+                updateField("url", event.target.value)
+              }
+              disabled={saving}
+              aria-invalid={Boolean(errors.url)}
+              aria-describedby={
+                errors.url ? "news-url-error" : undefined
+              }
+            />
+
+            {errors.url && (
+              <span id="news-url-error" className="form-error">
+                {errors.url}
+              </span>
+            )}
+          </div>
+
+          <Toggle
+            id="news-featured"
+            label="Destacar en la Home"
+            description="Esta noticia aparecerá en la sección principal de la página."
+            checked={form.featured}
+            onChange={(checked) => updateField("featured", checked)}
+            disabled={saving}
+          />
+
+          <ImageUploader
+            label="Portada"
+            value={coverFile}
+            onChange={handleCoverChange}
+            existingUrl={existingCoverUrl}
+          />
 
           {errors.submit && (
-            <div className="form-error form-error-submit">{errors.submit}</div>
+            <div className="form-error form-error-submit">
+              {errors.submit}
+            </div>
           )}
         </div>
 
@@ -340,15 +373,14 @@ export default function NewsModal({ onClose }) {
           </button>
 
           <button
-            type="button"
+            type="submit"
             className="modal-save"
-            onClick={handleSubmit}
             disabled={saving}
           >
             {saving ? "Guardando..." : "Guardar"}
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

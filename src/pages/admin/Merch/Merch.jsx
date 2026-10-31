@@ -11,6 +11,7 @@ import DataTable from "../../../components/admin/ui/DataTable";
 import TableEmpty from "../../../components/admin/ui/TableEmpty";
 import SearchInput from "../../../components/admin/ui/SearchInput/SearchInput";
 import MerchModal from "../../../components/admin/modals/MerchModal/MerchModal";
+import ConfirmModal from "../../../components/admin/ui/ConfirmModal";
 
 import useMerch from "../../../hooks/useMerch";
 import { deleteMerch } from "../../../services/merchService";
@@ -20,6 +21,7 @@ export default function MerchPage() {
   const queryClient = useQueryClient();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
   const [editingMerch, setEditingMerch] = useState(null);
   const [search, setSearch] = useState("");
   const [actionError, setActionError] = useState("");
@@ -46,10 +48,8 @@ export default function MerchPage() {
     return name.includes(normalizedSearch) || collection.includes(normalizedSearch);
   });
 
-  function handleDelete(item) {
-    if (window.confirm(`¿Eliminar el producto "${item.name}"?`)) {
-      removeMerch.mutate(item.id);
-    }
+  function handleDelete(merch) {
+    setItemToDelete(merch);
   }
 
   return (
@@ -140,6 +140,21 @@ export default function MerchPage() {
           merch={editingMerch}
         />
       )}
+    
+      <ConfirmModal
+        isOpen={!!itemToDelete}
+        onClose={() => setItemToDelete(null)}
+        onConfirm={() => {
+          if (itemToDelete) {
+            removeMerch.mutate(itemToDelete.id, {
+              onSuccess: () => setItemToDelete(null),
+            });
+          }
+        }}
+        title="Eliminar producto"
+        message={`¿Estás seguro de que querés eliminar "${itemToDelete?.name}"?`}
+        isDeleting={removeMerch.isPending}
+      />
     </>
   );
 }

@@ -3,6 +3,7 @@ import "./Merch.css";
 import { homeData } from "../../data/homeData";
 import usePublicMerch from "../../hooks/usePublicMerch";
 import { resolveMediaUrl } from "../../utils/mediaUrl";
+import ItemIcon from "../ItemIcon/ItemIcon";
 
 const fallbackProducts = homeData.merch.tshirts;
 
@@ -22,6 +23,7 @@ function normalizeProduct(product) {
           .filter(Boolean)
       : [],
     badge: product.badge || "",
+    icon: product.icon || "",
     url: product.url || "#",
   };
 }
@@ -166,7 +168,16 @@ export default function Merch({ id }) {
               key={currentProduct.id}
               className={`merch-info ${animating ? "text-changing" : ""}`}
             >
-              <span className="merch-label">Producto Destacado</span>
+              <span className="merch-label">
+                {currentProduct.icon && (
+                  <ItemIcon
+                    name={currentProduct.icon}
+                    size={14}
+                    className="merch-label-icon"
+                  />
+                )}
+                Producto Destacado
+              </span>
 
               <h3 className="title-animate">{currentProduct.name}</h3>
 

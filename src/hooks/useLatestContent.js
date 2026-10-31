@@ -47,6 +47,7 @@ export default function useLatestContent({ enabled = true } = {}) {
         published: formatRelativeDate(item.publishedAt),
         url: item.url,
         publishedAt: item.publishedAt,
+        image: item.image, // <--- AGREGADO: Pasamos la imagen
       }));
 
     const reels = mapPublicList(reelsQuery.data, normalizePublicReel)
@@ -60,6 +61,7 @@ export default function useLatestContent({ enabled = true } = {}) {
         published: formatRelativeDate(item.publishedAt),
         url: item.url,
         publishedAt: item.publishedAt,
+        image: item.image, // <--- AGREGADO: Pasamos la imagen
       }));
 
     return [...news, ...reels].sort(sortByDateDesc);

@@ -1,3 +1,4 @@
+import ConfirmModal from "../../../components/admin/ui/ConfirmModal";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pencil, Plus, Trash2 } from "lucide-react";
@@ -21,6 +22,7 @@ export default function PlaylistsPage() {
   const queryClient = useQueryClient();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
   const [editingPlaylist, setEditingPlaylist] = useState(null);
   const [search, setSearch] = useState("");
   const [actionError, setActionError] = useState("");
@@ -59,10 +61,8 @@ export default function PlaylistsPage() {
     );
   });
 
-  function handleDelete(item) {
-    if (window.confirm(`¿Eliminar la playlist "${item.title}"?`)) {
-      removePlaylist.mutate(item.id);
-    }
+  function handleDelete(playlist) {
+    setItemToDelete(playlist);
   }
 
   return (
@@ -233,6 +233,21 @@ export default function PlaylistsPage() {
           playlist={editingPlaylist}
         />
       )}
+    
+      <ConfirmModal
+        isOpen={!!itemToDelete}
+        onClose={() => setItemToDelete(null)}
+        onConfirm={() => {
+          if (itemToDelete) {
+            removePlaylist.mutate(itemToDelete.id, {
+              onSuccess: () => setItemToDelete(null),
+            });
+          }
+        }}
+        title="Eliminar playlist"
+        message={`¿Estás seguro de que querés eliminar "${itemToDelete?.title}"?`}
+        isDeleting={removePlaylist.isPending}
+      />
     </>
   );
 }

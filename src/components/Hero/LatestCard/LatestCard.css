@@ -148,3 +148,28 @@
     text-transform:uppercase;
 
 }
+/* Estilos para el contenedor de la imagen/icono */
+.latest-card-media {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%; /* Si prefieres cuadrado con bordes suaves, cambia a 8px */
+  overflow: hidden;
+  flex-shrink: 0; /* Evita que se encoja */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-2); /* Fondo por si la imagen tarda en cargar */
+}
+
+/* Asegura que la imagen cubra todo el círculo/cuadrado */
+.latest-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Ajuste opcional para el tamaño del ícono cuando no hay imagen */
+.latest-card-media svg {
+  font-size: 20px;
+  color: var(--color-primary);
+}

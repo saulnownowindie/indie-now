@@ -118,6 +118,8 @@ export function normalizePublicPlaylist(item) {
     image: resolveMediaUrl(item.coverUrl, 720),
     url: item.url || item.spotifyUrl || "#",
     description: item.description || "",
+    icon: item.icon || "",
+    icon: item.icon || "",
     ownerName: item.ownerName || "",
     tracksCount: item.tracksCount ?? null,
     publishedAt,

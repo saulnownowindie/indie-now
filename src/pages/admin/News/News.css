@@ -120,4 +120,14 @@
 
 .news-delete-button:hover {
   background: rgba(255, 0, 0, 0.08);
+}.news-delete-button {
+  color: #ff453a !important;
+  background-color: rgba(255, 69, 58, 0.08) !important;
+  border: 1px solid rgba(255, 69, 58, 0.25) !important;
+  transition: all 0.2s ease-in-out !important;
+}
+.news-delete-button:hover {
+  background-color: #ff453a !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(255, 69, 58, 0.4) !important;
 }

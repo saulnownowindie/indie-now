@@ -1,3 +1,4 @@
+import { Type, Music, Link, Activity, FileText, User, ListMusic, ArrowUpDown, Star, Image, Tag, DollarSign, Smile } from "lucide-react";
 import "../NewsModal/NewsModal.css";
 import "./MerchModal.css";
 
@@ -128,7 +129,7 @@ export default function MerchModal({ onClose, merch = null }) {
         <div className="modal-body">
           <div className="form-grid">
             <div className="form-group">
-              <label>Nombre <span className="required">*</span></label>
+              <label className="modal-label"><Type size={14} className="label-icon" /> Nombre <span className="required">*</span></label>
               <input
                 type="text"
                 placeholder="Ej. Remera Indie Now"
@@ -140,7 +141,7 @@ export default function MerchModal({ onClose, merch = null }) {
             </div>
 
             <div className="form-group">
-              <label>Precio <span className="required">*</span></label>
+              <label className="modal-label"><DollarSign size={14} className="label-icon" /> Precio <span className="required">*</span></label>
               <input
                 type="text"
                 placeholder="Ej. $20.000"
@@ -154,7 +155,7 @@ export default function MerchModal({ onClose, merch = null }) {
 
           <div className="form-grid">
             <div className="form-group">
-              <label>Colección</label>
+              <label className="modal-label"><Tag size={14} className="label-icon" /> Colección</label>
               <input
                 type="text"
                 placeholder="Ej. Verano 2026"
@@ -179,7 +180,7 @@ export default function MerchModal({ onClose, merch = null }) {
           </div>
 
           <div className="form-group">
-            <label>Descripción</label>
+            <label className="modal-label"><FileText size={14} className="label-icon" /> Descripción</label>
             <textarea
               placeholder="Detalles del producto..."
               value={form.description}

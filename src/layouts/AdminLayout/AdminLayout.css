@@ -2,112 +2,90 @@
    ADMIN LAYOUT
 ========================================================== */
 
-.admin-layout{
+.admin-layout {
+  --sidebar-width: 280px;
 
-    --sidebar-width:280px;
-
-    display:grid;
-
-    grid-template-columns:var(--sidebar-width) 1fr;
-
-    min-height:100vh;
-
-    background:var(--color-background);
-
-    color:var(--color-text);
-
-    transition:
-        background .25s,
-        color .25s;
-
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-text);
+  transition: background 0.25s, color 0.25s;
 }
 
-/* ==========================================================
-   MAIN
-========================================================== */
+/* MAIN */
 
-.admin-main{
-
-    min-width:0;
-
-    display:flex;
-
-    flex-direction:column;
-
-    background:var(--color-background);
-
-    overflow:hidden;
-
+.admin-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-background);
+  overflow: hidden;
 }
 
-/* ==========================================================
-   CONTENT
-========================================================== */
+/* CONTENT */
 
-.admin-content{
-
-    flex:1;
-
-    padding:40px;
-
-    overflow:auto;
-
+.admin-content {
+  flex: 1;
+  padding: 40px;
+  overflow: auto;
 }
 
-/* Scroll */
-
-.admin-content::-webkit-scrollbar{
-
-    width:10px;
-
+.admin-content::-webkit-scrollbar {
+  width: 10px;
 }
 
-.admin-content::-webkit-scrollbar-thumb{
-
-    background:var(--color-border);
-
-    border-radius:999px;
-
+.admin-content::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
 }
 
-.admin-content::-webkit-scrollbar-track{
-
-    background:transparent;
-
+.admin-content::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-/* ==========================================================
-   MOBILE
-========================================================== */
+/* BACKDROP (solo móvil) */
 
-@media (max-width:1100px){
-
-    .admin-layout{
-
-        --sidebar-width:90px;
-
-    }
-
+.admin-backdrop {
+  display: none;
 }
 
-@media (max-width:900px){
+/* TABLET */
 
-    .admin-layout{
+@media (min-width: 769px) and (max-width: 1100px) {
+  .admin-layout {
+    --sidebar-width: 90px;
+  }
+}
 
-        grid-template-columns:1fr;
+/* MOBILE */
 
-    }
+@media (max-width: 768px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
 
-    .admin-main{
+  .admin-main {
+    width: 100%;
+  }
 
-        width:100%;
+  .admin-content {
+    padding: 24px;
+  }
 
-    }
+  .admin-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
 
-    .admin-content{
-
-        padding:24px;
-
-    }
-
+  .admin-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }

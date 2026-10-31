@@ -11,6 +11,7 @@ import Badge from "../../../components/admin/ui/Badge";
 import DataTable from "../../../components/admin/ui/DataTable";
 import TableEmpty from "../../../components/admin/ui/TableEmpty";
 import NewsModal from "../../../components/admin/modals/NewsModal";
+import ConfirmModal from "../../../components/admin/ui/ConfirmModal";
 
 import {
   Clock3,
@@ -22,13 +23,13 @@ import {
 
 import useNews from "../../../hooks/useNews";
 import { deleteNews } from "../../../services/newsService";
-
 import { resolveMediaUrl } from "../../../utils/mediaUrl";
 
 export default function News() {
   const queryClient = useQueryClient();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
   const [editingNews, setEditingNews] = useState(null);
   const [tab, setTab] = useState("all");
   const [search, setSearch] = useState("");
@@ -38,16 +39,13 @@ export default function News() {
 
   const removeNews = useMutation({
     mutationFn: deleteNews,
-
     onSuccess: async () => {
       setActionError("");
-
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["news"] }),
         queryClient.invalidateQueries({ queryKey: ["public-news"] }),
       ]);
     },
-
     onError: (error) => {
       setActionError(
         error.response?.data?.message ||
@@ -61,55 +59,21 @@ export default function News() {
       ?.toLowerCase()
       .includes(search.toLowerCase());
 
-    if (!matchesSearch) {
-      return false;
-    }
-
-    if (tab === "published") {
-      return item.status === "PUBLISHED";
-    }
-
-    if (tab === "draft") {
-      return item.status === "DRAFT";
-    }
-
-    if (tab === "archived") {
-      return false;
-    }
-
-    if (tab === "trash") {
-      return false;
-    }
+    if (!matchesSearch) return false;
+    if (tab === "published") return item.status === "PUBLISHED";
+    if (tab === "draft") return item.status === "DRAFT";
+    if (tab === "archived") return false;
+    if (tab === "trash") return false;
 
     return true;
   });
 
   const tabs = [
-    {
-      value: "all",
-      label: "Todos",
-      count: news.length,
-    },
-    {
-      value: "published",
-      label: "Publicadas",
-      count: news.filter((item) => item.status === "PUBLISHED").length,
-    },
-    {
-      value: "draft",
-      label: "Borradores",
-      count: news.filter((item) => item.status === "DRAFT").length,
-    },
-    {
-      value: "archived",
-      label: "Archivadas",
-      count: 0,
-    },
-    {
-      value: "trash",
-      label: "Papelera",
-      count: 0,
-    },
+    { value: "all", label: "Todos", count: news.length },
+    { value: "published", label: "Publicadas", count: news.filter((item) => item.status === "PUBLISHED").length },
+    { value: "draft", label: "Borradores", count: news.filter((item) => item.status === "DRAFT").length },
+    { value: "archived", label: "Archivadas", count: 0 },
+    { value: "trash", label: "Papelera", count: 0 },
   ];
 
   function openCreateModal() {
@@ -128,15 +92,7 @@ export default function News() {
   }
 
   function handleDelete(item) {
-    const confirmed = window.confirm(
-      `¿Eliminar la noticia "${item.title}"? Esta acción no se puede deshacer.`,
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
-    removeNews.mutate(item.id);
+    setItemToDelete(item);
   }
 
   const isDeleting = removeNews.isPending;
@@ -146,34 +102,20 @@ export default function News() {
       <PageLayout title="Noticias" eyebrow="Panel de Administración">
         <div className="news-status-legend">
           <Badge variant="success">Publicado</Badge>
-
-          <Badge variant="warning" icon={<Clock3 size={12} />}>
-            Borrador
-          </Badge>
-
-          <Badge variant="neutral" icon={<Archive size={12} />}>
-            Archivado
-          </Badge>
-
-          <Badge variant="danger" icon={<Trash2 size={12} />}>
-            Papelera
-          </Badge>
-
-          <Badge variant="info" icon={<Sparkles size={12} />}>
-            Nuevo
-          </Badge>
+          <Badge variant="warning" icon={<Clock3 size={12} />}>Borrador</Badge>
+          <Badge variant="neutral" icon={<Archive size={12} />}>Archivado</Badge>
+          <Badge variant="danger" icon={<Trash2 size={12} />}>Papelera</Badge>
+          <Badge variant="info" icon={<Sparkles size={12} />}>Nuevo</Badge>
         </div>
 
         <div className="news-toolbar">
           <Tabs items={tabs} value={tab} onChange={setTab} />
-
           <div className="news-toolbar__actions">
             <SearchInput
               placeholder="Buscar noticias..."
               value={search}
               onChange={(event) => setSearch(event.target.value)}
             />
-
             <Button onClick={openCreateModal}>+ Nueva noticia</Button>
           </div>
         </div>
@@ -186,39 +128,18 @@ export default function News() {
 
         <DataTable
           columns={[
-            {
-              key: "cover",
-              label: "Portada",
-            },
-            {
-              key: "title",
-              label: "Título",
-            },
-            {
-              key: "category",
-              label: "Categoría",
-            },
-            {
-              key: "status",
-              label: "Estado",
-            },
-            {
-              key: "date",
-              label: "Fecha",
-            },
-            {
-              key: "actions",
-              label: "Acciones",
-            },
+            { key: "cover", label: "Portada" },
+            { key: "title", label: "Título" },
+            { key: "category", label: "Categoría" },
+            { key: "status", label: "Estado" },
+            { key: "date", label: "Fecha" },
+            { key: "actions", label: "Acciones" },
           ]}
         >
           {isLoading && (
             <tr>
               <td colSpan={6}>
-                <TableEmpty
-                  title="Cargando noticias"
-                  description="Obteniendo noticias desde el servidor."
-                />
+                <TableEmpty title="Cargando noticias" description="Obteniendo noticias desde el servidor." />
               </td>
             </tr>
           )}
@@ -226,10 +147,7 @@ export default function News() {
           {isError && (
             <tr>
               <td colSpan={6}>
-                <TableEmpty
-                  title="No se pudieron cargar las noticias"
-                  description="Verifica que la API esté funcionando."
-                />
+                <TableEmpty title="No se pudieron cargar las noticias" description="Verifica que la API esté funcionando." />
               </td>
             </tr>
           )}
@@ -237,84 +155,75 @@ export default function News() {
           {!isLoading && !isError && filteredNews.length === 0 && (
             <tr>
               <td colSpan={6}>
-                <TableEmpty
-                  title="No hay noticias"
-                  description="No se encontraron noticias para esta selección."
-                />
+                <TableEmpty title="No hay noticias" description="No se encontraron noticias para esta selección." />
               </td>
             </tr>
           )}
 
-          {!isLoading &&
-            !isError &&
-            filteredNews.map((item) => (
-              <tr key={item.id}>
-                <td>
-                  {item.coverImage?.url ? (
-                    <img
-                      src={resolveMediaUrl(item.coverImage.url, 160)}
-                      alt={item.title}
-                      className="news-table-cover"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  ) : (
-                    <span className="news-table-no-cover">Sin portada</span>
-                  )}
-                </td>
+          {!isLoading && !isError && filteredNews.map((item) => (
+            <tr key={item.id}>
+              <td>
+                {item.coverImage?.url ? (
+                  <img
+                    src={resolveMediaUrl(item.coverImage.url, 160)}
+                    alt={item.title}
+                    className="news-table-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <span className="news-table-no-cover">Sin portada</span>
+                )}
+              </td>
 
-                <td>
-                  <strong className="news-table-title">
-                    {item.title}
-                  </strong>
-                </td>
+              <td>
+                <strong className="news-table-title">{item.title}</strong>
+              </td>
 
-                <td>{item.category?.name || "Sin categoría"}</td>
+              <td>{item.category?.name || "Sin categoría"}</td>
 
-                <td>
-                  {item.status === "PUBLISHED" ? (
-                    <Badge variant="success">Publicado</Badge>
-                  ) : (
-                    <Badge variant="warning">Borrador</Badge>
-                  )}
-                </td>
+              <td>
+                {item.status === "PUBLISHED" ? (
+                  <Badge variant="success">Publicado</Badge>
+                ) : (
+                  <Badge variant="warning">Borrador</Badge>
+                )}
+              </td>
 
-                <td>
-                  {item.publishedAt
-                    ? new Date(item.publishedAt).toLocaleDateString("es-PY")
-                    : new Date(item.createdAt).toLocaleDateString("es-PY")}
-                </td>
+              <td>
+                {item.publishedAt
+                  ? new Date(item.publishedAt).toLocaleDateString("es-PY")
+                  : new Date(item.createdAt).toLocaleDateString("es-PY")}
+              </td>
 
-                <td>
-                  <div className="news-actions">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      icon={<Pencil size={15} />}
-                      onClick={() => openEditModal(item)}
-                      disabled={isDeleting}
-                      aria-label={`Editar ${item.title}`}
-                    >
-                      Editar
-                    </Button>
+              <td>
+                <div className="news-actions">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    icon={<Pencil size={15} />}
+                    onClick={() => openEditModal(item)}
+                    disabled={isDeleting}
+                  >
+                    Editar
+                  </Button>
 
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      icon={<Trash2 size={15} />}
-                      className="news-delete-button"
-                      onClick={() => handleDelete(item)}
-                      disabled={isDeleting}
-                      aria-label={`Eliminar ${item.title}`}
-                    >
-                      {isDeleting && removeNews.variables === item.id
-                        ? "Eliminando..."
-                        : "Eliminar"}
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    icon={<Trash2 size={15} />}
+                    className="news-delete-button"
+                    onClick={() => handleDelete(item)}
+                    disabled={isDeleting}
+                  >
+                    {isDeleting && removeNews.variables === item.id
+                      ? "Eliminando..."
+                      : "Eliminar"}
+                  </Button>
+                </div>
+              </td>
+            </tr>
+          ))}
         </DataTable>
       </PageLayout>
 
@@ -325,6 +234,21 @@ export default function News() {
           news={editingNews}
         />
       )}
+    
+      <ConfirmModal
+        isOpen={!!itemToDelete}
+        onClose={() => setItemToDelete(null)}
+        onConfirm={() => {
+          if (itemToDelete) {
+            removeNews.mutate(itemToDelete.id, {
+              onSuccess: () => setItemToDelete(null),
+            });
+          }
+        }}
+        title="Eliminar noticia"
+        message={`¿Estás seguro de que querés eliminar "${itemToDelete?.title}"? Esta acción no se puede deshacer.`}
+        isDeleting={removeNews.isPending}
+      />
     </>
   );
 }

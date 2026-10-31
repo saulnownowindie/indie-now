@@ -13,7 +13,6 @@ import {
   LogOut,
 } from "lucide-react";
 
-
 const menu = [
   {
     to: "/admin",
@@ -26,7 +25,6 @@ const menu = [
     label: "Noticias",
     icon: Newspaper,
   },
-
   {
     to: "/admin/categories",
     label: "Categorías",
@@ -59,7 +57,7 @@ const menu = [
   },
 ];
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ open = false, onClose }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -67,8 +65,9 @@ export default function AdminSidebar() {
     logout();
     navigate("/admin/login");
   }
+
   return (
-    <aside className="admin-sidebar">
+    <aside className={`admin-sidebar${open ? " open" : ""}`}>
       <div className="admin-sidebar__logo">
         <picture>
           <source
@@ -89,6 +88,7 @@ export default function AdminSidebar() {
               key={item.to}
               to={item.to}
               end={item.end}
+              onClick={onClose}
               className={({ isActive }) => (isActive ? "active" : "")}
             >
               <Icon size={20} />

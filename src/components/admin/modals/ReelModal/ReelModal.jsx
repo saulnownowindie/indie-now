@@ -1,3 +1,4 @@
+import { Type, Music, Link, Activity, FileText, User, ListMusic, ArrowUpDown, Star, Image, Tag, DollarSign, Smile } from "lucide-react";
 import "../NewsModal/NewsModal.css";
 import "./ReelModal.css";
 
@@ -629,7 +630,7 @@ export default function ReelModal({ onClose, reel = null }) {
         <div className="modal-body">
           <div className="form-grid">
             <div className="form-group">
-              <label htmlFor="reel-title">
+              <label htmlFor="reel-title" className="modal-label"><Type size={14} className="label-icon" />
                 Título <span className="required">*</span>
               </label>
 
@@ -696,7 +697,7 @@ export default function ReelModal({ onClose, reel = null }) {
 
           <div className="form-grid">
             <div className="form-group">
-              <label htmlFor="reel-url">
+              <label htmlFor="reel-url" className="modal-label"><Link size={14} className="label-icon" />
                 URL del video <span className="required">*</span>
               </label>
 
@@ -746,7 +747,7 @@ export default function ReelModal({ onClose, reel = null }) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="reel-video-url">
+            <label htmlFor="reel-video-url" className="modal-label"><Link size={14} className="label-icon" />
               URL del video directo (opcional)
             </label>
 

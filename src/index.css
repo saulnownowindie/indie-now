@@ -1,7 +1,14 @@
 /* ==========================================================
    GOOGLE FONTS
 ========================================================== */
+/* Forzar colores en los íconos de plataformas */
+.platform-spotify { color: #1DB954 !important; }
+.platform-youtube { color: #FF0000 !important; }
+.platform-tiktok { color: #000000 !important; background: #fff; border-radius: 50%; padding: 2px; }
 
+[role="option"] .platform-spotify { color: #1DB954 !important; }
+[role="option"] .platform-youtube { color: #FF0000 !important; }
+[role="option"] .platform-tiktok { color: #000000 !important; background: #fff; border-radius: 50%; padding: 2px; }
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap");
 
 /* ==========================================================
@@ -203,3 +210,61 @@ ol{
     background:var(--color-text-light);
 
 }
+/* --- ESTILOS MODERNOS PARA MODALES --- */
+.modal-overlay {
+  backdrop-filter: blur(8px) !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+}
+.modal {
+  border: 1px solid var(--color-border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5) !important;
+}
+.modal-header {
+  border-bottom: 1px solid var(--color-border) !important;
+  padding-bottom: 16px !important;
+  margin-bottom: 24px !important;
+}
+.modal-header h2 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: var(--color-text) !important;
+}
+.modal-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-light);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--color-border);
+}
+.label-icon {
+  color: var(--color-primary);
+}
+.modal input, .modal select, .modal textarea {
+  background: var(--color-surface-2) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 10px !important;
+  padding: 12px 14px !important;
+  color: var(--color-text) !important;
+  transition: all 0.2s ease !important;
+  font-size: 0.95rem !important;
+}
+.modal input:focus, .modal select:focus, .modal textarea:focus {
+  outline: none !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(254, 250, 0, 0.15) !important;
+}
+.modal .form-group {
+  margin-bottom: 20px;
+}
+
+/* Colores de plataformas */
+.platform-spotify { color: #1DB954 !important; }
+.platform-youtube { color: #FF0000 !important; }
+.platform-tiktok { color: #000000 !important; background: #fff; border-radius: 50%; padding: 2px; }

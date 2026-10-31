@@ -229,14 +229,15 @@ export default function Header() {
         aria-hidden="true"
       />
 
-      <aside
-        id="mobile-drawer"
-        className={`drawer ${menuOpen ? "open" : ""}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Menú de navegación"
-        aria-hidden={!menuOpen}
-      >
+<aside
+  id="mobile-drawer"
+  className={`drawer ${menuOpen ? "open" : ""}`}
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menú de navegación"
+  aria-hidden={!menuOpen}
+  inert={!menuOpen ? "" : undefined} /* <--- ESTA ES LA MAGIA */
+>
         <div className="drawer-header">
           <span className="drawer-title">Menú</span>
 

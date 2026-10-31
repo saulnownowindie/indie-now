@@ -1,0 +1,144 @@
+.floating-spotify {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  background: #121212; /* Fondo más oscuro estilo Spotify */
+  border: 1px solid #333;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+/* Estado Colapsado */
+.floating-spotify.collapsed {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.floating-spotify.collapsed .spotify-expanded-content {
+  display: none;
+}
+
+.spotify-collapsed-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.2s;
+}
+
+.spotify-collapsed-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Estado Expandido */
+.floating-spotify.expanded {
+  width: 340px;
+}
+
+.spotify-expanded-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.spotify-expanded-content.hidden {
+  display: none;
+  opacity: 0;
+}
+
+.spotify-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spotify-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.spotify-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #a1a1aa;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.spotify-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.spotify-iframe-container {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+.spotify-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #a1a1aa;
+  font-size: 0.85rem;
+}
+
+.spotify-play-btn {
+  background: #FEFA00; /* Tu amarillo Indie Now */
+  border: none;
+  color: black;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+
+.spotify-play-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive Móvil */
+@media (max-width: 768px) {
+  .floating-spotify.expanded {
+    width: calc(100% - 32px);
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+  .floating-spotify.collapsed {
+    bottom: 16px;
+    right: 16px;
+  }
+}

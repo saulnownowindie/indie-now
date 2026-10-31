@@ -9,6 +9,7 @@ import useTheme from "../../../hooks/useTheme";
 const titles = {
   "/admin": "Dashboard",
   "/admin/news": "Noticias",
+  "/admin/categories": "Categorías",
   "/admin/sessions": "Sesiones",
   "/admin/reels": "Reels",
   "/admin/merch": "Merch",
@@ -26,7 +27,12 @@ export default function AdminHeader({ onMenuClick }) {
   return (
     <header className="admin-header">
       <div className="admin-header__left">
-        <button className="mobile-menu" onClick={onMenuClick}>
+        <button
+          type="button"
+          className="mobile-menu"
+          onClick={onMenuClick}
+          aria-label="Abrir menú"
+        >
           <Menu size={22} />
         </button>
 
@@ -47,18 +53,26 @@ export default function AdminHeader({ onMenuClick }) {
         </div>
 
         <button
+          type="button"
           className="header-icon"
           title="Cambiar tema"
+          aria-label="Cambiar tema"
           onClick={toggleTheme}
         >
           {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
         </button>
 
-        <button className="header-icon" title="Notificaciones">
+        <button
+          type="button"
+          className="header-icon"
+          title="Notificaciones"
+          aria-label="Notificaciones"
+        >
           <Bell size={20} />
         </button>
 
         <button
+          type="button"
           className="header-profile"
           title={user?.name ?? "Mi cuenta"}
         >
@@ -74,9 +88,7 @@ export default function AdminHeader({ onMenuClick }) {
               {user?.name || "Administrador"}
             </span>
 
-            <small className="header-user-role">
-              {user?.role || ""}
-            </small>
+            <small className="header-user-role">{user?.role || ""}</small>
           </div>
         </button>
       </div>

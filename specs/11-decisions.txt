@@ -63,8 +63,7 @@ RESPONSIVE
 - Touch targets mínimo 44px.
 
 DATOS
-- Home con mock por ahora.
-- No refactorizar api/services/hooks hasta que la Home esté completa.
+- Home con mock por ahora
 
 ORDEN DE EJECUCIÓN
 1. Quick wins (/merch dice "Sesiones", footer con href="#", Home.css vacío) + container 1440px.

@@ -1,13 +1,19 @@
-const DEFAULT_API_URL = "http://localhost:3000/api";
+const DEV_API_URL =
+  typeof window !== "undefined"
+    ? `http://${window.location.hostname}:3000/api`
+    : "http://localhost:3000/api";
 
 function normalizeApiUrl(url) {
-  const normalized = (url || DEFAULT_API_URL)
-    .trim()
-    .replace(/\/+$/, "");
+  const base = (url || "").trim() || (import.meta.env.DEV ? DEV_API_URL : "");
 
-  return normalized.endsWith("/api")
-    ? normalized
-    : `${normalized}/api`;
+  if (!base) {
+    console.error("Falta VITE_API_URL en el entorno de producción.");
+    return "/api";
+  }
+
+  const normalized = base.replace(/\/+$/, "");
+
+  return normalized.endsWith("/api") ? normalized : `${normalized}/api`;
 }
 
 export function getApiBaseUrl() {

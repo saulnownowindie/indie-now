@@ -1,26 +1,35 @@
+import "../NewsModal/NewsModal.css";
 import "./NewsModal.css";
 
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { 
+  Type, 
+  Tag, 
+  Activity, 
+  Link as LinkIcon, 
+  Image as ImageIcon, 
+  Loader2 
+} from "lucide-react";
 
 import ImageUploader from "../../ui/ImageUploader";
 import Select from "../../ui/Select";
-import Toggle from "../../ui/Toggle";
 
-import useCategories from "../../../../hooks/useCategories";
 import {
   createNews,
   updateNews,
   uploadNewsCover,
 } from "../../../../services/newsService";
 import { resolveMediaUrl } from "../../../../utils/mediaUrl";
+import api from "../../../../services/api";
+import useCategories from "../../../../hooks/useCategories";
 
 const platforms = [
   { value: "INSTAGRAM", label: "Instagram" },
   { value: "TIKTOK", label: "TikTok" },
   { value: "YOUTUBE", label: "YouTube" },
   { value: "FACEBOOK", label: "Facebook" },
-  { value: "X", label: "X" },
+  { value: "X", label: "X (Twitter)" },
   { value: "THREADS", label: "Threads" },
   { value: "OTHER", label: "Otro" },
 ];
@@ -30,149 +39,115 @@ const statuses = [
   { value: "PUBLISHED", label: "Publicado" },
 ];
 
-const homeSections = [
-  { value: "LO_NUEVO", label: "Lo Nuevo Que Vale" },
-  { value: "NOTICIAS", label: "Noticias" },
-  { value: "REELS", label: "Reels" },
-  { value: "NO_PODES_PERDERTE", label: "No Podés Perderte" },
-];
-
 export default function NewsModal({ onClose, news = null }) {
   const queryClient = useQueryClient();
-
   const isEditing = Boolean(news);
-
-  const { data: categories = [], isLoading } = useCategories();
+  const { data: categories = [] } = useCategories();
 
   const [form, setForm] = useState({
     title: news?.title ?? "",
-    content: news?.content ?? "",
-    category: news?.categoryId
-      ? String(news.categoryId)
-      : news?.category?.id
-        ? String(news.category.id)
-        : "",
-    platform: news?.platform ?? "",
+    categoryId: news?.categoryId ?? "",
+    platform: news?.platform ?? "INSTAGRAM",
     url: news?.url ?? "",
     status: news?.status ?? "DRAFT",
     featured: news?.featured ?? false,
-    homeSection: news?.homeSection ?? "NOTICIAS",
-    sortOrder: String(news?.sortOrder ?? 0),
   });
 
   const [coverFile, setCoverFile] = useState(null);
   const [existingCoverUrl, setExistingCoverUrl] = useState(
-    resolveMediaUrl(news?.coverImage?.url, 640),
+    resolveMediaUrl(news?.coverImage?.url || news?.imageUrl)
   );
   const [removeCover, setRemoveCover] = useState(false);
-
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
+  const [searchingImage, setSearchingImage] = useState(false);
+  
+  const [extractedCoverId, setExtractedCoverId] = useState(null);
 
   function updateField(field, value) {
-    setForm((current) => ({
-      ...current,
-      [field]: value,
-    }));
-
+    setForm((current) => ({ ...current, [field]: value }));
     if (errors[field] || errors.submit) {
-      setErrors((current) => ({
-        ...current,
-        [field]: "",
-        submit: "",
-      }));
+      setErrors((current) => ({ ...current, [field]: "", submit: "" }));
     }
   }
 
   function handleCoverChange(file) {
     setCoverFile(file);
-
+    setExtractedCoverId(null);
     if (file) {
       setRemoveCover(false);
       return;
     }
-
     setExistingCoverUrl(null);
     setRemoveCover(true);
   }
 
+  async function handleAutoImage() {
+    if (!form.title.trim()) {
+      setErrors({ ...errors, title: "Escribe un título primero para buscar una imagen" });
+      return;
+    }
+
+    setSearchingImage(true);
+    setErrors({ ...errors, submit: "" });
+
+    try {
+      const { data } = await api.post("/image-search", { 
+        title: form.title, 
+        url: form.url 
+      });
+
+      if (data.url) {
+        setExistingCoverUrl(data.url);
+        setCoverFile(null);
+        setRemoveCover(false);
+        if (data.mediaId) setExtractedCoverId(data.mediaId);
+      }
+    } catch (error) {
+      setErrors({ 
+        ...errors, 
+        submit: error.response?.data?.message || "No se pudo encontrar una imagen automáticamente." 
+      });
+    } finally {
+      setSearchingImage(false);
+    }
+  }
+
   function validateForm() {
     const newErrors = {};
-    const title = form.title.trim();
-    const url = form.url.trim();
-
-    if (!title) {
-      newErrors.title = "El título es obligatorio.";
-    } else if (title.length < 5) {
-      newErrors.title = "El título debe tener al menos 5 caracteres.";
-    }
-
-    if (!form.category) {
-      newErrors.category = "Selecciona una categoría.";
-    }
-
-    if (!form.platform) {
-      newErrors.platform = "Selecciona una plataforma.";
-    }
-
-    const sortOrder = Number(form.sortOrder);
-
-    if (
-      form.sortOrder === "" ||
-      !Number.isInteger(sortOrder) ||
-      sortOrder < 0
-    ) {
-      newErrors.sortOrder =
-        "Ingresa un número entero mayor o igual a 0.";
-    }
-
-    if (!url) {
-      newErrors.url = "La URL es obligatoria.";
-    } else {
-      try {
-        const parsedUrl = new URL(url);
-
-        if (!["http:", "https:"].includes(parsedUrl.protocol)) {
-          throw new Error("Protocolo no válido");
-        }
-      } catch {
-        newErrors.url = "Ingresa una URL válida.";
-      }
-    }
-
+    if (!form.title.trim()) newErrors.title = "El título es obligatorio.";
+    if (!form.categoryId) newErrors.categoryId = "La categoría es obligatoria.";
+    if (!form.url.trim()) newErrors.url = "La URL es obligatoria.";
+    
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-
-    if (saving || !validateForm()) {
-      return;
-    }
+    if (saving || !validateForm()) return;
 
     setSaving(true);
-
     try {
       const payload = {
         title: form.title.trim(),
-        content: form.content.trim() || null,
+        categoryId: Number(form.categoryId),
         platform: form.platform,
         url: form.url.trim(),
-        categoryId: Number(form.category),
         status: form.status,
         featured: form.featured,
-        homeSection: form.homeSection,
-        sortOrder: Number(form.sortOrder),
       };
 
       if (coverFile) {
         const media = await uploadNewsCover(coverFile);
-
         payload.coverImageId = media.id;
+        payload.imageUrl = null;
       } else if (removeCover) {
         payload.coverImageId = null;
+        payload.imageUrl = null;
+      } else if (extractedCoverId) {
+        payload.coverImageId = extractedCoverId;
+        payload.imageUrl = null;
       }
 
       if (isEditing) {
@@ -181,305 +156,141 @@ export default function NewsModal({ onClose, news = null }) {
         await createNews(payload);
       }
 
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["news"] }),
-        queryClient.invalidateQueries({ queryKey: ["public-news"] }),
-      ]);
-
+      await queryClient.invalidateQueries({ queryKey: ["news"] });
+      await queryClient.invalidateQueries({ queryKey: ["public-news"] });
       onClose();
     } catch (error) {
       setErrors({
-        submit:
-          error.response?.data?.message ||
-          "No se pudo guardar la noticia. Intenta nuevamente.",
+        submit: error.response?.data?.message || "No se pudo guardar la noticia.",
       });
     } finally {
       setSaving(false);
     }
   }
 
-  function handleClose() {
-    if (saving) {
-      return;
-    }
-
-    onClose();
-  }
-
   return (
     <div
       className="modal-overlay"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
-          handleClose();
-        }
+        if (event.target === event.currentTarget) onClose();
       }}
     >
       <form className="modal news-modal" onSubmit={handleSubmit}>
         <div className="modal-header">
-          <h2>{isEditing ? "Editar noticia" : "Nueva noticia"}</h2>
-
-          <button
-            type="button"
-            className="modal-close"
-            onClick={handleClose}
-            disabled={saving}
-            aria-label="Cerrar"
-          >
-            ✕
-          </button>
+          <h2 style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <Type size={24} color="var(--color-primary)" /> 
+            {isEditing ? "Editar noticia" : "Nueva noticia"}
+          </h2>
+          <button type="button" className="modal-close" onClick={onClose} disabled={saving}>✕</button>
         </div>
 
         <div className="modal-body">
           <div className="form-grid">
             <div className="form-group">
-              <label htmlFor="news-title">
-                Título <span className="required">*</span>
-              </label>
-
+              <label className="modal-label"><Type size={14} className="label-icon" /> Título *</label>
               <input
-                id="news-title"
                 type="text"
                 placeholder="Título de la noticia"
                 value={form.title}
-                onChange={(event) =>
-                  updateField("title", event.target.value)
-                }
+                onChange={(e) => updateField("title", e.target.value)}
                 disabled={saving}
-                aria-invalid={Boolean(errors.title)}
-                aria-describedby={
-                  errors.title ? "news-title-error" : undefined
-                }
               />
-
-              {errors.title && (
-                <span id="news-title-error" className="form-error">
-                  {errors.title}
-                </span>
-              )}
+              {errors.title && <span className="form-error">{errors.title}</span>}
             </div>
 
             <div className="form-group">
-              <Select
-                label={
-                  <>
-                    Categoría <span className="required">*</span>
-                  </>
-                }
-                value={form.category}
-                onValueChange={(value) =>
-                  updateField("category", value)
-                }
-                placeholder={
-                  isLoading
-                    ? "Cargando categorías..."
-                    : "Seleccione una categoría"
-                }
-                disabled={isLoading || saving}
-              >
-                {categories.map((item) => (
-                  <Select.Item key={item.id} value={String(item.id)}>
-                    {item.name}
-                  </Select.Item>
+              <label className="modal-label"><Tag size={14} className="label-icon" /> Categoría *</label>
+              <Select value={form.categoryId} onValueChange={(v) => updateField("categoryId", v)} disabled={saving}>
+                {categories.map((cat) => (
+                  <Select.Item key={cat.id} value={String(cat.id)}>{cat.name}</Select.Item>
                 ))}
               </Select>
-
-              {errors.category && (
-                <span className="form-error">{errors.category}</span>
-              )}
+              {errors.categoryId && <span className="form-error">{errors.categoryId}</span>}
             </div>
           </div>
 
           <div className="form-grid">
             <div className="form-group">
-              <Select
-                label={
-                  <>
-                    Plataforma <span className="required">*</span>
-                  </>
-                }
-                value={form.platform}
-                onValueChange={(value) =>
-                  updateField("platform", value)
-                }
-                placeholder="Seleccione una plataforma"
-                disabled={saving}
-              >
-                {platforms.map((item) => (
-                  <Select.Item key={item.value} value={item.value}>
-                    {item.label}
-                  </Select.Item>
-                ))}
-              </Select>
-
-              {errors.platform && (
-                <span className="form-error">{errors.platform}</span>
-              )}
-            </div>
-
-            <div className="form-group">
-              <Select
-                label="Estado"
-                value={form.status}
-                onValueChange={(value) =>
-                  updateField("status", value)
-                }
-                placeholder="Selecciona un estado"
-                disabled={saving}
-              >
-                {statuses.map((item) => (
-                  <Select.Item key={item.value} value={item.value}>
-                    {item.label}
-                  </Select.Item>
-                ))}
-              </Select>
-            </div>
-          </div>
-
-          <div className="form-grid">
-            <div className="form-group">
-              <Select
-                label="Sección de la Home"
-                value={form.homeSection}
-                onValueChange={(value) =>
-                  updateField("homeSection", value)
-                }
-                placeholder="Selecciona una sección"
-                disabled={saving}
-              >
-                {homeSections.map((section) => (
-                  <Select.Item
-                    key={section.value}
-                    value={section.value}
-                  >
-                    {section.label}
-                  </Select.Item>
+              <label className="modal-label"><Activity size={14} className="label-icon" /> Plataforma *</label>
+              <Select value={form.platform} onValueChange={(v) => updateField("platform", v)} disabled={saving}>
+                {platforms.map((p) => (
+                  <Select.Item key={p.value} value={p.value}>{p.label}</Select.Item>
                 ))}
               </Select>
             </div>
 
             <div className="form-group">
-              <label htmlFor="news-sort-order">
-                Orden de aparición
-              </label>
-
-              <input
-                id="news-sort-order"
-                type="number"
-                min="0"
-                step="1"
-                value={form.sortOrder}
-                onChange={(event) =>
-                  updateField("sortOrder", event.target.value)
-                }
-                disabled={saving}
-                aria-invalid={Boolean(errors.sortOrder)}
-                aria-describedby={
-                  errors.sortOrder
-                    ? "news-sort-order-error"
-                    : undefined
-                }
-              />
-
-              {errors.sortOrder && (
-                <span
-                  id="news-sort-order-error"
-                  className="form-error"
-                >
-                  {errors.sortOrder}
-                </span>
-              )}
+              <label className="modal-label"><Activity size={14} className="label-icon" /> Estado</label>
+              <Select value={form.status} onValueChange={(v) => updateField("status", v)} disabled={saving}>
+                {statuses.map((s) => (
+                  <Select.Item key={s.value} value={s.value}>{s.label}</Select.Item>
+                ))}
+              </Select>
             </div>
           </div>
 
           <div className="form-group">
-            <label htmlFor="news-url">
-              URL <span className="required">*</span>
-            </label>
-
+            <label className="modal-label"><LinkIcon size={14} className="label-icon" /> URL original *</label>
             <input
-              id="news-url"
               type="url"
               placeholder="https://www.instagram.com/p/..."
               value={form.url}
-              onChange={(event) =>
-                updateField("url", event.target.value)
-              }
+              onChange={(e) => updateField("url", e.target.value)}
               disabled={saving}
-              aria-invalid={Boolean(errors.url)}
-              aria-describedby={
-                errors.url ? "news-url-error" : undefined
-              }
             />
-
-            {errors.url && (
-              <span id="news-url-error" className="form-error">
-                {errors.url}
-              </span>
-            )}
+            {errors.url && <span className="form-error">{errors.url}</span>}
           </div>
 
           <div className="form-group">
-            <label htmlFor="news-content">
-              Contenido de la noticia
-            </label>
-
-            <textarea
-              id="news-content"
-              placeholder="Escribí aquí el cuerpo de la noticia..."
-              value={form.content}
-              onChange={(event) =>
-                updateField("content", event.target.value)
-              }
-              disabled={saving}
-              rows={10}
-              maxLength={50000}
-            />
-
-            <span className="form-hint">
-              Se muestra en la página de detalle de la noticia.
-              Podés separar párrafos con saltos de línea.
-            </span>
+            <div className="merch-toggle-container">
+              <div className="merch-toggle-text">
+                <label className="modal-label" style={{ border: 'none', marginBottom: 0 }}>
+                  Destacar en la Home
+                </label>
+                <p>Esta noticia aparecerá en la sección principal de la página.</p>
+              </div>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  checked={form.featured}
+                  onChange={(e) => updateField("featured", e.target.checked)}
+                  disabled={saving}
+                />
+                <span className="slider round"></span>
+              </label>
+            </div>
           </div>
 
-          <Toggle
-            id="news-featured"
-            label="Destacar en la Home"
-            description="Esta noticia aparecerá en la sección principal de la página."
-            checked={form.featured}
-            onChange={(checked) => updateField("featured", checked)}
-            disabled={saving}
-          />
-
-          <ImageUploader
-            label="Portada"
-            value={coverFile}
-            onChange={handleCoverChange}
-            existingUrl={existingCoverUrl}
-          />
-
-          {errors.submit && (
-            <div className="form-error form-error-submit">
-              {errors.submit}
+          <div className="form-group">
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+              <label className="modal-label" style={{ margin: 0, border: "none" }}>
+                <ImageIcon size={14} className="label-icon" /> Portada
+              </label>
+              
+              {/* BOTÓN CON LA NUEVA CLASE btn-extract */}
+              <button
+                type="button"
+                onClick={handleAutoImage}
+                disabled={saving || searchingImage}
+                className="btn-extract"
+              >
+                {searchingImage ? <Loader2 className="animate-spin" size={14} /> : <ImageIcon size={14} />}
+                {searchingImage ? "Buscando..." : "Buscar portada automáticamente"}
+              </button>
             </div>
-          )}
+
+            <ImageUploader
+              value={coverFile}
+              onChange={handleCoverChange}
+              existingUrl={existingCoverUrl}
+            />
+            {errors.submit && <div className="form-error form-error-submit">{errors.submit}</div>}
+          </div>
         </div>
 
         <div className="modal-footer">
-          <button
-            type="button"
-            className="modal-cancel"
-            onClick={handleClose}
-            disabled={saving}
-          >
-            Cancelar
-          </button>
-
-          <button
-            type="submit"
-            className="modal-save"
-            disabled={saving}
-          >
+          <button type="button" className="modal-cancel" onClick={onClose} disabled={saving}>Cancelar</button>
+          <button type="submit" className="modal-save" disabled={saving}>
             {saving ? "Guardando..." : "Guardar"}
           </button>
         </div>

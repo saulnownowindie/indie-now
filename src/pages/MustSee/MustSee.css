@@ -1,0 +1,28 @@
+.must-see {
+  padding-block: 48px;
+}
+
+.must-see__header {
+  margin-bottom: 32px;
+}
+
+.must-see__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.must-see__subtitle {
+  margin-top: 8px;
+  color: var(--color-text-muted);
+}
+
+.must-see__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: 24px;
+}
+
+.must-see__state {
+  padding: 48px 0;
+  text-align: center;
+  color: var(--color-text-muted);
+}

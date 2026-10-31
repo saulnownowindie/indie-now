@@ -1,137 +1,63 @@
+import { Link } from "react-router-dom";
+import { resolveMediaUrl } from "../../utils/mediaUrl";
+import { FaNewspaper } from "react-icons/fa";
 import "./NewsCard.css";
 
-import { memo } from "react";
+export default function NewsCard({ news }) {
+  // 1. Resolvemos la imagen (con la transformación de Cloudinary si aplica)
+  const imageUrl = resolveMediaUrl(news.coverImage?.url || news.imageUrl);
+  
+  // 2. Verificamos si hay contenido local para mostrar el detalle
+  const hasContent = Boolean(news.content && news.content.trim().length > 0);
+  const isExternal = !hasContent && news.url;
 
-import {
-  FaInstagram,
-  FaYoutube,
-  FaTiktok,
-  FaFacebook,
-} from "react-icons/fa";
-
-import { resolveMediaUrl } from "../../utils/mediaUrl";
-
-function PlatformIcon({ platform }) {
-  switch (platform) {
-    case "INSTAGRAM":
-      return <FaInstagram />;
-
-    case "YOUTUBE":
-      return <FaYoutube />;
-
-    case "TIKTOK":
-      return <FaTiktok />;
-
-    case "FACEBOOK":
-      return <FaFacebook />;
-
-    default:
-      return null;
-  }
-}
-
-function formatDate(date) {
-  if (!date) return null;
-
-  return new Intl.DateTimeFormat("es-PY", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  }).format(new Date(date));
-}
-
-function NewsCard({
-  news,
-  featured = false,
-}) {
-  const categoryName =
-    news.category?.name || "Noticias";
-
-  const description =
-    news.seoDescription ||
-    "Conocé esta noticia de Indie Now.";
-
-  const date = formatDate(news.publishedAt);
-
-  const coverUrl = resolveMediaUrl(news.coverImage?.url, 900);
-
-  const supportedPlatform = [
-    "INSTAGRAM",
-    "YOUTUBE",
-    "TIKTOK",
-    "FACEBOOK",
-  ].includes(news.platform);
-
-  return (
-    <article
-      className={
-        featured
-          ? "news-card featured"
-          : "news-card"
-      }
-    >
-      <a
-        className="news-thumb"
-        href={news.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`Ver contenido: ${news.title}`}
-      >
-        {coverUrl ? (
-          <img
-            src={coverUrl}
-            alt={news.title}
-            loading="lazy"
-            decoding="async"
-          />
+  const content = (
+    <>
+      <div className="news-card-media">
+        {imageUrl ? (
+          <img src={imageUrl} alt={news.title} loading="lazy" />
         ) : (
-          <div className="news-placeholder">
-            <span>INDIE NOW</span>
-          </div>
-        )}
-
-        <div className="news-overlay">
-          <div className="play-button">
-            ▶
-          </div>
-        </div>
-      </a>
-
-      <div className="news-info">
-        <span className="news-category">
-          {categoryName}
-        </span>
-
-        <h3>{news.title}</h3>
-
-        <p>{description}</p>
-
-        {date && (
-          <small>{date}</small>
-        )}
-
-        {news.url && (
-          <div className="news-socials">
-            <a
-              href={news.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Ver en ${news.platform}`}
-              title={`Ver en ${news.platform}`}
-            >
-              <PlatformIcon
-                platform={news.platform}
-              />
-
-              {!supportedPlatform && (
-                <span>{news.platform}</span>
-              )}
-            </a>
+          <div className="news-card-placeholder" aria-label="Sin imagen">
+            <FaNewspaper size={32} />
           </div>
         )}
       </div>
-    </article>
+      <div className="news-card-body">
+        {news.category?.name && (
+          <span className="news-card-category">{news.category.name}</span>
+        )}
+        <h3 className="news-card-title">{news.title}</h3>
+        {news.publishedAt && (
+          <span className="news-card-date">
+            {new Date(news.publishedAt).toLocaleDateString("es-PY", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            })}
+          </span>
+        )}
+      </div>
+    </>
+  );
+
+  // 3. Si no hay contenido, redirigimos a la red social original
+  if (isExternal) {
+    return (
+      <a
+        href={news.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="news-card"
+      >
+        {content}
+      </a>
+    );
+  }
+
+  // 4. Si hay contenido, navegamos a la página de detalle
+  return (
+    <Link to={`/noticias/${news.slug}`} className="news-card">
+      {content}
+    </Link>
   );
 }
-
-export default memo(NewsCard);

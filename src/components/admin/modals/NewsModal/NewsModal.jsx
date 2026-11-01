@@ -11,6 +11,15 @@ import {
   Image as ImageIcon, 
   Loader2 
 } from "lucide-react";
+import {
+  FaFacebook,
+  FaGlobe,
+  FaInstagram,
+  FaThreads,
+  FaTiktok,
+  FaXTwitter,
+  FaYoutube,
+} from "react-icons/fa6";
 
 import ImageUploader from "../../ui/ImageUploader";
 import Select from "../../ui/Select";
@@ -25,13 +34,48 @@ import api from "../../../../services/api";
 import useCategories from "../../../../hooks/useCategories";
 
 const platforms = [
-  { value: "INSTAGRAM", label: "Instagram" },
-  { value: "TIKTOK", label: "TikTok" },
-  { value: "YOUTUBE", label: "YouTube" },
-  { value: "FACEBOOK", label: "Facebook" },
-  { value: "X", label: "X (Twitter)" },
-  { value: "THREADS", label: "Threads" },
-  { value: "OTHER", label: "Otro" },
+  {
+    value: "INSTAGRAM",
+    label: "Instagram",
+    icon: FaInstagram,
+    iconClass: "platform-instagram",
+  },
+  {
+    value: "TIKTOK",
+    label: "TikTok",
+    icon: FaTiktok,
+    iconClass: "platform-tiktok",
+  },
+  {
+    value: "YOUTUBE",
+    label: "YouTube",
+    icon: FaYoutube,
+    iconClass: "platform-youtube",
+  },
+  {
+    value: "FACEBOOK",
+    label: "Facebook",
+    icon: FaFacebook,
+    iconClass: "platform-facebook",
+  },
+  {
+    value: "X",
+    label: "X (Twitter)",
+    icon: FaXTwitter,
+    iconClass: "platform-x",
+  },
+  {
+    value: "THREADS",
+    label: "Threads",
+    icon: FaThreads,
+    iconClass: "platform-threads",
+  },
+  {
+    value: "OTHER",
+    label: "Otro",
+    icon: FaGlobe,
+    iconClass: "platform-other",
+  },
 ];
 
 const statuses = [
@@ -83,8 +127,14 @@ export default function NewsModal({ onClose, news = null }) {
   }
 
   async function handleAutoImage() {
-    if (!form.title.trim()) {
-      setErrors({ ...errors, title: "Escribe un título primero para buscar una imagen" });
+    const title = form.title.trim();
+    const url = form.url.trim();
+
+    if (!title && !url) {
+      setErrors({
+        ...errors,
+        title: "Escribe un título o una URL para buscar una imagen",
+      });
       return;
     }
 
@@ -92,10 +142,14 @@ export default function NewsModal({ onClose, news = null }) {
     setErrors({ ...errors, submit: "" });
 
     try {
-      const { data } = await api.post("/image-search", { 
-        title: form.title, 
-        url: form.url 
-      });
+      const { data } = await api.post("/image-search", { title, url });
+
+      if (data.suggestedTitle && !form.title.trim()) {
+        setForm((prev) => ({
+          ...prev,
+          title: prev.title.trim() ? prev.title : data.suggestedTitle,
+        }));
+      }
 
       if (data.url) {
         setExistingCoverUrl(data.url);
@@ -213,9 +267,27 @@ export default function NewsModal({ onClose, news = null }) {
             <div className="form-group">
               <label className="modal-label"><Activity size={14} className="label-icon" /> Plataforma *</label>
               <Select value={form.platform} onValueChange={(v) => updateField("platform", v)} disabled={saving}>
-                {platforms.map((p) => (
-                  <Select.Item key={p.value} value={p.value}>{p.label}</Select.Item>
-                ))}
+                {platforms.map((p) => {
+                  const PlatformIcon = p.icon;
+
+                  return (
+                    <Select.Item key={p.value} value={p.value}>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <PlatformIcon
+                          className={p.iconClass}
+                          aria-hidden="true"
+                        />
+                        {p.label}
+                      </span>
+                    </Select.Item>
+                  );
+                })}
               </Select>
             </div>
 

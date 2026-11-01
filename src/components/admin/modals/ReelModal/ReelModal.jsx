@@ -22,22 +22,26 @@ import {
 } from "../../../../services/reelsService";
 import { makePreview } from "../../../../utils/makePreview";
 import { resolveMediaUrl } from "../../../../utils/mediaUrl";
+import api from "../../../../services/api";
 
 const platforms = [
   {
     value: "INSTAGRAM",
     label: "Instagram",
     icon: FaInstagram,
+    iconClass: "platform-instagram",
   },
   {
     value: "TIKTOK",
     label: "TikTok",
     icon: FaTiktok,
+    iconClass: "platform-tiktok",
   },
   {
     value: "YOUTUBE",
     label: "YouTube",
     icon: FaYoutube,
+    iconClass: "platform-youtube",
   },
 ];
 
@@ -119,6 +123,7 @@ export default function ReelModal({ onClose, reel = null }) {
   const [removeCover, setRemoveCover] = useState(false);
   const [extractedCoverId, setExtractedCoverId] = useState(null);
   const [coverFetching, setCoverFetching] = useState(false);
+  const [searchingImage, setSearchingImage] = useState(false);
   const [coverError, setCoverError] = useState("");
   const [coverNotice, setCoverNotice] = useState("");
 
@@ -264,6 +269,48 @@ export default function ReelModal({ onClose, reel = null }) {
       }
     } finally {
       setCoverFetching(false);
+    }
+  }
+
+  async function handleAutoImage() {
+    const title = form.title.trim();
+    const url = form.url.trim();
+
+    if (!title && !url) {
+      setCoverError("Escribe un título o una URL para buscar una portada.");
+      return;
+    }
+
+    setSearchingImage(true);
+    setCoverError("");
+    setCoverNotice("");
+
+    try {
+      const { data } = await api.post("/image-search", { title, url });
+
+      if (data.suggestedTitle && !form.title.trim()) {
+        setForm((prev) => ({
+          ...prev,
+          title: prev.title.trim() ? prev.title : data.suggestedTitle,
+        }));
+      }
+
+      if (data.url) {
+        setExistingCoverUrl(data.url);
+        setCoverFile(null);
+        setRemoveCover(false);
+        setExtractedCoverId(data.mediaId ?? null);
+        setCoverNotice("Portada encontrada automáticamente.");
+      }
+    } catch (error) {
+      setCoverError(
+        getErrorMessage(
+          error,
+          "No se pudo buscar una portada automáticamente.",
+        ),
+      );
+    } finally {
+      setSearchingImage(false);
     }
   }
 
@@ -680,7 +727,10 @@ export default function ReelModal({ onClose, reel = null }) {
                     >
                       <span className="reel-platform-option">
                         {PlatformIcon && (
-                          <PlatformIcon aria-hidden="true" />
+                          <PlatformIcon
+                            className={platform.iconClass}
+                            aria-hidden="true"
+                          />
                         )}
                         {platform.label}
                       </span>
@@ -845,6 +895,21 @@ export default function ReelModal({ onClose, reel = null }) {
               disabled={saving || coverFetching || !form.url.trim()}
             >
               {coverFetching ? "Obteniendo…" : "Obtener portada"}
+            </button>
+
+            <button
+              type="button"
+              className="reel-extract-button"
+              onClick={handleAutoImage}
+              disabled={
+                saving ||
+                searchingImage ||
+                (!form.title.trim() && !form.url.trim())
+              }
+            >
+              {searchingImage
+                ? "Buscando…"
+                : "Buscar portada automáticamente"}
             </button>
 
             <span className="reel-cover-hint">

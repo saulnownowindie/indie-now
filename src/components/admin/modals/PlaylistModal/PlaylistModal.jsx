@@ -66,16 +66,28 @@ export default function PlaylistModal({ onClose, playlist = null }) {
   }
 
   async function handleAutoImage() {
-    if (!form.title.trim()) {
-      setErrors({ ...errors, title: "Escribe un título primero" });
+    const title = form.title.trim();
+    const url = form.url.trim();
+
+    if (!title && !url) {
+      setErrors({
+        ...errors,
+        title: "Escribe un título o una URL para buscar una portada",
+      });
       return;
     }
+
     setSearchingImage(true);
     try {
-      const { data } = await api.post("/image-search", { 
-        title: form.title, 
-        url: form.url 
-      });
+      const { data } = await api.post("/image-search", { title, url });
+
+      if (data.suggestedTitle && !form.title.trim()) {
+        setForm((prev) => ({
+          ...prev,
+          title: prev.title.trim() ? prev.title : data.suggestedTitle,
+        }));
+      }
+
       if (data.url) {
         setExistingCoverUrl(data.url);
         setCoverFile(null);
@@ -168,9 +180,10 @@ export default function PlaylistModal({ onClose, playlist = null }) {
               <Select value={form.platform} onValueChange={(v) => updateField("platform", v)} disabled={saving}>
                 {platforms.map((p) => (
                   <Select.Item key={p.value} value={p.value}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      {p.icon} {p.label}
-                    </div>
+                    <span className="playlist-platform-option">
+                      {p.icon}
+                      {p.label}
+                    </span>
                   </Select.Item>
                 ))}
               </Select>

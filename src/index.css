@@ -1,14 +1,6 @@
 /* ==========================================================
    GOOGLE FONTS
 ========================================================== */
-/* Forzar colores en los íconos de plataformas */
-.platform-spotify { color: #1DB954 !important; }
-.platform-youtube { color: #FF0000 !important; }
-.platform-tiktok { color: #000000 !important; background: #fff; border-radius: 50%; padding: 2px; }
-
-[role="option"] .platform-spotify { color: #1DB954 !important; }
-[role="option"] .platform-youtube { color: #FF0000 !important; }
-[role="option"] .platform-tiktok { color: #000000 !important; background: #fff; border-radius: 50%; padding: 2px; }
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap");
 
 /* ==========================================================
@@ -265,6 +257,12 @@ ol{
 }
 
 /* Colores de plataformas */
+.platform-instagram { color: #E1306C !important; }
 .platform-spotify { color: #1DB954 !important; }
 .platform-youtube { color: #FF0000 !important; }
 .platform-tiktok { color: #000000 !important; background: #fff; border-radius: 50%; padding: 2px; }
+
+[role="option"] .platform-instagram { color: #E1306C !important; }
+[role="option"] .platform-spotify { color: #1DB954 !important; }
+[role="option"] .platform-youtube { color: #FF0000 !important; }
+[role="option"] .platform-tiktok { color: #000000 !important; background: #fff; border-radius: 50%; padding: 2px; }

@@ -32,12 +32,19 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("token");
   }
 
+  function updateUserContext(newUserData) {
+    setUser(newUserData);
+
+    localStorage.setItem("user", JSON.stringify(newUserData));
+  }
+
   return (
     <AuthContext.Provider
       value={{
         user,
         login,
         logout,
+        updateUserContext,
         loading: false,
         isAuthenticated: !!user,
       }}

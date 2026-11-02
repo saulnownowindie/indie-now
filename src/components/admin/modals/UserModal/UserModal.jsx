@@ -3,6 +3,7 @@ import "../NewsModal/NewsModal.css";
 
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "../../../../auth/useAuth";
 
 import ImageUploader from "../../ui/ImageUploader";
 
@@ -10,6 +11,7 @@ import { createUser, updateUser, uploadUserAvatar } from "../../../../services/u
 import { readImageFromClipboard } from "../../../../utils/clipboardImage";
 
 export default function UserModal({ onClose, user = null }) {
+  const { user: authUser, updateUserContext } = useAuth();
   const queryClient = useQueryClient();
   const isEditing = Boolean(user);
 
@@ -114,6 +116,17 @@ export default function UserModal({ onClose, user = null }) {
 
       await queryClient.invalidateQueries({ queryKey: ["users"] });
       onClose();
+
+      // Si estamos editando al usuario logueado, actualizar el contexto inmediatamente
+      if (isEditing && authUser && user.id === authUser.id) {
+        const updatedUser = {
+          ...authUser,
+          name: form.name.trim(),
+          email: form.email.trim(),
+          avatarUrl: payload.avatarUrl,
+        };
+        updateUserContext(updatedUser);
+      }
     } catch (error) {
       const data = error.response?.data;
       const fieldErrors = {};

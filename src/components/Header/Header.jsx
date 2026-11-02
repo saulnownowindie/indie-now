@@ -16,7 +16,6 @@ import useLatestContent from "../../hooks/useLatestContent";
 const NAV_ITEMS = [
   { to: "/noticias", label: "Noticias", sectionId: "noticias" },
   { to: "/reels", label: "Reels", sectionId: "reels" },
-  { to: "/sesiones", label: "Sesiones" },
   {
     to: "/no-podes-perderte",
     label: "No Podés Perderte",

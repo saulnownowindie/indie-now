@@ -41,14 +41,6 @@ export const homeData = {
       url: "https://www.youtube.com/watch?v=YVQp1E9Ng4Y",
     },
     {
-      id: 2,
-      category: "Reseña",
-      title: "Take Me Out: guitarras que no piden permiso",
-      date: "12 Julio 2026",
-      image: coverTakeMeOut,
-      url: "#",
-    },
-    {
       id: 3,
       category: "Noticias",
       title: "Something In The Way y el nuevo rumbo del sello",

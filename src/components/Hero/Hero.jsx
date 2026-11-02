@@ -1,12 +1,13 @@
 import "./Hero.css";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { FaPlay } from "react-icons/fa";
 
 import SidebarLatest from "./SidebarLatest/SidebarLatest";
 import { homeData } from "../../data/homeData";
 import useLatestContent from "../../hooks/useLatestContent";
 import { getYouTubeVideoId } from "../../utils/videoUrl";
+import api from "../../services/api";
 
 const heroVideoId =
   getYouTubeVideoId(homeData.hero.youtube) ||
@@ -15,6 +16,26 @@ const heroVideoId =
 export default function Hero() {
   const { items, isLoading } = useLatestContent();
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [heroYoutubeUrl, setHeroYoutubeUrl] = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+    api
+      .get("/config")
+      .then((res) => {
+        if (mounted && res.data?.heroYoutubeUrl) {
+          setHeroYoutubeUrl(res.data.heroYoutubeUrl);
+        }
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (mounted) setHeroYoutubeUrl((prev) => prev);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const splitIndex = Math.ceil(items.length / 2);
 
@@ -52,6 +73,12 @@ export default function Hero() {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
+          ) : heroYoutubeUrl && /^https?:\/\//.test(heroYoutubeUrl) ? (
+            <iframe
+              src={heroYoutubeUrl}
+              title={homeData.hero.title}
+              allowFullScreen
+            />
           ) : heroVideoId ? (
             <button
               type="button"
@@ -77,14 +104,7 @@ export default function Hero() {
                 Ver sesión
               </span>
             </button>
-          ) : (
-            <iframe
-              src={homeData.hero.youtube}
-              title={homeData.hero.title}
-              allowFullScreen
-              loading="lazy"
-            />
-          )}
+          ) : null}
         </div>
 
         <div className="hero-buttons">

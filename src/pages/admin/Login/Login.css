@@ -14,7 +14,23 @@
 
     padding:32px;
 
-    background:var(--color-background);
+    position:relative;
+
+    background:url("/branding/something-in-the-way.png") center/cover;
+
+}
+
+.login-container::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,0.8);
+
+    pointer-events:none;
 
 }
 

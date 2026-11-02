@@ -1,11 +1,11 @@
 /* ==========================================================
    GOOGLE FONTS
-========================================================== */
+============================================================ */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap");
 
 /* ==========================================================
    RESET
-========================================================== */
+============================================================ */
 
 *,
 *::before,
@@ -21,12 +21,12 @@
 
 /* ==========================================================
    DOCUMENTO
-========================================================== */
+============================================================ */
 
 html{
 
     scroll-behavior:smooth;
-        background:var(--color-background);
+    background:var(--color-background);
 
 
 }
@@ -76,8 +76,21 @@ body{
 }
 
 /* ==========================================================
+   ROOT VARIABLES
+============================================================ */
+
+:root{
+    --brand-black:#0A0A0A;
+    --brand-yellow:#FFE600;
+    --brand-magenta:#FF007F;
+    --brand-red:#FF1E27;
+    --brand-orange:#FF6600;
+    --brand-blue:#00AEFF;
+}
+
+/* ==========================================================
    ROOT
-========================================================== */
+============================================================ */
 
 #root{
 
@@ -89,7 +102,7 @@ body{
 
 /* ==========================================================
    ELEMENTOS
-========================================================== */
+============================================================ */
 
 img{
 
@@ -151,7 +164,7 @@ ol{
 
 /* ==========================================================
    SELECCIÓN
-========================================================== */
+============================================================ */
 
 ::selection{
 
@@ -163,7 +176,7 @@ ol{
 
 /* ==========================================================
    FOCUS
-========================================================== */
+============================================================ */
 
 :focus-visible{
 
@@ -175,7 +188,7 @@ ol{
 
 /* ==========================================================
    SCROLLBAR
-========================================================== */
+============================================================ */
 
 ::-webkit-scrollbar{
 
@@ -202,7 +215,8 @@ ol{
     background:var(--color-text-light);
 
 }
-/* --- ESTILOS MODERNOS PARA MODALES --- */
+
+/* --- ESTILOS MODERNOS PARA MODALS --- */
 .modal-overlay {
   backdrop-filter: blur(8px) !important;
   background: rgba(0, 0, 0, 0.75) !important;
@@ -256,7 +270,136 @@ ol{
   margin-bottom: 20px;
 }
 
-/* Colores de plataformas */
+/* ==========================================================
+   BRUTALIST BUTTONS
+============================================================ */
+
+.btn-extract,
+.modal-save,
+.button-primary{
+    background:var(--brand-yellow);
+    color:var(--brand-black);
+    border:2px solid var(--brand-black);
+    border-radius:0;
+}
+
+.btn-extract:hover,
+.modal-save:hover,
+.button-primary:hover{
+    box-shadow:4px 4px 0px var(--brand-red), 8px 8px 0px var(--brand-magenta);
+}
+
+/* ==========================================================
+   SELECCIÓN
+============================================================ */
+
+::selection{
+
+    background:var(--color-primary);
+
+    color:#000;
+
+}
+
+/* ==========================================================
+   FOCUS
+============================================================ */
+
+:focus-visible{
+
+    outline:2px solid var(--color-primary);
+
+    outline-offset:3px;
+
+}
+
+/* ==========================================================
+   SCROLLBAR
+============================================================ */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:var(--color-surface);
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--color-border);
+
+    border-radius:999px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:var(--color-text-light);
+
+}
+
+/* --- ESTILOS MODERNOS PARA MODALS --- */
+.modal-overlay {
+  backdrop-filter: blur(8px) !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+}
+.modal {
+  border: 1px solid var(--color-border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5) !important;
+}
+.modal-header {
+  border-bottom: 1px solid var(--color-border) !important;
+  padding-bottom: 16px !important;
+  margin-bottom: 24px !important;
+}
+.modal-header h2 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: var(--color-text) !important;
+}
+.modal-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-light);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--color-border);
+}
+.label-icon {
+  color: var(--color-primary);
+}
+.modal input, .modal select, .modal textarea {
+  background: var(--color-surface-2) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 10px !important;
+  padding: 12px 14px !important;
+  color: var(--color-text) !important;
+  transition: all 0.2s ease !important;
+  font-size: 0.95rem !important;
+}
+.modal input:focus, .modal select:focus, .modal textarea:focus {
+  outline: none !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(254, 250, 0, 0.15) !important;
+}
+.modal .form-group {
+  margin-bottom: 20px;
+}
+
+/* ==========================================================
+   COLORES DE PLATAFORMAS
+============================================================ */
 .platform-instagram { color: #E1306C !important; }
 .platform-spotify { color: #1DB954 !important; }
 .platform-youtube { color: #FF0000 !important; }

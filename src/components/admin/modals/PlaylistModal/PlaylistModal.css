@@ -1,6 +1,6 @@
 .playlist-modal {
   width: 100%;
-  max-width: 720px;
+  max-width: 950px;
   height: auto;
   max-height: min(92vh, 880px);
 }

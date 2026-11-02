@@ -1,4 +1,4 @@
-import { Type, Music, Link, Activity, FileText, User, ListMusic, ArrowUpDown, Star, Image, Tag, DollarSign, Smile } from "lucide-react";
+import { Type, Link, FileText } from "lucide-react";
 import "../NewsModal/NewsModal.css";
 import "./ReelModal.css";
 
@@ -22,7 +22,7 @@ import {
 } from "../../../../services/reelsService";
 import { makePreview } from "../../../../utils/makePreview";
 import { resolveMediaUrl } from "../../../../utils/mediaUrl";
-import api from "../../../../services/api";
+import { readImageFromClipboard } from "../../../../utils/clipboardImage";
 
 const platforms = [
   {
@@ -123,7 +123,6 @@ export default function ReelModal({ onClose, reel = null }) {
   const [removeCover, setRemoveCover] = useState(false);
   const [extractedCoverId, setExtractedCoverId] = useState(null);
   const [coverFetching, setCoverFetching] = useState(false);
-  const [searchingImage, setSearchingImage] = useState(false);
   const [coverError, setCoverError] = useState("");
   const [coverNotice, setCoverNotice] = useState("");
 
@@ -272,45 +271,16 @@ export default function ReelModal({ onClose, reel = null }) {
     }
   }
 
-  async function handleAutoImage() {
-    const title = form.title.trim();
-    const url = form.url.trim();
-
-    if (!title && !url) {
-      setCoverError("Escribe un título o una URL para buscar una portada.");
-      return;
-    }
-
-    setSearchingImage(true);
-    setCoverError("");
-    setCoverNotice("");
-
+  async function handlePasteFromClipboard() {
     try {
-      const { data } = await api.post("/image-search", { title, url });
-
-      if (data.suggestedTitle && !form.title.trim()) {
-        setForm((prev) => ({
-          ...prev,
-          title: prev.title.trim() ? prev.title : data.suggestedTitle,
-        }));
-      }
-
-      if (data.url) {
-        setExistingCoverUrl(data.url);
-        setCoverFile(null);
-        setRemoveCover(false);
-        setExtractedCoverId(data.mediaId ?? null);
-        setCoverNotice("Portada encontrada automáticamente.");
-      }
+      const file = await readImageFromClipboard();
+      handleCoverChange(file);
+      setCoverError("");
+      setCoverNotice("");
     } catch (error) {
       setCoverError(
-        getErrorMessage(
-          error,
-          "No se pudo buscar una portada automáticamente.",
-        ),
+        error.message || "No se pudo leer el portapapeles.",
       );
-    } finally {
-      setSearchingImage(false);
     }
   }
 
@@ -675,267 +645,267 @@ export default function ReelModal({ onClose, reel = null }) {
         </div>
 
         <div className="modal-body">
-          <div className="form-grid">
-            <div className="form-group">
-              <label htmlFor="reel-title" className="modal-label"><Type size={14} className="label-icon" />
-                Título <span className="required">*</span>
-              </label>
+          <div className="modal-col">
+            <div className="form-grid">
+              <div className={`form-group${errors.title ? " has-error" : ""}`}>
+                <label htmlFor="reel-title" className="modal-label"><Type size={14} className="label-icon" />
+                  Título <span className="required">*</span>
+                </label>
 
-              <input
-                id="reel-title"
-                type="text"
-                placeholder="Título del reel"
-                value={form.title}
-                onChange={(event) =>
-                  updateField("title", event.target.value)
-                }
-                disabled={saving}
-                aria-invalid={Boolean(errors.title)}
-                aria-describedby={
-                  errors.title ? "reel-title-error" : undefined
-                }
-              />
+                <input
+                  id="reel-title"
+                  type="text"
+                  placeholder="Título del reel"
+                  value={form.title}
+                  onChange={(event) =>
+                    updateField("title", event.target.value)
+                  }
+                  disabled={saving}
+                  aria-invalid={Boolean(errors.title)}
+                  aria-describedby={
+                    errors.title ? "reel-title-error" : undefined
+                  }
+                />
 
-              {errors.title && (
-                <span id="reel-title-error" className="form-error">
-                  {errors.title}
-                </span>
-              )}
-            </div>
+                {errors.title && (
+                  <span id="reel-title-error" className="form-error">
+                    {errors.title}
+                  </span>
+                )}
+              </div>
 
-            <div className="form-group">
-              <Select
-                label={
-                  <>
-                    Plataforma <span className="required">*</span>
-                  </>
-                }
-                value={form.platform}
-                onValueChange={(value) =>
-                  updateField("platform", value)
-                }
-                placeholder="Selecciona una plataforma"
-                disabled={saving}
-              >
-                {platformOptions.map((platform) => {
-                  const PlatformIcon = platform.icon;
-
-                  return (
-                    <Select.Item
-                      key={platform.value}
-                      value={platform.value}
-                    >
-                      <span className="reel-platform-option">
-                        {PlatformIcon && (
-                          <PlatformIcon
-                            className={platform.iconClass}
-                            aria-hidden="true"
-                          />
-                        )}
-                        {platform.label}
-                      </span>
-                    </Select.Item>
-                  );
-                })}
-              </Select>
-
-              {errors.platform && (
-                <span className="form-error">{errors.platform}</span>
-              )}
-            </div>
-          </div>
-
-          <div className="form-grid">
-            <div className="form-group">
-              <label htmlFor="reel-url" className="modal-label"><Link size={14} className="label-icon" />
-                URL del video <span className="required">*</span>
-              </label>
-
-              <input
-                id="reel-url"
-                type="url"
-                placeholder="https://www.instagram.com/reel/..."
-                value={form.url}
-                onChange={(event) =>
-                  updateField("url", event.target.value)
-                }
-                onBlur={handleUrlBlur}
-                disabled={saving}
-                aria-invalid={Boolean(errors.url)}
-                aria-describedby={
-                  errors.url ? "reel-url-error" : undefined
-                }
-              />
-
-              {errors.url && (
-                <span id="reel-url-error" className="form-error">
-                  {errors.url}
-                </span>
-              )}
-            </div>
-
-            <div className="form-group">
-              <Select
-                label="Estado"
-                value={form.status}
-                onValueChange={(value) =>
-                  updateField("status", value)
-                }
-                placeholder="Selecciona un estado"
-                disabled={saving}
-              >
-                {statuses.map((status) => (
-                  <Select.Item
-                    key={status.value}
-                    value={status.value}
-                  >
-                    {status.label}
-                  </Select.Item>
-                ))}
-              </Select>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="reel-video-url" className="modal-label"><Link size={14} className="label-icon" />
-              URL del video directo (opcional)
-            </label>
-
-            <input
-              id="reel-video-url"
-              type="url"
-              placeholder="https://res.cloudinary.com/.../reel.mp4"
-              value={form.videoUrl}
-              onChange={(event) =>
-                updateField("videoUrl", event.target.value)
-              }
-              disabled={saving}
-              aria-invalid={Boolean(errors.videoUrl)}
-              aria-describedby={
-                errors.videoUrl
-                  ? "reel-video-url-error"
-                  : "reel-video-url-hint"
-              }
-            />
-
-            <span id="reel-video-url-hint" className="form-hint">
-              Archivo MP4, WebM u OGG. Si lo completás, el reel se
-              reproduce automáticamente en la grilla. Si lo dejás
-              vacío, se mantiene el enlace social con lightbox.
-            </span>
-
-            {errors.videoUrl && (
-              <span id="reel-video-url-error" className="form-error">
-                {errors.videoUrl}
-              </span>
-            )}
-          </div>
-
-          <div className="form-grid">
-            <div className="form-group">
-              <Select
-                label="Sección de la Home"
-                value={form.homeSection}
-                onValueChange={(value) =>
-                  updateField("homeSection", value)
-                }
-                placeholder="Selecciona una sección"
-                disabled={saving}
-              >
-                {homeSections.map((section) => (
-                  <Select.Item
-                    key={section.value}
-                    value={section.value}
-                  >
-                    {section.label}
-                  </Select.Item>
-                ))}
-              </Select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="reel-sort-order">
-                Orden de aparición
-              </label>
-
-              <input
-                id="reel-sort-order"
-                type="number"
-                min="0"
-                step="1"
-                value={form.sortOrder}
-                onChange={(event) =>
-                  updateField("sortOrder", event.target.value)
-                }
-                disabled={saving}
-                aria-invalid={Boolean(errors.sortOrder)}
-                aria-describedby={
-                  errors.sortOrder
-                    ? "reel-sort-order-error"
-                    : undefined
-                }
-              />
-
-              {errors.sortOrder && (
-                <span
-                  id="reel-sort-order-error"
-                  className="form-error"
+              <div className="form-group">
+                <Select
+                  label={
+                    <>
+                      Plataforma <span className="required">*</span>
+                    </>
+                  }
+                  value={form.platform}
+                  onValueChange={(value) =>
+                    updateField("platform", value)
+                  }
+                  placeholder="Selecciona una plataforma"
+                  disabled={saving}
                 >
-                  {errors.sortOrder}
+                  {platformOptions.map((platform) => {
+                    const PlatformIcon = platform.icon;
+
+                    return (
+                      <Select.Item
+                        key={platform.value}
+                        value={platform.value}
+                      >
+                        <span className="reel-platform-option">
+                          {PlatformIcon && (
+                            <PlatformIcon
+                              className={platform.iconClass}
+                              aria-hidden="true"
+                            />
+                          )}
+                          {platform.label}
+                        </span>
+                      </Select.Item>
+                    );
+                  })}
+                </Select>
+
+                {errors.platform && (
+                  <span className="form-error">{errors.platform}</span>
+                )}
+              </div>
+            </div>
+
+            <div className="form-grid">
+              <div className={`form-group${errors.url ? " has-error" : ""}`}>
+                <label htmlFor="reel-url" className="modal-label"><Link size={14} className="label-icon" />
+                  URL del video <span className="required">*</span>
+                </label>
+
+                <input
+                  id="reel-url"
+                  type="url"
+                  placeholder="https://www.instagram.com/reel/..."
+                  value={form.url}
+                  onChange={(event) =>
+                    updateField("url", event.target.value)
+                  }
+                  onBlur={handleUrlBlur}
+                  disabled={saving}
+                  aria-invalid={Boolean(errors.url)}
+                  aria-describedby={
+                    errors.url ? "reel-url-error" : undefined
+                  }
+                />
+
+                {errors.url && (
+                  <span id="reel-url-error" className="form-error">
+                    {errors.url}
+                  </span>
+                )}
+              </div>
+
+              <div className="form-group">
+                <Select
+                  label="Estado"
+                  value={form.status}
+                  onValueChange={(value) =>
+                    updateField("status", value)
+                  }
+                  placeholder="Selecciona un estado"
+                  disabled={saving}
+                >
+                  {statuses.map((status) => (
+                    <Select.Item
+                      key={status.value}
+                      value={status.value}
+                    >
+                      {status.label}
+                    </Select.Item>
+                  ))}
+                </Select>
+              </div>
+            </div>
+
+            <div className={`form-group${errors.videoUrl ? " has-error" : ""}`}>
+              <label htmlFor="reel-video-url" className="modal-label"><Link size={14} className="label-icon" />
+                URL del video directo (opcional)
+              </label>
+
+              <input
+                id="reel-video-url"
+                type="url"
+                placeholder="https://res.cloudinary.com/.../reel.mp4"
+                value={form.videoUrl}
+                onChange={(event) =>
+                  updateField("videoUrl", event.target.value)
+                }
+                disabled={saving}
+                aria-invalid={Boolean(errors.videoUrl)}
+                aria-describedby={
+                  errors.videoUrl
+                    ? "reel-video-url-error"
+                    : "reel-video-url-hint"
+                }
+              />
+
+              <span id="reel-video-url-hint" className="form-hint">
+                Archivo MP4, WebM u OGG. Si lo completás, el reel se
+                reproduce automáticamente en la grilla. Si lo dejás
+                vacío, se mantiene el enlace social con lightbox.
+              </span>
+
+              {errors.videoUrl && (
+                <span id="reel-video-url-error" className="form-error">
+                  {errors.videoUrl}
                 </span>
               )}
             </div>
+
+            <div className="form-grid">
+              <div className="form-group">
+                <Select
+                  label="Sección de la Home"
+                  value={form.homeSection}
+                  onValueChange={(value) =>
+                    updateField("homeSection", value)
+                  }
+                  placeholder="Selecciona una sección"
+                  disabled={saving}
+                >
+                  {homeSections.map((section) => (
+                    <Select.Item
+                      key={section.value}
+                      value={section.value}
+                    >
+                      {section.label}
+                    </Select.Item>
+                  ))}
+                </Select>
+              </div>
+
+              <div className={`form-group${errors.sortOrder ? " has-error" : ""}`}>
+                <label htmlFor="reel-sort-order">
+                  Orden de aparición
+                </label>
+
+                <input
+                  id="reel-sort-order"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={form.sortOrder}
+                  onChange={(event) =>
+                    updateField("sortOrder", event.target.value)
+                  }
+                  disabled={saving}
+                  aria-invalid={Boolean(errors.sortOrder)}
+                  aria-describedby={
+                    errors.sortOrder
+                      ? "reel-sort-order-error"
+                      : undefined
+                  }
+                />
+
+                {errors.sortOrder && (
+                  <span
+                    id="reel-sort-order-error"
+                    className="form-error"
+                  >
+                    {errors.sortOrder}
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
 
-          <div className="reel-cover-tools">
-            <button
-              type="button"
-              className="reel-extract-button"
-              onClick={() => handleFetchCover()}
-              disabled={saving || coverFetching || !form.url.trim()}
-            >
-              {coverFetching ? "Obteniendo…" : "Obtener portada"}
-            </button>
+          <div className="modal-col">
+            <div className="form-group">
+              <div className="reel-cover-tools">
+                <button
+                  type="button"
+                  className="reel-extract-button"
+                  onClick={() => handleFetchCover()}
+                  disabled={saving || coverFetching || !form.url.trim()}
+                >
+                  {coverFetching ? "Obteniendo…" : "Obtener portada"}
+                </button>
 
-            <button
-              type="button"
-              className="reel-extract-button"
-              onClick={handleAutoImage}
-              disabled={
-                saving ||
-                searchingImage ||
-                (!form.title.trim() && !form.url.trim())
-              }
-            >
-              {searchingImage
-                ? "Buscando…"
-                : "Buscar portada automáticamente"}
-            </button>
+                <button
+                  type="button"
+                  className="reel-extract-button"
+                  onClick={handlePasteFromClipboard}
+                  disabled={saving}
+                >
+                  <FileText size={14} /> Pegar Imagen
+                </button>
+              </div>
 
-            <span className="reel-cover-hint">
-              YouTube y TikTok traen la miniatura automáticamente.
-              Instagram requiere subir la portada a mano.
-            </span>
+              <span className="reel-cover-hint">
+                YouTube y TikTok traen la miniatura automáticamente.
+                Instagram requiere subir la portada a mano.
+              </span>
+            </div>
+
+            {coverError && (
+              <div className="form-error" role="alert">
+                {coverError}
+              </div>
+            )}
+
+            {coverNotice && (
+              <div className="reel-form-notice" role="status">
+                {coverNotice}
+              </div>
+            )}
+
+            <ImageUploader
+              label="Imagen de portada"
+              value={coverFile}
+              onChange={handleCoverChange}
+              existingUrl={existingCoverUrl}
+            />
           </div>
-
-          {coverError && (
-            <div className="form-error" role="alert">
-              {coverError}
-            </div>
-          )}
-
-          {coverNotice && (
-            <div className="reel-form-notice" role="status">
-              {coverNotice}
-            </div>
-          )}
-
-          <ImageUploader
-            label="Imagen de portada"
-            value={coverFile}
-            onChange={handleCoverChange}
-            existingUrl={existingCoverUrl}
-          />
 
           <section className="reel-preview-block">
             <div className="reel-preview-heading">

@@ -1,7 +1,17 @@
 .reel-modal {
-  width: min(760px, 96vw);
+  width: min(950px, 96vw);
   height: auto;
   max-height: min(92vh, 860px);
+}
+
+.reel-extract-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reel-preview-block {
+  grid-column: 1 / -1;
 }
 
 .reel-modal .image-preview img {

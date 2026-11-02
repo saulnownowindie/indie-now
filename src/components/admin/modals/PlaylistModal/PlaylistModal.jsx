@@ -2,7 +2,7 @@ import "../NewsModal/NewsModal.css";
 import "./PlaylistModal.css";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Type, Music, Link, Activity, FileText, ListMusic, ArrowUpDown, Star, Image as ImageIcon, Loader2 } from "lucide-react";
+import { Type, Music, Link, Activity, FileText, ListMusic, ArrowUpDown, Star, Image as ImageIcon } from "lucide-react";
 import { FaSpotify, FaYoutube, FaTiktok } from "react-icons/fa6";
 
 import ImageUploader from "../../ui/ImageUploader";
@@ -14,7 +14,7 @@ import {
   uploadPlaylistCover,
 } from "../../../../services/playlistsService";
 import { resolveMediaUrl } from "../../../../utils/mediaUrl";
-import api from "../../../../services/api";
+import { readImageFromClipboard } from "../../../../utils/clipboardImage";
 
 const platforms = [
   { value: "SPOTIFY", label: "Spotify", icon: <FaSpotify className="platform-spotify" /> },
@@ -26,6 +26,15 @@ const statuses = [
   { value: "DRAFT", label: "Borrador" },
   { value: "PUBLISHED", label: "Publicado" },
 ];
+
+function isValidUrl(value) {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 
 export default function PlaylistModal({ onClose, playlist = null }) {
   const queryClient = useQueryClient();
@@ -48,11 +57,10 @@ export default function PlaylistModal({ onClose, playlist = null }) {
   const [removeCover, setRemoveCover] = useState(false);
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
-  const [searchingImage, setSearchingImage] = useState(false);
 
   function updateField(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
-    if (errors[field] || errors.submit) setErrors({ ...errors, [field]: "", submit: "" });
+    if (errors[field] || errors.submit) setErrors((current) => ({ ...current, [field]: "", submit: "" }));
   }
 
   function handleCoverChange(file) {
@@ -65,48 +73,40 @@ export default function PlaylistModal({ onClose, playlist = null }) {
     setRemoveCover(true);
   }
 
-  async function handleAutoImage() {
-    const title = form.title.trim();
-    const url = form.url.trim();
-
-    if (!title && !url) {
-      setErrors({
-        ...errors,
-        title: "Escribe un título o una URL para buscar una portada",
-      });
-      return;
-    }
-
-    setSearchingImage(true);
+  async function handlePasteFromClipboard() {
     try {
-      const { data } = await api.post("/image-search", { title, url });
-
-      if (data.suggestedTitle && !form.title.trim()) {
-        setForm((prev) => ({
-          ...prev,
-          title: prev.title.trim() ? prev.title : data.suggestedTitle,
-        }));
-      }
-
-      if (data.url) {
-        setExistingCoverUrl(data.url);
-        setCoverFile(null);
-        setRemoveCover(false);
-        setForm((prev) => ({ ...prev, _extractedCoverId: data.mediaId }));
-      }
+      const file = await readImageFromClipboard();
+      handleCoverChange(file);
+      setErrors((current) => ({ ...current, submit: "" }));
     } catch (error) {
-      setErrors({ ...errors, submit: "No se pudo extraer la portada." });
-    } finally {
-      setSearchingImage(false);
+      setErrors((current) => ({
+        ...current,
+        submit: error.message || "No se pudo leer el portapapeles.",
+      }));
     }
+  }
+
+  function validateForm() {
+    const newErrors = {};
+
+    if (!form.title.trim()) {
+      newErrors.title = "El título es obligatorio.";
+    }
+
+    if (!form.url.trim()) {
+      newErrors.url = "La URL es obligatoria.";
+    } else if (!isValidUrl(form.url.trim())) {
+      newErrors.url = "Ingresá una URL válida (por ejemplo https://...).";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (saving) return;
-
-    if (!form.title.trim()) return setErrors({ title: "El título es obligatorio" });
-    if (!form.url.trim()) return setErrors({ url: "La URL es obligatoria" });
+    if (saving || !validateForm()) return;
 
     setSaving(true);
     try {
@@ -128,9 +128,6 @@ export default function PlaylistModal({ onClose, playlist = null }) {
         payload.coverUrl = null;
       } else if (removeCover) {
         payload.coverImageId = null;
-        payload.coverUrl = null;
-      } else if (form._extractedCoverId) {
-        payload.coverImageId = form._extractedCoverId;
         payload.coverUrl = null;
       }
 
@@ -162,124 +159,129 @@ export default function PlaylistModal({ onClose, playlist = null }) {
         </div>
 
         <div className="modal-body">
-          <div className="form-grid">
-            <div className="form-group">
-              <label className="modal-label"><Type size={14} className="label-icon" /> Título *</label>
-              <input
-                type="text"
-                placeholder="Ej. Rock Paraguayo"
-                value={form.title}
-                onChange={(e) => updateField("title", e.target.value)}
-                disabled={saving}
-              />
-              {errors.title && <span className="form-error">{errors.title}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="modal-label"><Music size={14} className="label-icon" /> Plataforma *</label>
-              <Select value={form.platform} onValueChange={(v) => updateField("platform", v)} disabled={saving}>
-                {platforms.map((p) => (
-                  <Select.Item key={p.value} value={p.value}>
-                    <span className="playlist-platform-option">
-                      {p.icon}
-                      {p.label}
-                    </span>
-                  </Select.Item>
-                ))}
-              </Select>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-              <label className="modal-label" style={{ margin: 0, border: "none" }}>
-                <Link size={14} className="label-icon" /> URL de la playlist *
-              </label>
-              {/* Aquí está el botón para extraer la portada automáticamente */}
-              <button 
-                type="button" 
-                onClick={handleAutoImage} 
-                disabled={saving || searchingImage}
-                className="button-secondary"
-                style={{ padding: "6px 12px", fontSize: "0.8rem", display: "flex", alignItems: "center", gap: "6px" }}
-              >
-                {searchingImage ? <Loader2 className="animate-spin" size={14} /> : <ImageIcon size={14} />}
-                {searchingImage ? "Buscando..." : "Extraer Portada"}
-              </button>
-            </div>
-            <input
-              type="url"
-              placeholder="https://open.spotify.com/playlist/..."
-              value={form.url}
-              onChange={(e) => updateField("url", e.target.value)}
-              disabled={saving || searchingImage}
-            />
-            {errors.url && <span className="form-error">{errors.url}</span>}
-          </div>
-
-          <div className="form-group">
-            <label className="modal-label"><FileText size={14} className="label-icon" /> Descripción</label>
-            <textarea
-              placeholder="Contá de qué se trata la playlist..."
-              value={form.description}
-              onChange={(e) => updateField("description", e.target.value)}
-              disabled={saving}
-              rows={3}
-            />
-          </div>
-
-          <div className="form-grid">
-            <div className="form-group">
-              <label className="modal-label"><Activity size={14} className="label-icon" /> Estado</label>
-              <Select value={form.status} onValueChange={(v) => updateField("status", v)} disabled={saving}>
-                {statuses.map((s) => (
-                  <Select.Item key={s.value} value={s.value}>{s.label}</Select.Item>
-                ))}
-              </Select>
-            </div>
-
-            <div className="form-group">
-              <label className="modal-label"><ArrowUpDown size={14} className="label-icon" /> Orden de aparición</label>
-              <input
-                type="number"
-                value={form.sortOrder}
-                onChange={(e) => updateField("sortOrder", e.target.value)}
-                disabled={saving}
-                min="0"
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <div className="merch-toggle-container">
-              <div className="merch-toggle-text">
-                <label className="modal-label" style={{ border: 'none', marginBottom: 0 }}>
-                  <Star size={14} className="label-icon" /> Destacar en la Home
-                </label>
-                <p>Aparecerá en "No Podés Perderte" y en el reproductor flotante.</p>
-              </div>
-              <label className="switch">
+          <div className="modal-col">
+            <div className="form-grid">
+              <div className={`form-group${errors.title ? " has-error" : ""}`}>
+                <label className="modal-label"><Type size={14} className="label-icon" /> Título *</label>
                 <input
-                  type="checkbox"
-                  checked={form.featured}
-                  onChange={(e) => updateField("featured", e.target.checked)}
+                  type="text"
+                  placeholder="Ej. Rock Paraguayo"
+                  value={form.title}
+                  onChange={(e) => updateField("title", e.target.value)}
                   disabled={saving}
+                  aria-invalid={Boolean(errors.title)}
                 />
-                <span className="slider round"></span>
-              </label>
+                {errors.title && <span className="form-error">{errors.title}</span>}
+              </div>
+
+              <div className="form-group">
+                <label className="modal-label"><Music size={14} className="label-icon" /> Plataforma *</label>
+                <Select value={form.platform} onValueChange={(v) => updateField("platform", v)} disabled={saving}>
+                  {platforms.map((p) => (
+                    <Select.Item key={p.value} value={p.value}>
+                      <span className="playlist-platform-option">
+                        {p.icon}
+                        {p.label}
+                      </span>
+                    </Select.Item>
+                  ))}
+                </Select>
+              </div>
+            </div>
+
+            <div className={`form-group${errors.url ? " has-error" : ""}`}>
+              <label className="modal-label"><Link size={14} className="label-icon" /> URL de la playlist *</label>
+              <input
+                type="url"
+                placeholder="https://open.spotify.com/playlist/..."
+                value={form.url}
+                onChange={(e) => updateField("url", e.target.value)}
+                disabled={saving}
+                aria-invalid={Boolean(errors.url)}
+              />
+              {errors.url && <span className="form-error">{errors.url}</span>}
+            </div>
+
+            <div className="form-group">
+              <label className="modal-label"><FileText size={14} className="label-icon" /> Descripción</label>
+              <textarea
+                placeholder="Contá de qué se trata la playlist..."
+                value={form.description}
+                onChange={(e) => updateField("description", e.target.value)}
+                disabled={saving}
+                rows={3}
+              />
+            </div>
+
+            <div className="form-grid">
+              <div className="form-group">
+                <label className="modal-label"><Activity size={14} className="label-icon" /> Estado</label>
+                <Select value={form.status} onValueChange={(v) => updateField("status", v)} disabled={saving}>
+                  {statuses.map((s) => (
+                    <Select.Item key={s.value} value={s.value}>{s.label}</Select.Item>
+                  ))}
+                </Select>
+              </div>
+
+              <div className="form-group">
+                <label className="modal-label"><ArrowUpDown size={14} className="label-icon" /> Orden de aparición</label>
+                <input
+                  type="number"
+                  value={form.sortOrder}
+                  onChange={(e) => updateField("sortOrder", e.target.value)}
+                  disabled={saving}
+                  min="0"
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <div className="merch-toggle-container">
+                <div className="merch-toggle-text">
+                  <label className="modal-label" style={{ border: 'none', marginBottom: 0 }}>
+                    <Star size={14} className="label-icon" /> Destacar en la Home
+                  </label>
+                  <p>Aparecerá en "No Podés Perderte" y en el reproductor flotante.</p>
+                </div>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={form.featured}
+                    onChange={(e) => updateField("featured", e.target.checked)}
+                    disabled={saving}
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
             </div>
           </div>
 
-          <div className="form-group">
-            <label className="modal-label"><ImageIcon size={14} className="label-icon" /> Portada de la playlist</label>
-            <ImageUploader
-              value={coverFile}
-              onChange={handleCoverChange}
-              existingUrl={existingCoverUrl}
-            />
-          </div>
+          <div className="modal-col">
+            <div className="form-group">
+              <div className="cover-toolbar">
+                <label className="modal-label">
+                  <ImageIcon size={14} className="label-icon" /> Portada de la playlist
+                </label>
 
-          {errors.submit && <div className="form-error form-error-submit">{errors.submit}</div>}
+                <button
+                  type="button"
+                  onClick={handlePasteFromClipboard}
+                  disabled={saving}
+                  className="btn-extract"
+                >
+                  <FileText size={14} /> Pegar Imagen
+                </button>
+              </div>
+
+              <ImageUploader
+                value={coverFile}
+                onChange={handleCoverChange}
+                existingUrl={existingCoverUrl}
+              />
+
+              {errors.submit && <div className="form-error form-error-submit">{errors.submit}</div>}
+            </div>
+          </div>
         </div>
 
         <div className="modal-footer">

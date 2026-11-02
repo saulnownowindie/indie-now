@@ -1,4 +1,4 @@
-import { Type, Music, Link, Activity, FileText, User, ListMusic, ArrowUpDown, Star, Image, Tag, DollarSign, Smile } from "lucide-react";
+import { Type, Image, FileText, Tag, DollarSign } from "lucide-react";
 import "../NewsModal/NewsModal.css";
 import "./MerchModal.css";
 
@@ -14,6 +14,7 @@ import {
   uploadMerchCover,
 } from "../../../../services/merchService";
 import { resolveMediaUrl } from "../../../../utils/mediaUrl";
+import { readImageFromClipboard } from "../../../../utils/clipboardImage";
 
 const statuses = [
   { value: "DRAFT", label: "Borrador" },
@@ -65,6 +66,19 @@ export default function MerchModal({ onClose, merch = null }) {
     }
     setExistingCoverUrl(null);
     setRemoveCover(true);
+  }
+
+  async function handlePasteFromClipboard() {
+    try {
+      const file = await readImageFromClipboard();
+      handleCoverChange(file);
+      setErrors((current) => ({ ...current, submit: "" }));
+    } catch (error) {
+      setErrors((current) => ({
+        ...current,
+        submit: error.message || "No se pudo leer el portapapeles.",
+      }));
+    }
   }
 
   function validateForm() {
@@ -127,93 +141,116 @@ export default function MerchModal({ onClose, merch = null }) {
         </div>
 
         <div className="modal-body">
-          <div className="form-grid">
-            <div className="form-group">
-              <label className="modal-label"><Type size={14} className="label-icon" /> Nombre <span className="required">*</span></label>
-              <input
-                type="text"
-                placeholder="Ej. Remera Indie Now"
-                value={form.name}
-                onChange={(e) => updateField("name", e.target.value)}
-                disabled={saving}
-              />
-              {errors.name && <span className="form-error">{errors.name}</span>}
+          <div className="modal-col">
+            <div className="form-grid">
+              <div className={`form-group${errors.name ? " has-error" : ""}`}>
+                <label className="modal-label"><Type size={14} className="label-icon" /> Nombre <span className="required">*</span></label>
+                <input
+                  type="text"
+                  placeholder="Ej. Remera Indie Now"
+                  value={form.name}
+                  onChange={(e) => updateField("name", e.target.value)}
+                  disabled={saving}
+                  aria-invalid={Boolean(errors.name)}
+                />
+                {errors.name && <span className="form-error">{errors.name}</span>}
+              </div>
+
+              <div className={`form-group${errors.price ? " has-error" : ""}`}>
+                <label className="modal-label"><DollarSign size={14} className="label-icon" /> Precio <span className="required">*</span></label>
+                <input
+                  type="text"
+                  placeholder="Ej. $20.000"
+                  value={form.price}
+                  onChange={(e) => updateField("price", e.target.value)}
+                  disabled={saving}
+                  aria-invalid={Boolean(errors.price)}
+                />
+                {errors.price && <span className="form-error">{errors.price}</span>}
+              </div>
+            </div>
+
+            <div className="form-grid">
+              <div className="form-group">
+                <label className="modal-label"><Tag size={14} className="label-icon" /> Colección</label>
+                <input
+                  type="text"
+                  placeholder="Ej. Verano 2026"
+                  value={form.collection}
+                  onChange={(e) => updateField("collection", e.target.value)}
+                  disabled={saving}
+                />
+              </div>
+
+              <div className="form-group">
+                <Select
+                  label="Estado"
+                  value={form.status}
+                  onValueChange={(value) => updateField("status", value)}
+                  disabled={saving}
+                >
+                  {statuses.map((s) => (
+                    <Select.Item key={s.value} value={s.value}>{s.label}</Select.Item>
+                  ))}
+                </Select>
+              </div>
             </div>
 
             <div className="form-group">
-              <label className="modal-label"><DollarSign size={14} className="label-icon" /> Precio <span className="required">*</span></label>
-              <input
-                type="text"
-                placeholder="Ej. $20.000"
-                value={form.price}
-                onChange={(e) => updateField("price", e.target.value)}
+              <label className="modal-label"><FileText size={14} className="label-icon" /> Descripción</label>
+              <textarea
+                placeholder="Detalles del producto..."
+                value={form.description}
+                onChange={(e) => updateField("description", e.target.value)}
                 disabled={saving}
+                rows={3}
               />
-              {errors.price && <span className="form-error">{errors.price}</span>}
+            </div>
+
+            <div className="merch-toggle-container">
+              <div className="merch-toggle-text">
+                <label htmlFor="featured">Destacar en la Home</label>
+                <p>Este producto aparecerá en la sección principal de la página.</p>
+              </div>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={form.featured}
+                  onChange={(e) => updateField("featured", e.target.checked)}
+                  disabled={saving}
+                />
+                <span className="slider round"></span>
+              </label>
             </div>
           </div>
 
-          <div className="form-grid">
+          <div className="modal-col">
             <div className="form-group">
-              <label className="modal-label"><Tag size={14} className="label-icon" /> Colección</label>
-              <input
-                type="text"
-                placeholder="Ej. Verano 2026"
-                value={form.collection}
-                onChange={(e) => updateField("collection", e.target.value)}
-                disabled={saving}
+              <div className="cover-toolbar">
+                <label className="modal-label">
+                  <Image size={14} className="label-icon" /> Imagen del producto
+                </label>
+
+                <button
+                  type="button"
+                  onClick={handlePasteFromClipboard}
+                  disabled={saving}
+                  className="btn-extract"
+                >
+                  <FileText size={14} /> Pegar Imagen
+                </button>
+              </div>
+
+              <ImageUploader
+                value={coverFile}
+                onChange={handleCoverChange}
+                existingUrl={existingCoverUrl}
               />
-            </div>
 
-            <div className="form-group">
-              <Select
-                label="Estado"
-                value={form.status}
-                onValueChange={(value) => updateField("status", value)}
-                disabled={saving}
-              >
-                {statuses.map((s) => (
-                  <Select.Item key={s.value} value={s.value}>{s.label}</Select.Item>
-                ))}
-              </Select>
+              {errors.submit && <div className="form-error form-error-submit">{errors.submit}</div>}
             </div>
           </div>
-
-          <div className="form-group">
-            <label className="modal-label"><FileText size={14} className="label-icon" /> Descripción</label>
-            <textarea
-              placeholder="Detalles del producto..."
-              value={form.description}
-              onChange={(e) => updateField("description", e.target.value)}
-              disabled={saving}
-              rows={3}
-            />
-          </div>
-
-          <div className="merch-toggle-container">
-            <div className="merch-toggle-text">
-              <label htmlFor="featured">Destacar en la Home</label>
-              <p>Este producto aparecerá en la sección principal de la página.</p>
-            </div>
-            <label className="switch">
-              <input
-                type="checkbox"
-                id="featured"
-                checked={form.featured}
-                onChange={(e) => updateField("featured", e.target.checked)}
-                disabled={saving}
-              />
-              <span className="slider round"></span>
-            </label>
-          </div>
-          <ImageUploader
-            label="Imagen del producto"
-            value={coverFile}
-            onChange={handleCoverChange}
-            existingUrl={existingCoverUrl}
-          />
-
-          {errors.submit && <div className="form-error form-error-submit">{errors.submit}</div>}
         </div>
 
         <div className="modal-footer">

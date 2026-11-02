@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { FaSpotify, FaPlay, FaPause, FaTimes, FaChevronDown } from "react-icons/fa";
+import { FaSpotify, FaPlay, FaPause, FaChevronDown } from "react-icons/fa";
 import "./FloatingSpotifyPlayer.css";
 
 export default function FloatingSpotifyPlayer({ playlistUrl }) {
@@ -17,6 +17,18 @@ export default function FloatingSpotifyPlayer({ playlistUrl }) {
   };
 
   const playlistUri = getSpotifyUri(playlistUrl);
+
+  const createController = () => {
+    if (!embedRef.current || !window.SpotifyIframeApi) return;
+
+    const options = { uri: playlistUri, width: "100%", height: 152 };
+    window.SpotifyIframeApi.createController(embedRef.current, options, (ctrl) => {
+      setController(ctrl);
+      ctrl.addListener("playback_update", (e) => {
+        setIsPlaying(!e.data.isPaused);
+      });
+    });
+  };
 
   useEffect(() => {
     if (!playlistUri) return;
@@ -36,19 +48,8 @@ export default function FloatingSpotifyPlayer({ playlistUrl }) {
     script.src = "https://open.spotify.com/embed/iframe-api/v1";
     script.async = true;
     document.body.appendChild(script);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playlistUri]);
-
-  const createController = () => {
-    if (!embedRef.current || !window.SpotifyIframeApi) return;
-
-    const options = { uri: playlistUri, width: "100%", height: 152 };
-    window.SpotifyIframeApi.createController(embedRef.current, options, (ctrl) => {
-      setController(ctrl);
-      ctrl.addListener("playback_update", (e) => {
-        setIsPlaying(!e.data.isPaused);
-      });
-    });
-  };
 
   const togglePlay = (e) => {
     e.stopPropagation();

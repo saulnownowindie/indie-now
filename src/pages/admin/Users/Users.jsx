@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Pencil, Plus } from "lucide-react";
 
 import "./Users.css";
 
@@ -14,15 +14,18 @@ import { resolveMediaUrl } from "../../../utils/mediaUrl";
 
 export default function Users() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
 
   const { data: users = [], isLoading, isError } = useUsers();
 
   function openCreateModal() {
+    setEditingUser(null);
     setModalOpen(true);
   }
 
   function closeModal() {
     setModalOpen(false);
+    setEditingUser(null);
   }
 
   return (
@@ -44,11 +47,12 @@ export default function Users() {
             { key: "avatar", label: "Avatar" },
             { key: "name", label: "Nombre" },
             { key: "email", label: "Email" },
+            { key: "actions", label: "Acciones" },
           ]}
         >
           {isLoading && (
             <tr>
-              <td colSpan={3}>
+              <td colSpan={4}>
                 <TableEmpty
                   title="Cargando usuarios"
                   description="Obteniendo datos..."
@@ -59,7 +63,7 @@ export default function Users() {
 
           {isError && (
             <tr>
-              <td colSpan={3}>
+              <td colSpan={4}>
                 <TableEmpty
                   title="Error"
                   description="No se pudieron cargar los usuarios."
@@ -70,7 +74,7 @@ export default function Users() {
 
           {!isLoading && !isError && users.length === 0 && (
             <tr>
-              <td colSpan={3}>
+              <td colSpan={4}>
                 <TableEmpty
                   title="No hay usuarios"
                   description="Agrega el primer usuario."
@@ -81,17 +85,17 @@ export default function Users() {
 
           {!isLoading &&
             !isError &&
-            users.map((item) => {
-              const avatarUrl = resolveMediaUrl(item.avatarUrl, 80);
-              const initial = (item.name || "?").trim().charAt(0).toUpperCase();
+            users.map((user) => {
+              const avatarUrl = resolveMediaUrl(user.avatarUrl);
+              const initial = (user.name || "?").trim().charAt(0).toUpperCase();
 
               return (
-                <tr key={item.id}>
+                <tr key={user.id}>
                   <td>
                     {avatarUrl ? (
                       <img
                         src={avatarUrl}
-                        alt={item.name}
+                        alt={user.name}
                         className="users-table-avatar"
                         loading="lazy"
                         decoding="async"
@@ -103,9 +107,24 @@ export default function Users() {
                     )}
                   </td>
                   <td>
-                    <strong>{item.name}</strong>
+                    <strong>{user.name}</strong>
                   </td>
-                  <td>{item.email}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    <div className="users-actions">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        icon={<Pencil size={15} />}
+                        onClick={() => {
+                          setEditingUser(user);
+                          setModalOpen(true);
+                        }}
+                      >
+                        Editar
+                      </Button>
+                    </div>
+                  </td>
                 </tr>
               );
             })}
@@ -114,8 +133,9 @@ export default function Users() {
 
       {modalOpen && (
         <UserModal
-          key="new"
+          key={editingUser?.id ?? "new"}
           onClose={closeModal}
+          user={editingUser}
         />
       )}
     </>

@@ -26,3 +26,8 @@
 
   text-transform: uppercase;
 }
+
+.users-actions {
+  display: flex;
+  gap: 8px;
+}

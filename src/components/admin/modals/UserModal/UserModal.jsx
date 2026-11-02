@@ -6,20 +6,20 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import ImageUploader from "../../ui/ImageUploader";
 
-import { createUser, uploadUserAvatar } from "../../../../services/usersService";
+import { createUser, updateUser, uploadUserAvatar } from "../../../../services/usersService";
 import { readImageFromClipboard } from "../../../../utils/clipboardImage";
 
-export default function UserModal({ onClose }) {
+export default function UserModal({ onClose, user = null }) {
   const queryClient = useQueryClient();
+  const isEditing = Boolean(user);
 
   const [form, setForm] = useState({
-    name: "",
-    email: "",
+    name: user?.name ?? "",
+    email: user?.email ?? "",
     password: "",
   });
 
   const [avatarFile, setAvatarFile] = useState(null);
-  const [existingAvatarUrl, setExistingAvatarUrl] = useState(null);
   const [removeAvatar, setRemoveAvatar] = useState(false);
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
@@ -37,7 +37,6 @@ export default function UserModal({ onClose }) {
       setRemoveAvatar(false);
       return;
     }
-    setExistingAvatarUrl(null);
     setRemoveAvatar(true);
   }
 
@@ -67,10 +66,16 @@ export default function UserModal({ onClose }) {
       newErrors.email = "Ingresá un email válido.";
     }
 
-    if (!form.password) {
-      newErrors.password = "La contraseña es obligatoria.";
-    } else if (form.password.length < 6) {
-      newErrors.password = "La contraseña debe tener al menos 6 caracteres.";
+    if (isEditing) {
+      if (form.password && form.password.length < 6) {
+        newErrors.password = "La contraseña debe tener al menos 6 caracteres.";
+      }
+    } else {
+      if (!form.password) {
+        newErrors.password = "La contraseña es obligatoria.";
+      } else if (form.password.length < 6) {
+        newErrors.password = "La contraseña debe tener al menos 6 caracteres.";
+      }
     }
 
     setErrors(newErrors);
@@ -88,8 +93,11 @@ export default function UserModal({ onClose }) {
       const payload = {
         name: form.name.trim(),
         email: form.email.trim(),
-        password: form.password,
       };
+
+      if (form.password) {
+        payload.password = form.password;
+      }
 
       if (avatarFile) {
         const media = await uploadUserAvatar(avatarFile);
@@ -98,7 +106,11 @@ export default function UserModal({ onClose }) {
         payload.avatarUrl = null;
       }
 
-      await createUser(payload);
+      if (isEditing) {
+        await updateUser(user.id, payload);
+      } else {
+        await createUser(payload);
+      }
 
       await queryClient.invalidateQueries({ queryKey: ["users"] });
       onClose();
@@ -139,7 +151,7 @@ export default function UserModal({ onClose }) {
         <div className="modal-header">
           <h2 style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <User size={24} color="var(--color-primary)" />
-            Nuevo usuario
+            {isEditing ? "Editar usuario" : "Nuevo usuario"}
           </h2>
           <button type="button" className="modal-close" onClick={onClose} disabled={saving}>
             ✕
@@ -180,11 +192,11 @@ export default function UserModal({ onClose }) {
 
             <div className={`form-group${errors.password ? " has-error" : ""}`}>
               <label className="modal-label">
-                <LockKeyhole size={14} className="label-icon" /> Contraseña *
+                <LockKeyhole size={14} className="label-icon" /> Contraseña {isEditing ? "" : "*"}
               </label>
               <input
                 type="password"
-                placeholder="••••••••"
+                placeholder={isEditing ? "Dejar en blanco para no cambiar" : "••••••••"}
                 value={form.password}
                 onChange={(e) => updateField("password", e.target.value)}
                 disabled={saving}
@@ -220,7 +232,7 @@ export default function UserModal({ onClose }) {
               <ImageUploader
                 value={avatarFile}
                 onChange={handleAvatarChange}
-                existingUrl={existingAvatarUrl}
+                existingUrl={removeAvatar ? null : (user?.avatarUrl ?? null)}
               />
               {errors.avatarUrl && (
                 <span className="form-error">{errors.avatarUrl}</span>

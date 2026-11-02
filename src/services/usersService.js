@@ -10,6 +10,11 @@ export async function createUser(user) {
   return data;
 }
 
+export async function updateUser(id, user) {
+  const { data } = await api.put(`/users/${id}`, user);
+  return data;
+}
+
 export async function uploadUserAvatar(file) {
   const formData = new FormData();
   formData.append("file", file);

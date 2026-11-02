@@ -63,7 +63,7 @@ Es lo que ve el público y también el panel de administración.
 | Zona | Direcciones | Quién entra |
 | --- | --- | --- |
 | Sitio público | `/`, `/noticias`, `/noticias/:slug`, `/reels`, `/merch`, `/resenas`, `/sesiones`, `/no-podes-perderte` | Cualquiera |
-| Panel | `/admin`, `/admin/news`, `/admin/reels`, etc. | Solo usuarios con sesión |
+| Panel | `/admin`, `/admin/news`, `/admin/reels`, `/admin/users`, etc. | Solo usuarios con sesión |
 
 La zona `/admin` está protegida: si no hay sesión iniciada, redirige al login.
 
@@ -395,6 +395,8 @@ Las claves nunca se guardan en el código. Van en variables de entorno.
   de Reels ya no tiene columna de preview.
 - Las pestañas **Archivadas** y **Papelera** de Noticias se muestran siempre
   vacías: no archivan ni borran nada todavía.
+- La sección **Equipo** del panel permite **crear** y **editar** usuarios (nombre,
+  email, contraseña y avatar). La contraseña es opcional al editar.
 - El **reproductor flotante** depende de Spotify y de que exista una playlist de
   Spotify destacada. Si no la hay, o si Spotify bloquea la incrustación, no se
   muestra.

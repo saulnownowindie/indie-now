@@ -41,10 +41,13 @@ Al entrar vas a ver un menú lateral con estas secciones:
 | **Reels** | Crear, editar y borrar reels, y generar sus previews. |
 | **Merch** | Crear, editar y borrar productos. |
 | **Playlists** | Crear, editar y borrar playlists. La playlist destacada se escucha en el reproductor flotante del sitio. |
+| **Equipo** | Crear usuarios del panel (nombre, email, contraseña y avatar opcional). La tabla lista los usuarios existentes. |
 | **Configuración** | Sección en preparación. |
 
-Cada listado tiene un buscador y, en cada fila, un botón **Editar** (con ícono
-de lápiz) y otro **Eliminar** (con ícono de tacho de basura).
+La mayoría de los listados tienen un buscador y, en cada fila, un botón
+**Editar** (con ícono de lápiz) y otro **Eliminar** (con ícono de tacho de
+basura). La sección **Equipo** es la excepción: por ahora solo lista los
+usuarios y permite crear nuevos, sin buscador ni edición ni borrado.
 
 Al presionar **Eliminar** no se borra de inmediato: aparece un cuadro de
 confirmación con el nombre del contenido y dos botones, **Cancelar** y
@@ -328,7 +331,38 @@ Si no hay ninguna playlist de Spotify destacada, el reproductor no aparece.
 
 ---
 
-## 8. Secciones en preparación
+## 8. Equipo (usuarios del panel)
+
+### Agregar un usuario
+
+1. Entrá a **Equipo** en el menú lateral.
+2. Presioná **Agregar Nuevo Usuario**.
+3. Completá:
+   - **Nombre** (obligatorio).
+   - **Email** (obligatorio): debe tener formato de correo (por ejemplo
+     `nombre@indienow.com`).
+   - **Contraseña** (obligatoria): al menos 6 caracteres.
+   - **Avatar** (opcional): subilo con el selector de archivos, arrastrándolo o
+     pegándolo con `Ctrl + V` usando el botón **Pegar Imagen**.
+4. Presioná **Guardar**.
+
+Mientras se guarda, el botón dice **Guardando...** y queda bloqueado para evitar
+duplicados. Si algún dato no es válido, el formulario muestra el error
+correspondiente y no se crea el usuario.
+
+La tabla de **Equipo** muestra, para cada usuario, su avatar (o la inicial del
+nombre si no tiene), el nombre y el email. Desde el panel se pueden **crear** y
+**editar** usuarios (nombre, email, contraseña y avatar). Para editar, usá el
+botón **Editar** (con ícono de lápiz) en la fila correspondiente; la contraseña
+es opcional al editar (dejala en blanco para no cambiarla).
+
+> **Seguridad:** las contraseñas se guardan cifradas. Nadie puede leerlas, ni
+> siquiera desde el panel. Elegí una contraseña distinta para cada persona y
+> no la compartas.
+
+---
+
+## 9. Secciones en preparación
 
 Las siguientes secciones ya aparecen en el menú, pero todavía son pantallas en
 construcción:
@@ -345,7 +379,7 @@ Cuando estas secciones estén terminadas, este manual se actualizará.
 
 ---
 
-## 9. Preguntas frecuentes
+## 10. Preguntas frecuentes
 
 **¿Por qué no veo mi contenido publicado en el sitio?**
 Revisá tres cosas: que el estado sea **Publicado**, que esté **Destacado** (si
@@ -377,7 +411,7 @@ computadora, porque el celular puede suspender la pestaña.
 
 ---
 
-## 10. Buenas prácticas editoriales
+## 11. Buenas prácticas editoriales
 
 - Escribí títulos claros y cortos: se leen mejor en el celular.
 - Usá portadas con rostros, instrumentos o acción; llaman más la atención.

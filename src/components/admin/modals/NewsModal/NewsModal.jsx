@@ -9,7 +9,8 @@ import {
   Activity, 
   Link as LinkIcon, 
   Image as ImageIcon, 
-  Loader2 
+  Loader2,
+  FileText // <-- Nuevo icono para el botón de pegar
 } from "lucide-react";
 import {
   FaFacebook,
@@ -164,6 +165,40 @@ export default function NewsModal({ onClose, news = null }) {
       });
     } finally {
       setSearchingImage(false);
+    }
+  }
+
+  // NUEVA FUNCIÓN: Leer el portapapeles
+  async function handlePasteFromClipboard() {
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.read) {
+        setErrors({ ...errors, submit: "Tu navegador no soporta pegar imágenes directamente." });
+        return;
+      }
+
+      const items = await navigator.clipboard.read();
+      let imageFound = false;
+
+      for (const item of items) {
+        const imageType = item.types.find((type) => type.startsWith("image/"));
+        
+        if (imageType) {
+          const blob = await item.getType(imageType);
+          const file = new File([blob], "pasted-image.png", { type: imageType });
+          
+          handleCoverChange(file);
+          imageFound = true;
+          break;
+        }
+      }
+
+      if (!imageFound) {
+        setErrors({ ...errors, submit: "No se encontró ninguna imagen en el portapapeles. Copia una imagen primero." });
+      } else {
+        setErrors({ ...errors, submit: "" });
+      }
+    } catch (error) {
+      setErrors({ ...errors, submit: "No se pudo leer el portapapeles. Revisa los permisos del navegador." });
     }
   }
 
@@ -339,16 +374,28 @@ export default function NewsModal({ onClose, news = null }) {
                 <ImageIcon size={14} className="label-icon" /> Portada
               </label>
               
-              {/* BOTÓN CON LA NUEVA CLASE btn-extract */}
-              <button
-                type="button"
-                onClick={handleAutoImage}
-                disabled={saving || searchingImage}
-                className="btn-extract"
-              >
-                {searchingImage ? <Loader2 className="animate-spin" size={14} /> : <ImageIcon size={14} />}
-                {searchingImage ? "Buscando..." : "Buscar portada automáticamente"}
-              </button>
+              <div style={{ display: "flex", gap: "10px" }}>
+                {/* NUEVO BOTÓN DE PEGAR */}
+                <button
+                  type="button"
+                  onClick={handlePasteFromClipboard}
+                  disabled={saving}
+                  className="btn-extract"
+                  style={{ background: "transparent", color: "var(--color-text-light)", border: "1px solid var(--color-border)" }}
+                >
+                  <FileText size={14} /> Pegar Imagen
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleAutoImage}
+                  disabled={saving || searchingImage}
+                  className="btn-extract"
+                >
+                  {searchingImage ? <Loader2 className="animate-spin" size={14} /> : <ImageIcon size={14} />}
+                  {searchingImage ? "Buscando..." : "Buscar portada automáticamente"}
+                </button>
+              </div>
             </div>
 
             <ImageUploader

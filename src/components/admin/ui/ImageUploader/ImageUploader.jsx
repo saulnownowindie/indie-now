@@ -104,6 +104,23 @@ export default function ImageUploader({
     handleFile(e.dataTransfer.files?.[0]);
   }
 
+  // NUEVA FUNCIÓN: Para manejar el Ctrl+V (Pegar)
+  function handlePaste(e) {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf("image") !== -1) {
+        const file = items[i].getAsFile();
+        if (file) {
+          handleFile(file);
+          e.preventDefault(); // Evita que el navegador intente pegar texto
+        }
+        break;
+      }
+    }
+  }
+
   function resetDragState() {
     dragDepth.current = 0;
     setIsDragging(false);
@@ -138,6 +155,9 @@ export default function ImageUploader({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       onDragEnd={resetDragState}
+      onPaste={handlePaste} // <-- Añadido para capturar el Ctrl+V
+      tabIndex={0}          // <-- Necesario para que el div pueda recibir el foco del teclado
+      style={{ outline: "none" }} // Ocultamos el borde de foco por defecto
     >
 
       {label && (
@@ -165,7 +185,7 @@ export default function ImageUploader({
         >
           <ImagePlus size={46} />
 
-          <h3>{isDragging ? "Suelta la imagen aquí" : "Arrastra una imagen"}</h3>
+          <h3>{isDragging ? "Suelta la imagen aquí" : "Arrastra una imagen o pega con Ctrl+V"}</h3>
 
           <p>o haz clic para seleccionarla</p>
 

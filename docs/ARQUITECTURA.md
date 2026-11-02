@@ -1,6 +1,6 @@
 # Arquitectura de Indie Now
 
-> **Última actualización:** 30 de octubre de 2026.
+> **Última actualización:** 1 de noviembre de 2026.
 
 Este documento explica cómo está armado el proyecto en lenguaje sencillo.
 No hace falta ser programador para entenderlo: cada término técnico se explica
@@ -71,6 +71,21 @@ La zona `/admin` está protegida: si no hay sesión iniciada, redirige al login.
 > enlaza desde el menú ni desde la Home. La decisión de producto es no mostrar
 > reseñas por ahora.
 
+**Piezas que se repiten en varias páginas públicas:**
+
+| Pieza | Qué hace |
+| --- | --- |
+| Tarjeta de noticia | Muestra portada (o un recuadro con el ícono de diario si no hay imagen). Si la noticia tiene cuerpo propio, lleva a `/noticias/:slug`; si no, abre la publicación original en una pestaña nueva. |
+| Tarjeta de playlist (`PlaylistCard`) | Muestra portada, plataforma, título y cantidad de canciones. Al tocarla abre la playlist en su plataforma. |
+| Tarjeta de “Lo Último” | Muestra la imagen del contenido si existe; si no, un ícono según el tipo de contenido. |
+| Reproductor flotante de Spotify (`FloatingSpotifyPlayer`) | Abajo a la derecha, con el nombre “Indie Now Radio”. Usa la primera playlist de Spotify que esté destacada. Se puede minimizar a un botón. |
+
+**Página “No Podés Perderte” (`/no-podes-perderte`):** muestra una grilla con
+las playlists publicadas que devuelve la API, con estados de “Cargando…”,
+“No pudimos cargar las playlists” (con botón **Reintentar**) y “Todavía no hay
+playlists publicadas”. Todavía no incluye las tarjetas de festivales y
+coberturas que pedía la spec.
+
 ### 2.2 La API (backend)
 
 Es el "mostrador" al que el sitio le pide los datos. No tiene pantallas: solo
@@ -97,7 +112,8 @@ playlists, reels, videos, utils, worker
 ```
 
 La API expone direcciones como `/api/news`, `/api/reels`, `/api/merch`,
-`/api/playlists` y `/api/worker`.
+`/api/playlists`, `/api/worker` y `/api/image-search` (la búsqueda automática de
+portadas que usa el panel).
 
 ### 2.3 El worker (Python)
 
@@ -154,6 +170,19 @@ Guarda y entrega **imágenes y clips de video**.
 serverless no tienen disco permanente y porque una CDN como Cloudinary entrega
 las imágenes mucho más rápido en cualquier país.
 
+### Spotify
+
+No se guarda nada de Spotify en el sistema: solo se guarda el enlace de la
+playlist en la base de datos.
+
+- Para el reproductor flotante, el sitio carga el **reproductor incrustado de
+  Spotify** (su “IFrame API”, una pieza oficial de Spotify que se ejecuta en el
+  navegador del visitante).
+- Si la playlist es privada o Spotify cambia su funcionamiento, el reproductor
+  puede no cargar, pero el resto de la página sigue funcionando.
+- Cada tarjeta de playlist enlaza a la plataforma original, así que el visitante
+  siempre puede abrirla directamente.
+
 ---
 
 ## 4. Cómo funciona una visita al sitio
@@ -163,7 +192,9 @@ las imágenes mucho más rápido en cualquier país.
 3. El sitio pide a la API las noticias, reels, merch y playlists.
 4. La API consulta Neon con Prisma y devuelve los datos.
 5. El sitio muestra las imágenes y clips desde Cloudinary.
-6. TanStack Query guarda la respuesta unos minutos: si la persona navega entre
+6. Si hay una playlist de Spotify destacada, el sitio carga el reproductor
+   incrustado de Spotify y lo muestra flotando abajo a la derecha.
+7. TanStack Query guarda la respuesta unos minutos: si la persona navega entre
    secciones, no se repiten los pedidos.
 
 ---
@@ -228,7 +259,7 @@ Entre reel y reel espera 20–40 segundos para no saturar las plataformas.
 | **News** | Noticias: título, slug, contenido, plataforma, estado, portada. |
 | **Reel** | Reels: plataforma, enlace, preview, poster, estado, sección. |
 | **Merch** | Productos: nombre, precio, colección, imagen, estado. |
-| **Playlist** | Playlists: plataforma, enlace, portada, cantidad de canciones. |
+| **Playlist** | Playlists: plataforma, enlace, portada, descripción, orden, destacada, cantidad de canciones e ícono. |
 | **LiveSession** | Sesiones en vivo (módulo propio, con datos de YouTube). |
 | **Video** | Videos generales. |
 
@@ -249,7 +280,8 @@ para que los enlaces no cambien si se edita el título.
 web/
 ├── indie-now/                  ← sitio web (React + Vite)
 │   ├── src/
-│   │   ├── components/         ← piezas reutilizables (Header, Card, ReelCard…)
+│   │   ├── components/         ← piezas reutilizables (Header, Card, ReelCard,
+│   │   │                          PlaylistCard, reproductor flotante de Spotify…)
 │   │   ├── pages/              ← pantallas públicas y del panel
 │   │   ├── layouts/            ← estructuras con header/footer o sidebar
 │   │   ├── hooks/              ← lógica de datos reutilizable
@@ -297,7 +329,7 @@ Las claves nunca se guardan en el código. Van en variables de entorno.
 
 | Variable | Para qué |
 | --- | --- |
-| `VITE_API_URL` | Dirección de la API. Si no se define, usa `http://localhost:3000/api`. |
+| `VITE_API_URL` | Dirección de la API (por ejemplo, la URL pública terminada en `/api`). **En producción es obligatoria**: si falta, el sitio muestra un error en la consola del navegador y usa `/api` como último recurso. En desarrollo, si no se define, apunta a `http://<la-ip-o-nombre-de-tu-máquina>:3000/api`. |
 
 **Worker (`indie-now-api/worker/.env`):**
 
@@ -344,6 +376,9 @@ Las claves nunca se guardan en el código. Van en variables de entorno.
 - **Logos livianos:** el logo del header/footer se sirve en WebP de ~10 KB (antes
   pesaba ~860 KB) y el favicon es un PNG pequeño.
 - **Menos re-renders:** componentes frecuentes usan `React.memo` y `useMemo`.
+- **Reproductor flotante:** solo se carga si hay una playlist de Spotify
+  destacada. El reproductor incrustado se crea una sola vez y no se destruye al
+  minimizarlo, para no cortar la reproducción.
 
 ---
 
@@ -353,6 +388,16 @@ Las claves nunca se guardan en el código. Van en variables de entorno.
   está apagada, los previews quedan pendientes.
 - Las secciones **Dashboard, Categorías, Sesiones y Configuración** del panel
   todavía son pantallas en construcción.
+- El formulario de **Noticias** del panel no tiene campo de **cuerpo**, ni de
+  **sección de la Home**, ni de **orden**. Hoy las noticias se cargan como
+  enlace a la red social: la tarjeta del sitio abre la publicación original.
+  El estado del preview de un reel solo se ve abriendo el reel, porque la tabla
+  de Reels ya no tiene columna de preview.
+- Las pestañas **Archivadas** y **Papelera** de Noticias se muestran siempre
+  vacías: no archivan ni borran nada todavía.
+- El **reproductor flotante** depende de Spotify y de que exista una playlist de
+  Spotify destacada. Si no la hay, o si Spotify bloquea la incrustación, no se
+  muestra.
 - La **Home usa contenido de respaldo** si la API no responde, para no quedar
   vacía.
 - `yt-dlp` se rompe cuando YouTube cambia algo: hay que actualizarlo

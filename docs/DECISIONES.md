@@ -1,6 +1,6 @@
 # Registro de decisiones de Indie Now
 
-> **Última actualización:** 30 de octubre de 2026.
+> **Última actualización:** 1 de noviembre de 2026.
 
 Este documento explica **por qué** el proyecto está armado como está. No es un
 cambio de versión ni una lista de tareas: es un registro para no volver a
@@ -218,7 +218,8 @@ equipo, no una lista automática por fecha.
 - Evita que una noticia menor tape un contenido importante.
 
 **Consecuencia:** existen los campos **Destacar** y **Orden de aparición**, y el
-equipo debe mantenerlos.
+equipo debe mantenerlos. Hoy el formulario de Noticias solo conserva
+**Destacar**; el orden se sigue editando en reels y playlists.
 
 ---
 
@@ -411,10 +412,81 @@ reintenta a los 5 minutos.
 
 ---
 
+## D-022 — El reproductor de Spotify acompaña al visitante
+
+**Estado:** Vigente
+
+**Decisión:** el sitio público muestra un reproductor flotante, “Indie Now
+Radio”, en la esquina inferior derecha, con la primera playlist de Spotify
+destacada. Se puede minimizar a un botón y volver a abrir.
+
+**Por qué:**
+
+- La música es el centro del proyecto: tenerla siempre a un toque evita que el
+  visitante tenga que ir a otra página o salir a Spotify.
+- No ocupa una sección de la Home, así que no compite con el contenido
+  editorial.
+- Se apoya en el reproductor oficial de Spotify: no hay que alojar audio ni
+  administrar derechos.
+- Reutiliza la playlist que el equipo ya carga en el panel con **Destacar en la
+  Home**, sin una pantalla nueva de configuración.
+
+**Consecuencia:** si no hay ninguna playlist de Spotify destacada, el
+reproductor no aparece. El contenido del reproductor depende de lo que cargue
+el equipo en **Playlists**: no hay un listado propio del reproductor.
+
+---
+
+## D-023 — Una noticia sin cuerpo se lee en la red original
+
+**Estado:** Vigente
+
+**Decisión:** la tarjeta de una noticia abre la página interna
+(`/noticias/:slug`) cuando la noticia tiene cuerpo escrito. Si no lo tiene,
+abre la publicación original en una pestaña nueva.
+
+**Por qué:**
+
+- Muchas noticias nacen de una publicación en Instagram o TikTok: sin cuerpo
+  propio, una página interna quedaría vacía y obligaría a un clic de más.
+- Mantiene la promesa del producto: la web organiza y redirige, no obliga a
+  duplicar contenido.
+- Cuando el equipo sí escribe un cuerpo, el sitio gana una página propia, mejor
+  para buscadores.
+
+**Consecuencia:** el formulario de noticias del panel hoy no incluye el campo de
+cuerpo, así que la mayoría de las noticias se comportan como enlaces a la red
+social. Si se vuelve a habilitar ese campo, las tarjetas con cuerpo pasan a
+tener página propia sin cambiar nada más.
+
+---
+
+## D-024 — Las eliminaciones se confirman dentro del panel
+
+**Estado:** Vigente
+
+**Decisión:** al eliminar una noticia, un reel, un producto o una playlist, el
+panel abre un cuadro de confirmación propio con el nombre del contenido, un
+botón **Cancelar** y otro **Sí, eliminar**. Mientras se borra, el botón queda
+bloqueado y dice **Eliminando…**.
+
+**Por qué:**
+
+- El aviso del navegador se ve distinto en cada equipo y no respeta el estilo
+  del panel.
+- El cuadro muestra el nombre exacto del contenido, así se evita borrar la fila
+  equivocada.
+- Bloquear el botón durante el borrado evita pedidos duplicados por doble clic.
+
+**Consecuencia:** eliminar siempre requiere dos pasos. No se puede deshacer
+desde el panel; para ocultar contenido sin borrarlo sigue estando **Borrador**.
+
+---
+
 ## Cómo agregar una decisión nueva
 
 1. Copiá el formato de arriba.
-2. Usá el siguiente número libre (`D-022`, `D-023`…).
+2. Usá el siguiente número libre (`D-025`, `D-026`…).
 3. Explicá la decisión, el motivo y la consecuencia.
 4. Si reemplaza a otra, marcá la anterior como **Reemplazada** y aclará por cuál.
 5. Si la decisión es de producto, actualizá también `specs/11-decisions.txt`.

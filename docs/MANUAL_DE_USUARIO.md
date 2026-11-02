@@ -1,6 +1,6 @@
 # Manual de usuario — Panel de administración de Indie Now
 
-> **Última actualización:** 30 de octubre de 2026.
+> **Última actualización:** 1 de noviembre de 2026.
 
 Este manual explica, paso a paso y sin tecnicismos, cómo usar el panel de
 administración del sitio. Está pensado para el equipo editorial de Indie Now,
@@ -40,14 +40,23 @@ Al entrar vas a ver un menú lateral con estas secciones:
 | **Sesiones** | Sección en preparación. |
 | **Reels** | Crear, editar y borrar reels, y generar sus previews. |
 | **Merch** | Crear, editar y borrar productos. |
-| **Playlists** | Crear, editar y borrar playlists. |
+| **Playlists** | Crear, editar y borrar playlists. La playlist destacada se escucha en el reproductor flotante del sitio. |
 | **Configuración** | Sección en preparación. |
 
-Cada listado tiene un buscador y botones para **editar** (lápiz) y **eliminar**
-(tacho de basura).
+Cada listado tiene un buscador y, en cada fila, un botón **Editar** (con ícono
+de lápiz) y otro **Eliminar** (con ícono de tacho de basura).
+
+Al presionar **Eliminar** no se borra de inmediato: aparece un cuadro de
+confirmación con el nombre del contenido y dos botones, **Cancelar** y
+**Sí, eliminar**. Mientras se borra, el botón dice **Eliminando…** y queda
+bloqueado para evitar toques repetidos.
 
 > **Importante:** eliminar un contenido es permanente. Si solo querés ocultarlo
 > del sitio, cambialo a **Borrador** en lugar de borrarlo.
+
+En el celular el menú lateral está escondido: se abre con el botón de tres
+líneas (arriba a la izquierda) y se cierra al elegir una sección, al tocar fuera
+del menú o con la tecla Esc.
 
 ---
 
@@ -57,13 +66,12 @@ Cada listado tiene un buscador y botones para **editar** (lápiz) y **eliminar**
 
 - **Borrador:** el contenido queda guardado en el panel, pero no aparece en el
   sitio público.
-- **Publicado:** el contenido aparece en el sitio (siempre que esté marcado
-  como visible, cuando esa opción exista).
+- **Publicado:** el contenido aparece en el sitio público.
 
 ### 3.2 Sección de la Home
 
-Algunos contenidos permiten elegir en qué parte de la página principal se
-muestran:
+Algunos contenidos (por ejemplo, los reels) permiten elegir en qué parte de la
+página principal se muestran:
 
 - **Lo Nuevo Que Vale**
 - **Noticias**
@@ -86,8 +94,14 @@ aparecer en la portada.
   noticias y merch.
 - El sistema optimiza las imágenes automáticamente al mostrarlas, así que no
   hace falta subirlas ya comprimidas.
-- Evitá archivos de varios megabytes: una imagen de hasta ~2 MB es más que
-  suficiente.
+- Formatos aceptados: **JPG, PNG y WEBP**. El archivo no puede superar los
+  **4 MB**.
+- Hay tres formas de cargar una imagen en el recuadro de carga:
+  1. **Arrastrarla** desde tu computadora y soltarla sobre el recuadro.
+  2. **Hacer clic** en el recuadro y elegir el archivo.
+  3. **Copiarla** (por ejemplo con clic derecho → “Copiar imagen”) y **pegarla**
+     con `Ctrl + V` dentro del recuadro. En **Noticias** además existe el botón
+     **Pegar Imagen**, que toma la imagen que tengas copiada.
 
 ### 3.6 Guardar y cancelar
 
@@ -105,23 +119,44 @@ aparecer en la portada.
 2. Presioná **+ Nueva noticia**.
 3. Completá:
    - **Título** (obligatorio).
-   - **Plataforma** de origen (Instagram, TikTok, YouTube, etc.).
+   - **Categoría** (obligatoria).
+   - **Plataforma** de origen (Instagram, TikTok, YouTube, Facebook, X,
+     Threads u Otro). Cada opción muestra el ícono de la red.
    - **Estado**: Borrador o Publicado.
-   - **Sección de la Home**.
-   - **Orden de aparición**.
-   - **Enlace original**: la publicación de donde sale la noticia.
-   - **Contenido**: el cuerpo de la noticia.
+   - **URL original**: la publicación de donde sale la noticia.
    - **Destacar en la Home**, si corresponde.
-   - **Portada**: subí una imagen.
+   - **Portada**: subí una imagen o usá uno de los botones de ayuda (ver abajo).
 4. Presioná **Guardar**.
+
+### Portada de la noticia: las tres ayudas
+
+En el bloque **Portada** hay dos botones, además del recuadro para subir la
+imagen:
+
+- **Pegar Imagen:** toma la imagen que tengas copiada en el portapapeles. Si no
+  hay ninguna, el panel te avisa. La primera vez el navegador puede pedirte
+  permiso para leer el portapapeles.
+- **Buscar portada automáticamente:** el sistema busca una imagen usando el
+  título o la URL original. Alcanza con que uno de los dos esté completo. Si el
+  título está vacío, lo completa con el que sugiere la búsqueda.
 
 ### Editar o eliminar
 
-- En la tabla, usá el lápiz para editar o el tacho para eliminar.
+- En la tabla, usá **Editar** o **Eliminar** en la fila correspondiente.
 - El buscador filtra por título mientras escribís.
+- Arriba de la tabla hay pestañas: **Todos**, **Publicadas** y **Borradores**
+  filtran la lista. **Archivadas** y **Papelera** todavía muestran siempre la
+  lista vacía: son espacios reservados para una función futura, no borran ni
+  archivan nada.
 
-> **Consejo:** antes de publicar, revisá que el enlace original abra
+> **Consejo:** antes de publicar revisá que el enlace original abra
 > correctamente y que la portada se vea bien en el celular.
+
+> **Cómo se muestra una noticia en el sitio:** si la noticia tiene cuerpo
+> escrito, la tarjeta abre su propia página (`/noticias/...`). Si no lo tiene,
+> la tarjeta abre directamente la publicación original en una pestaña nueva. El
+> formulario actual del panel no incluye el campo de cuerpo ni los de sección y
+> orden: las noticias se cargan como enlace a la red social.
 
 ---
 
@@ -137,23 +172,27 @@ si las destacás, en la Home.
 3. Completá:
    - **Título** (obligatorio).
    - **Plataforma**: Instagram, TikTok o YouTube.
-   - **Enlace original** del reel.
+   - **URL del video**: el enlace original del reel.
    - **Estado** y **Sección de la Home**.
    - **Orden de aparición**.
-   - **Video directo (opcional)**: si tenés el archivo en formato MP4, WebM u
-     OGG, podés pegar su enlace. Si lo completás, el reel se reproduce solo en
-     la grilla. Si lo dejás vacío, se muestra la portada y el enlace social.
+   - **URL del video directo (opcional)**: si tenés el archivo en formato MP4,
+     WebM u OGG, podés pegar su enlace. Si lo completás, el reel se reproduce
+     solo en la grilla. Si lo dejás vacío, se muestra la portada y el enlace
+     social.
 4. Presioná **Guardar**.
 
 ### 5.2 La portada del reel
 
-Tenés dos caminos:
+Tenés tres caminos:
 
-- **Obtener portada:** el sistema intenta traer la miniatura automáticamente.
-  Funciona bien con **YouTube** y **TikTok**. En **Instagram** suele ser
-  necesario subir la imagen a mano.
+- **Obtener portada:** el sistema intenta traer la miniatura del enlace
+  original. Funciona bien con **YouTube** y **TikTok**. En **Instagram** suele
+  ser necesario subir la imagen a mano.
+- **Buscar portada automáticamente:** busca una imagen usando el título o la URL
+  del reel (alcanza con uno de los dos). Si el título está vacío, lo completa
+  con el que sugiere la búsqueda.
 - **Imagen de portada:** subila desde tu computadora con el selector de
-  archivos.
+  archivos, arrastrándola o pegándola con `Ctrl + V`.
 
 ### 5.3 El preview animado (clip de 4 segundos)
 
@@ -184,7 +223,7 @@ Hay dos formas de generarlo:
 #### Opción B — Generar con el worker (para enlaces)
 
 1. No selecciones ningún archivo.
-2. Asegurate de que el **Enlace original** esté completo.
+2. Asegurate de que la **URL del video** esté completa.
 3. Presioná **Generar con worker**.
 4. El reel queda en estado **Preview pendiente**.
 5. Una computadora con el *worker* encendido lo procesa (puede tardar unos
@@ -192,7 +231,11 @@ Hay dos formas de generarlo:
 
 Si el reel ya tiene un preview, el botón cambia a **Regenerar preview**.
 
-#### Qué significan los estados del preview
+#### Dónde se ve el estado del preview
+
+El estado aparece dentro del formulario del reel, a la derecha del título
+**Preview animado (opcional)**. La tabla de Reels ya no muestra una columna de
+preview: para revisarlo hay que abrir el reel con **Editar**.
 
 | Estado | Significado |
 | --- | --- |
@@ -200,6 +243,7 @@ Si el reel ya tiene un preview, el botón cambia a **Regenerar preview**.
 | **Preview pendiente** | Esperando que el worker lo tome. |
 | **Procesando…** | El worker lo está descargando y recortando. |
 | **Sin preview** | No se pudo generar (enlace privado, error de descarga, etc.). |
+| **Preview generado** | Lo generaste recién en el navegador; se sube al guardar. |
 
 #### Consejos para un buen preview
 
@@ -215,6 +259,9 @@ Si el reel ya tiene un preview, el botón cambia a **Regenerar preview**.
   Opción B.
 - **El preview sale vacío**: mantené la pestaña visible durante los 4 segundos
   y volvé a intentar.
+- **“El preview supera los 2 MB”**: el clip generado en el navegador es
+  demasiado pesado. Elegí otro momento del video o usá la Opción B (el worker
+  suele entregar clips más livianos).
 - **Queda en “Preview pendiente”**: el worker no está encendido o no tiene
   conexión. Encendelo en la computadora correspondiente.
 - **“Sin preview” con enlaces de YouTube**: actualizá `yt-dlp` en la
@@ -240,8 +287,8 @@ Si el reel ya tiene un preview, el botón cambia a **Regenerar preview**.
 
 ### Editar o eliminar
 
-Igual que en Noticias: lápiz para editar, tacho para eliminar. El buscador
-filtra por nombre.
+Igual que en Noticias: **Editar** abre el formulario y **Eliminar** pide
+confirmación en un cuadro aparte. El buscador filtra por nombre.
 
 ---
 
@@ -252,21 +299,32 @@ filtra por nombre.
 1. Entrá a **Playlists**.
 2. Presioná el botón de crear playlist.
 3. Completá:
-   - **Título**.
-   - **Plataforma** (Spotify, YouTube Music, TikTok, etc.).
-   - **Enlace** de la playlist.
-   - **Estado**.
+   - **Título** (obligatorio).
+   - **Plataforma** (Spotify, YouTube o TikTok).
+   - **URL de la playlist** (obligatoria).
    - **Descripción**.
-   - **Creador**.
-   - **Cantidad de canciones**.
+   - **Estado**.
    - **Orden de aparición**.
-   - **Destacar en la Home**: la muestra en “No Podés Perderte”.
-   - **Visible**: permite que se muestre en el sitio público.
+   - **Destacar en la Home**: la muestra en la sección **No Podés Perderte** y
+     habilita el reproductor flotante de Spotify (ver abajo).
    - **Portada de la playlist**.
 4. Presioná **Guardar**.
 
-> Si una playlist no debe aparecer todavía, dejala en **Borrador** o
-> desactivá **Visible**.
+Junto al campo **URL de la playlist** hay un botón **Extraer Portada** que busca
+una imagen usando el título o la URL. Si el título está vacío, lo completa con
+el que sugiere la búsqueda.
+
+> Si una playlist no debe aparecer todavía, dejala en **Borrador**.
+
+### El reproductor flotante de Spotify
+
+Si hay al menos una playlist de **Spotify** marcada como **Destacar en la
+Home**, el sitio público muestra un reproductor flotante abajo a la derecha,
+con el nombre **Indie Now Radio**. Se puede minimizar con la flecha y volver a
+abrir tocando el ícono de Spotify. Se usa la primera playlist de Spotify
+destacada que devuelve la API.
+
+Si no hay ninguna playlist de Spotify destacada, el reproductor no aparece.
 
 ---
 
@@ -290,12 +348,12 @@ Cuando estas secciones estén terminadas, este manual se actualizará.
 ## 9. Preguntas frecuentes
 
 **¿Por qué no veo mi contenido publicado en el sitio?**
-Revisá tres cosas: que el estado sea **Publicado**, que esté **Visible** (si la
-opción existe) y que estés mirando la sección correcta de la Home.
+Revisá tres cosas: que el estado sea **Publicado**, que esté **Destacado** (si
+esperás verlo en la Home) y que estés mirando la sección correcta.
 
 **¿Puedo cambiar el orden sin borrar y volver a crear?**
 Sí. Editá el contenido y cambiá **Orden de aparición**. Los números más bajos
-van primero.
+van primero. En Noticias ese campo ya no aparece en el formulario.
 
 **¿Se puede recuperar algo eliminado?**
 No desde el panel. Si dudás, pasalo a **Borrador** en lugar de eliminarlo.
@@ -304,7 +362,14 @@ No desde el panel. Si dudás, pasalo a **Borrador** en lugar de eliminarlo.
 No. Solo se guardan el clip de 4 segundos y la portada.
 
 **¿Cuánto tarda el worker?**
-Depende del reel y de la conexión. Revisa el estado en la tabla de Reels.
+Depende del reel y de la conexión. Abrí el reel con **Editar** para ver el
+estado del preview.
+
+**¿Por qué aparece un reproductor de Spotify en el sitio?**
+Porque hay una playlist de Spotify marcada como destacada. Es el mismo
+contenido que se administra en **Playlists**: el reproductor usa la lista de
+playlists destacadas que devuelve la API, así que si no queda ninguna de
+Spotify, no aparece.
 
 **¿Puedo cargar contenido desde el celular?**
 Sí, el panel es responsive. Para generar previews en el navegador conviene una

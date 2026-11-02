@@ -106,6 +106,8 @@ export default function UserModal({ onClose, user = null }) {
         payload.avatarUrl = media.url;
       } else if (removeAvatar) {
         payload.avatarUrl = null;
+      } else {
+        payload.avatarUrl = authUser?.avatarUrl;
       }
 
       if (isEditing) {

@@ -84,11 +84,13 @@ const statuses = [
 ];
 
 function isValidUrl(value) {
+  if (!value) return false;
   try {
     const parsed = new URL(value);
     return parsed.protocol === "http:" || parsed.protocol === "https:";
   } catch {
-    return false;
+    // Fallback leniente para enlaces con caracteres especiales (ej. Instagram con ?img_index=1)
+    return /^https?:\/\/.+/i.test(value.trim());
   }
 }
 
@@ -219,7 +221,7 @@ export default function NewsModal({ onClose, news = null }) {
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <form className="modal news-modal" onSubmit={handleSubmit}>
+      <form className="modal news-modal" onSubmit={handleSubmit} noValidate>
         <div className="modal-header">
           <h2 style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Type size={24} color="var(--color-primary)" /> 

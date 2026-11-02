@@ -9,6 +9,7 @@ import {
   Film,
   ShoppingBag,
   ListMusic,
+  Users,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -49,6 +50,11 @@ const menu = [
     to: "/admin/playlists",
     label: "Playlists",
     icon: ListMusic,
+  },
+  {
+    to: "/admin/users",
+    label: "Equipo",
+    icon: Users,
   },
   {
     to: "/admin/settings",

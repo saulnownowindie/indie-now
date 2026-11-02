@@ -1,0 +1,28 @@
+.users-table-avatar {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  border: 1px solid var(--color-border);
+}
+
+.users-table-avatar-fallback {
+  width: 40px;
+  height: 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--color-primary);
+  color: #000;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+}

@@ -40,6 +40,7 @@ const Configuracion = lazy(
 const Categories = lazy(
   () => import("./pages/admin/Categories/Categories"),
 );
+const AdminUsers = lazy(() => import("./pages/admin/Users/Users"));
 
 export default function App() {
   return (
@@ -73,6 +74,8 @@ export default function App() {
           }
         >
           <Route path="categories" element={<Categories />} />
+
+          <Route path="users" element={<AdminUsers />} />
           <Route index element={<Dashboard />} />
 
           <Route path="news" element={<AdminNews />} />

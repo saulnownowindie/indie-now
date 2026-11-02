@@ -190,10 +190,8 @@ export default function NewsModal({ onClose, news = null }) {
       if (coverFile) {
         const media = await uploadNewsCover(coverFile);
         payload.coverImageId = media.id;
-        payload.imageUrl = null;
       } else if (removeCover) {
         payload.coverImageId = null;
-        payload.imageUrl = null;
       }
 
       if (isEditing) {
@@ -206,9 +204,26 @@ export default function NewsModal({ onClose, news = null }) {
       await queryClient.invalidateQueries({ queryKey: ["public-news"] });
       onClose();
     } catch (error) {
-      setErrors({
-        submit: error.response?.data?.message || "No se pudo guardar la noticia.",
-      });
+      const data = error.response?.data;
+      const fieldErrors = {};
+      const messages = [];
+
+      if (Array.isArray(data?.errors)) {
+        for (const issue of data.errors) {
+          const field = issue.path?.[0];
+          if (field) {
+            fieldErrors[field] = issue.message;
+          }
+          if (issue.message) messages.push(issue.message);
+        }
+      }
+
+      const submitMessage =
+        messages.length > 0
+          ? messages.join(" ")
+          : data?.message || "No se pudo guardar la noticia.";
+
+      setErrors({ ...fieldErrors, submit: submitMessage });
     } finally {
       setSaving(false);
     }

@@ -8,6 +8,7 @@ import Card from "../../components/Card/Card";
 import Carousel from "../../components/Carousel/Carousel";
 import ReelCard from "../../components/ReelCard/ReelCard";
 import Merch from "../../components/Merch/Merch";
+import { FaSpotify } from "react-icons/fa";
 import usePublicNews from "../../hooks/usePublicNews";
 import usePublicPlaylists from "../../hooks/usePublicPlaylists";
 import usePublicReels from "../../hooks/usePublicReels";
@@ -211,6 +212,7 @@ export default function Home() {
         >
           <span className="spotify-icon">
             <BannerIcon aria-hidden="true" />
+            <FaSpotify aria-hidden="true" size={16} style={{ color: "#1DB954" }} />
           </span>
 
           <span className="spotify-text">
@@ -223,6 +225,10 @@ export default function Home() {
             Escuchar
 
             <span aria-hidden="true">→</span>
+          </span>
+
+          <span className="spotify-btn">
+            Escuchar en Spotify
           </span>
         </a>
       </section>

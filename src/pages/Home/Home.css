@@ -188,6 +188,47 @@
 
 }
 
+/* Botón "Escuchar en Spotify" dentro del banner */
+.spotify-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:6px 12px;
+
+    margin-left:12px;
+
+    font-size:var(--text-sm);
+
+    font-weight:var(--font-semibold);
+
+    color:var(--color-text);
+
+    background:#1DB954;
+
+    border-radius:var(--radius-full);
+
+    white-space:nowrap;
+
+}
+
+.spotify-btn:hover{
+
+    background:#1aab4a;
+
+}
+
+.spotify-btn:focus-visible{
+
+    outline:2px solid var(--color-bg);
+
+    outline-offset:2px;
+
+}
+
 /* ==========================================================
    ENVÍANOS TU MÚSICA
 ========================================================= */

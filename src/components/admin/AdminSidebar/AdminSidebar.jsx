@@ -13,6 +13,7 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
+import { resolveMediaUrl } from "../../../utils/mediaUrl";
 
 const menu = [
   {
@@ -64,8 +65,13 @@ const menu = [
 ];
 
 export default function AdminSidebar({ open = false, onClose }) {
-  const { user, logout } = useAuth();
+  const { user, logout, avatarVersion } = useAuth();
   const navigate = useNavigate();
+
+  const avatarUrl = resolveMediaUrl(user?.avatarUrl);
+  const avatarSrc = avatarUrl
+    ? `${avatarUrl}?v=${avatarVersion}`
+    : "/avatars/dwith.jpg";
 
   function handleLogout() {
     logout();
@@ -105,7 +111,7 @@ export default function AdminSidebar({ open = false, onClose }) {
       <div className="admin-sidebar__footer">
         <div className="admin-user">
           <img
-            src={user?.avatar || "/avatars/dwith.jpg"}
+            src={avatarSrc}
             alt={user?.name || "Administrador"}
             decoding="async"
             key={user?.avatarUrl}

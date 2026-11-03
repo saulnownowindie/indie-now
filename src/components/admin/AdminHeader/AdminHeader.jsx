@@ -5,6 +5,7 @@ import { Bell, Sun, Moon, Search, Menu } from "lucide-react";
 
 import { useAuth } from "../../../auth/useAuth";
 import useTheme from "../../../hooks/useTheme";
+import { resolveMediaUrl } from "../../../utils/mediaUrl";
 
 const titles = {
   "/admin": "Dashboard",
@@ -22,7 +23,12 @@ export default function AdminHeader({ onMenuClick }) {
   const title = titles[location.pathname] ?? "Panel";
 
   const { theme, toggleTheme } = useTheme();
-  const { user } = useAuth();
+  const { user, avatarVersion } = useAuth();
+
+  const avatarUrl = resolveMediaUrl(user?.avatarUrl);
+  const avatarSrc = avatarUrl
+    ? `${avatarUrl}?v=${avatarVersion}`
+    : "/avatars/dwith.jpg";
 
   return (
     <header className="admin-header">
@@ -77,7 +83,7 @@ export default function AdminHeader({ onMenuClick }) {
           title={user?.name ?? "Mi cuenta"}
         >
           <img
-            src={user?.avatar || "/avatars/dwith.jpg"}
+            src={avatarSrc}
             alt={user?.name || "Administrador"}
             className="header-avatar"
             decoding="async"

@@ -111,23 +111,27 @@ export default function UserModal({ onClose, user = null }) {
       }
 
       if (isEditing) {
-        await updateUser(user.id, payload);
+        const data = await updateUser(user.id, payload);
+
+        await queryClient.invalidateQueries({ queryKey: ["users"] });
+
+        // Si estamos editando al usuario logueado, actualizar el contexto inmediatamente
+        if (isEditing && authUser && user.id === authUser.id) {
+          const updatedUser = {
+            ...authUser,
+            name: data?.name ?? form.name.trim(),
+            email: data?.email ?? form.email.trim(),
+            avatarUrl: data?.avatarUrl ?? payload.avatarUrl,
+          };
+          updateUserContext(updatedUser);
+        }
+
+        onClose();
       } else {
         await createUser(payload);
-      }
 
-      await queryClient.invalidateQueries({ queryKey: ["users"] });
-      onClose();
-
-      // Si estamos editando al usuario logueado, actualizar el contexto inmediatamente
-      if (isEditing && authUser && user.id === authUser.id) {
-        const updatedUser = {
-          ...authUser,
-          name: form.name.trim(),
-          email: form.email.trim(),
-          avatarUrl: payload.avatarUrl,
-        };
-        updateUserContext(updatedUser);
+        await queryClient.invalidateQueries({ queryKey: ["users"] });
+        onClose();
       }
     } catch (error) {
       const data = error.response?.data;

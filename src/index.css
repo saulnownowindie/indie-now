@@ -409,3 +409,108 @@ ol{
 [role="option"] .platform-spotify { color: #1DB954 !important; }
 [role="option"] .platform-youtube { color: #FF0000 !important; }
 [role="option"] .platform-tiktok { color: #000000 !important; background: #fff; border-radius: 50%; padding: 2px; }
+
+/* ==========================================================
+   IDENTIDAD VISUAL INDIE NOW — FANZINE / BRUTALISTA
+========================================================== */
+
+:root {
+  --brand-black: #0A0A0A;
+  --brand-yellow: #FFE600;
+  --brand-magenta: #FF007F;
+  --brand-red: #FF1E27;
+  --brand-orange: #FF6600;
+}
+
+.btn-primary,
+.modal-save,
+.btn-extract,
+.button-primary,
+.hero-buttons .btn-primary {
+  background: var(--brand-yellow) !important;
+  color: var(--brand-black) !important;
+  border: 2px solid var(--brand-black) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.btn-primary:hover,
+.modal-save:hover,
+.btn-extract:hover,
+.button-primary:hover,
+.hero-buttons .btn-primary:hover {
+  box-shadow: 4px 4px 0 var(--brand-red), 8px 8px 0 var(--brand-magenta) !important;
+  transform: translate(-2px, -2px) !important;
+}
+
+.btn-primary:disabled,
+.modal-save:disabled,
+.btn-extract:disabled,
+.button-primary:disabled {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.btn-delete,
+.news-delete-button,
+.merch-delete-button,
+.playlists-delete-button,
+.reels-delete-button {
+  color: var(--brand-red) !important;
+  border: 2px solid var(--brand-red) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.modal input,
+.modal select,
+.modal textarea {
+  background: #151515 !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+  border-radius: 0 !important;
+}
+
+.modal input:focus,
+.modal select:focus,
+.modal textarea:focus {
+  border-color: var(--brand-yellow) !important;
+  box-shadow: 4px 4px 0 var(--brand-yellow) !important;
+  outline: none !important;
+}
+
+table th,
+.table th,
+[class*="table"] th,
+.news-table th,
+.merch-table th,
+.reels-table th,
+.playlists-table th,
+.users-table th {
+  background: var(--brand-black) !important;
+  color: var(--brand-yellow) !important;
+  border-bottom: 3px solid var(--brand-yellow) !important;
+  border-radius: 0 !important;
+}
+
+table tbody tr:hover td,
+.table tbody tr:hover,
+[class*="table"] tbody tr:hover {
+  background: rgba(255, 0, 127, 0.05) !important;
+}
+
+.modal {
+  border: 2px solid var(--brand-yellow) !important;
+  border-radius: 0 !important;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5) !important;
+}
+
+.form-toggle__switch input:checked + .form-toggle__slider {
+  background: var(--brand-yellow) !important;
+  border-color: var(--brand-yellow) !important;
+}
+
+.form-toggle__switch input:checked + .form-toggle__slider::before {
+  background: var(--brand-black) !important;
+}

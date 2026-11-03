@@ -78,8 +78,8 @@
 }
 
 .form-toggle__switch input:checked + .form-toggle__slider {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  background: var(--brand-yellow);
+  border-color: var(--brand-yellow);
 }
 
 .form-toggle__switch input:checked + .form-toggle__slider::before {

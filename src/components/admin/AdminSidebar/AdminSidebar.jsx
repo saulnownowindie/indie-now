@@ -75,14 +75,12 @@ export default function AdminSidebar({ open = false, onClose }) {
   return (
     <aside className={`admin-sidebar${open ? " open" : ""}`}>
       <div className="admin-sidebar__logo">
-        <picture>
-          <source
-            media="(prefers-color-scheme: dark)"
-            srcSet="/indie-nowlogo-blancov2.png"
-          />
-
-          <img src="/indie-nowlogo.png" alt="Indie Now" decoding="async" />
-        </picture>
+        <img
+          src="/branding/logo-loco.png"
+          alt="Indie Now"
+          decoding="async"
+          style={{ width: 150, height: "auto" }}
+        />
       </div>
 
       <nav className="admin-sidebar__nav">

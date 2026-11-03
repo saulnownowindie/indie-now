@@ -1,14 +1,15 @@
 import api from "./api";
 import { uploadToCloudinary } from "./cloudinaryService";
+import { unwrapList } from "../utils/apiResponse";
 
 export async function getPlaylists() {
-  const { data } = await api.get("/playlists");
-  return data;
+  const { data } = await api.get("/admin/playlists");
+  return unwrapList(data);
 }
 
 export async function getFeaturedPlaylists() {
   const { data } = await api.get("/playlists/featured");
-  return data;
+  return unwrapList(data);
 }
 
 export async function createPlaylist(playlist) {

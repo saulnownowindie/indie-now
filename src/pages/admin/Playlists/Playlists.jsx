@@ -27,7 +27,8 @@ export default function PlaylistsPage() {
   const [search, setSearch] = useState("");
   const [actionError, setActionError] = useState("");
 
-  const { data: playlists = [], isLoading, isError } = usePlaylists();
+  const { data, isLoading, isError } = usePlaylists();
+  const items = Array.isArray(data) ? data : data?.data ?? [];
 
   const removePlaylist = useMutation({
     mutationFn: deletePlaylist,
@@ -47,7 +48,7 @@ export default function PlaylistsPage() {
 
   const normalizedSearch = search.trim().toLowerCase();
 
-  const filteredPlaylists = playlists.filter((item) => {
+  const filteredPlaylists = items.filter((item) => {
     if (!normalizedSearch) return true;
 
     const title = item.title?.toLowerCase() ?? "";

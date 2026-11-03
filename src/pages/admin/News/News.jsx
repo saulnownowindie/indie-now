@@ -35,7 +35,8 @@ export default function News() {
   const [search, setSearch] = useState("");
   const [actionError, setActionError] = useState("");
 
-  const { data: news = [], isLoading, isError } = useNews();
+  const { data, isLoading, isError } = useNews();
+  const items = Array.isArray(data) ? data : data?.data ?? [];
 
   const removeNews = useMutation({
     mutationFn: deleteNews,
@@ -54,7 +55,7 @@ export default function News() {
     },
   });
 
-  const filteredNews = news.filter((item) => {
+  const filteredNews = items.filter((item) => {
     const matchesSearch = item.title
       ?.toLowerCase()
       .includes(search.toLowerCase());
@@ -69,9 +70,9 @@ export default function News() {
   });
 
   const tabs = [
-    { value: "all", label: "Todos", count: news.length },
-    { value: "published", label: "Publicadas", count: news.filter((item) => item.status === "PUBLISHED").length },
-    { value: "draft", label: "Borradores", count: news.filter((item) => item.status === "DRAFT").length },
+    { value: "all", label: "Todos", count: items.length },
+    { value: "published", label: "Publicadas", count: items.filter((item) => item.status === "PUBLISHED").length },
+    { value: "draft", label: "Borradores", count: items.filter((item) => item.status === "DRAFT").length },
     { value: "archived", label: "Archivadas", count: 0 },
     { value: "trash", label: "Papelera", count: 0 },
   ];

@@ -1,15 +1,20 @@
 import api from "./api";
+import { unwrapList } from "../utils/apiResponse";
 
-export async function getNews() {
-  const { data } = await api.get("/news");
-  return data;
+export async function getNews({ page = 1, limit = 50 } = {}) {
+  const { data } = await api.get("/admin/news", {
+    params: { page, limit },
+  });
+
+  return unwrapList(data);
 }
 
 export async function getPublicNews(section) {
   const { data } = await api.get("/news/public", {
     params: section ? { section } : undefined,
   });
-  return data;
+
+  return unwrapList(data);
 }
 
 export async function getPublicNewsBySlug(slug) {

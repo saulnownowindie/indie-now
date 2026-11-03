@@ -26,7 +26,8 @@ export default function MerchPage() {
   const [search, setSearch] = useState("");
   const [actionError, setActionError] = useState("");
 
-  const { data: merch = [], isLoading, isError } = useMerch();
+  const { data, isLoading, isError } = useMerch();
+  const items = Array.isArray(data) ? data : data?.data ?? [];
 
   const removeMerch = useMutation({
     mutationFn: deleteMerch,
@@ -41,7 +42,7 @@ export default function MerchPage() {
 
   const normalizedSearch = search.trim().toLowerCase();
 
-  const filteredMerch = merch.filter((item) => {
+  const filteredMerch = items.filter((item) => {
     if (!normalizedSearch) return true;
     const name = item.name?.toLowerCase() ?? "";
     const collection = item.collection?.toLowerCase() ?? "";

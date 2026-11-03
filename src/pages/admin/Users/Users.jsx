@@ -16,7 +16,8 @@ export default function Users() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
 
-  const { data: users = [], isLoading, isError } = useUsers();
+  const { data, isLoading, isError } = useUsers();
+  const users = Array.isArray(data) ? data : data?.data ?? [];
 
   function openCreateModal() {
     setEditingUser(null);

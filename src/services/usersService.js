@@ -1,8 +1,9 @@
 import api from "./api";
+import { unwrapList } from "../utils/apiResponse";
 
 export async function getUsers() {
   const { data } = await api.get("/users");
-  return data;
+  return unwrapList(data);
 }
 
 export async function createUser(user) {

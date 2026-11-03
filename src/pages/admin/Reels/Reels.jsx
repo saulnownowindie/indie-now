@@ -42,7 +42,8 @@ export default function Reels() {
   const [actionError, setActionError] = useState("");
   const [itemToDelete, setItemToDelete] = useState(null);
 
-  const { data: reels = [], isLoading, isError } = useReels();
+  const { data, isLoading, isError } = useReels();
+  const items = Array.isArray(data) ? data : data?.data ?? [];
 
   const removeReel = useMutation({
     mutationFn: deleteReel,
@@ -59,7 +60,7 @@ export default function Reels() {
 
   const normalizedSearch = search.trim().toLowerCase();
 
-  const filteredReels = reels.filter((reel) => {
+  const filteredReels = items.filter((reel) => {
     if (!normalizedSearch) return true;
     const title = reel.title?.toLowerCase() ?? "";
     const platform = platformLabels[reel.platform]?.toLowerCase() ?? "";

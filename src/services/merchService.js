@@ -1,13 +1,14 @@
 import api from "./api";
+import { unwrapList } from "../utils/apiResponse";
 
 export async function getMerch() {
-  const { data } = await api.get("/merch");
-  return data;
+  const { data } = await api.get("/admin/merch");
+  return unwrapList(data);
 }
 
 export async function getPublicMerch() {
   const { data } = await api.get("/merch");
-  return data;
+  return unwrapList(data);
 }
 
 export async function createMerch(merch) {

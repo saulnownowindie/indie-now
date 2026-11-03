@@ -1,16 +1,21 @@
 import api from "./api";
 import { uploadToCloudinary } from "./cloudinaryService";
+import { unwrapList } from "../utils/apiResponse";
 
-export async function getReels() {
-  const { data } = await api.get("/reels");
-  return data;
+export async function getReels({ page = 1, limit = 50 } = {}) {
+  const { data } = await api.get("/admin/reels", {
+    params: { page, limit },
+  });
+
+  return unwrapList(data);
 }
 
 export async function getPublicReels(section) {
   const { data } = await api.get("/reels/public", {
     params: section ? { section } : undefined,
   });
-  return data;
+
+  return unwrapList(data);
 }
 
 export async function createReel(reel) {

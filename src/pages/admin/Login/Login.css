@@ -16,8 +16,7 @@
 
     position:relative;
 
-    background:url("/branding/something-in-the-way.png") center/cover;
-
+    background:url("/branding/something-in-the-way.png") center 20%/cover;
 }
 
 .login-container::before{
@@ -28,10 +27,9 @@
 
     inset:0;
 
-    background:rgba(0,0,0,0.8);
+    background:rgba(10, 10, 10, 0.6);
 
     pointer-events:none;
-
 }
 
 /* ==========================================================
@@ -58,11 +56,15 @@
 
     border-radius:var(--radius-panel);
 
-    box-shadow:var(--shadow-lg);
+    border:2px solid var(--color-primary);
+
+    box-shadow:4px 4px 0px var(--brand-magenta);
 
     transition:
         background var(--transition),
+
         border-color var(--transition),
+
         box-shadow var(--transition);
 
 }
@@ -123,7 +125,9 @@
 
     transition:
         border-color .25s,
+
         background .25s,
+
         box-shadow .25s;
 
 }
@@ -164,7 +168,3 @@
     font-size:.92rem;
 
 }
-
-
-
-

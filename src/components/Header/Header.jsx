@@ -9,7 +9,7 @@ import {
   FaTiktok,
 } from "react-icons/fa";
 
-import logo from "../../assets/images/indie-nowlogo-blancov2-512.webp";
+// Logo referenced directly by path in the img src below
 import { homeData } from "../../data/homeData";
 import useLatestContent from "../../hooks/useLatestContent";
 
@@ -177,7 +177,7 @@ export default function Header() {
               aria-label="Indie Now, ir al inicio"
             >
               <img
-                src={logo}
+                src="/branding/logo-loco.png"
                 alt="Indie Now"
                 width="512"
                 height="512"

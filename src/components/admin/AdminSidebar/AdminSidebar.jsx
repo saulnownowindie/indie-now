@@ -111,6 +111,7 @@ export default function AdminSidebar({ open = false, onClose }) {
             src={user?.avatar || "/avatars/dwith.jpg"}
             alt={user?.name || "Administrador"}
             decoding="async"
+            key={user?.avatarUrl}
           />
 
           <div className="admin-user__info">

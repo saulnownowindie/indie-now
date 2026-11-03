@@ -27,6 +27,7 @@ export default function Dashboard() {
                     value={stats.noticias}
                     subtitle="Sin publicaciones"
                     icon={Newspaper}
+                    brandColor="#FF0000"
                 />
 
                 <DashboardCard
@@ -34,6 +35,7 @@ export default function Dashboard() {
                   value={stats.sesiones}
                     subtitle="Sin publicaciones"
                     icon={Clapperboard}
+                    brandColor="#FF6B6B"
                 />
 
                 <DashboardCard
@@ -41,6 +43,7 @@ export default function Dashboard() {
                     value={stats.reels}
                     subtitle="Sin publicaciones"
                     icon={Film}
+                    brandColor="#FCB03F"
                 />
 
                 <DashboardCard
@@ -48,6 +51,7 @@ export default function Dashboard() {
                     value={stats.merch}
                     subtitle="Sin publicaciones"
                     icon={ShoppingBag}
+                    brandColor="#FD79A8"
                 />
 
             </div>

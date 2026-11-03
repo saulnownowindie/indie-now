@@ -5,11 +5,18 @@ export default function DashboardCard({
     value,
     subtitle,
     icon: Icon,
+    brandColor,
 }) {
+
+    const iconStyle = brandColor ? { color: brandColor } : {};
+    const cardStyle = {
+        border: "2px solid var(--brand-magenta)",
+        boxShadow: "4px 4px 0px var(--brand-magenta)",
+    };
 
     return (
 
-        <article className="dashboard-card">
+        <article className="dashboard-card" style={cardStyle}>
 
             <div className="dashboard-card__top">
 
@@ -23,7 +30,7 @@ export default function DashboardCard({
 
                 </div>
 
-                <div className="dashboard-card__icon">
+                <div className="dashboard-card__icon" style={iconStyle}>
 
                     <Icon size={26} />
 

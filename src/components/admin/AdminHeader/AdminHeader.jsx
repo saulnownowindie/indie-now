@@ -81,6 +81,7 @@ export default function AdminHeader({ onMenuClick }) {
             alt={user?.name || "Administrador"}
             className="header-avatar"
             decoding="async"
+            key={user?.avatarUrl}
           />
 
           <div className="header-user-info">

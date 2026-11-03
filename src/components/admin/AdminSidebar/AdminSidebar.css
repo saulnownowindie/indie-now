@@ -33,7 +33,6 @@
   object-fit: contain;
   margin: 0 auto;
   display: block;
-  mix-blend-mode: screen;
 }
 
 /* ==========================

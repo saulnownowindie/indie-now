@@ -110,21 +110,6 @@ export default function Merch({ id }) {
       className="merch section container"
       aria-busy={isLoading}
     >
-      <div className="merch-banner">
-        <img
-          src="/branding/1.png"
-          alt="Collage de Indie Now - Sección Merch"
-          loading="lazy"
-          decoding="async"
-          style={{
-            width: "100%",
-            border: "4px solid #000",
-            borderRadius: 8,
-            marginBottom: "24px",
-          }}
-        />
-      </div>
-
       <div className="panel">
         <div className="merch-header">
           <h2 className="section-title">{homeData.merch.title}</h2>

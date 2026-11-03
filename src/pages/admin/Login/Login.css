@@ -1,5 +1,6 @@
 /* ==========================================================
-   LOGIN
+   LOGIN — INDIE NOW STAFF
+   Glassmorphism oscuro sobre fondo urbano
 ========================================================== */
 
 .login-container{
@@ -16,24 +17,26 @@
 
     position:relative;
 
-    background:url("/branding/something-in-the-way.png") center 20%/cover;
-}
+    background-color:#0a0a0a;
 
-.login-container::before{
+    background-image:
+        radial-gradient(
+            circle at center,
+            transparent 30%,
+            rgba(0, 0, 0, 0.8) 100%
+        ),
+        url("/branding/city-bg.jpeg");
 
-    content:"";
+    background-size:cover;
 
-    position:absolute;
+    background-position:center;
 
-    inset:0;
+    background-repeat:no-repeat;
 
-    background:rgba(10, 10, 10, 0.6);
-
-    pointer-events:none;
 }
 
 /* ==========================================================
-   CARD
+   CARD — CRISTAL OSCURO
 ========================================================== */
 
 .login-card{
@@ -50,15 +53,17 @@
 
     padding:38px;
 
-    background:var(--color-surface);
+    background:rgba(10, 10, 10, 0.6);
 
-    border:1px solid var(--color-border);
+    backdrop-filter:blur(12px);
 
-    border-radius:var(--radius-panel);
+    -webkit-backdrop-filter:blur(12px);
 
-    border:2px solid var(--color-primary);
+    border:1px solid rgba(255, 230, 0, 0.35);
 
-    box-shadow:4px 4px 0px var(--brand-magenta);
+    border-radius:8px;
+
+    box-shadow:0 24px 60px rgba(0, 0, 0, 0.45);
 
     transition:
         background var(--transition),
@@ -69,25 +74,7 @@
 
 }
 
-.login-card h1{
-
-    margin:0;
-
-    text-align:center;
-
-    font-family:var(--font-heading);
-
-    color:var(--color-text);
-
-    font-size:2rem;
-
-}
-
-/* ==========================================================
-   FORMULARIO
-========================================================== */
-
-.form-group{
+.login-heading{
 
     display:flex;
 
@@ -95,11 +82,53 @@
 
     gap:8px;
 
+    text-align:center;
+
 }
 
-.form-group label{
+.login-card h1{
 
-    color:var(--color-text);
+    margin:0;
+
+    font-family:var(--font-heading);
+
+    color:#FFFFFF;
+
+    font-size:2rem;
+
+    letter-spacing:.02em;
+
+}
+
+.login-subtitle{
+
+    margin:0;
+
+    color:rgba(255, 255, 255, 0.65);
+
+    font-size:.95rem;
+
+    letter-spacing:.04em;
+
+}
+
+/* ==========================================================
+   FORMULARIO
+========================================================== */
+
+.login-card form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.login-card label{
+
+    color:rgba(255, 255, 255, 0.9);
 
     font-weight:600;
 
@@ -107,39 +136,67 @@
 
 }
 
-.form-group input{
+/* Contenedor del input (Input.module.css) */
 
-    width:100%;
+.login-card .login-field > div{
 
-    padding:14px 16px;
+    background:rgba(0, 0, 0, 0.5);
 
-    background:var(--color-surface-2);
+    border:1px solid rgba(255, 255, 255, 0.15);
 
-    color:var(--color-text);
-
-    border:1px solid var(--color-border);
-
-    border-radius:12px;
-
-    outline:none;
-
-    transition:
-        border-color .25s,
-
-        background .25s,
-
-        box-shadow .25s;
+    border-radius:8px;
 
 }
 
-.form-group input:focus{
+.login-card .login-field > div:focus-within{
 
-    border-color:var(--color-primary);
+    border-color:#FFE600;
 
-    box-shadow:0 0 0 3px rgba(254,250,0,.18);
+    box-shadow:0 0 0 3px rgba(255, 230, 0, 0.18);
 
 }
 
+/* Icono izquierdo */
+
+.login-card .login-field > div > span{
+
+    color:rgba(255, 255, 255, 0.55);
+
+}
+
+/* Input */
+
+.login-card .login-field input{
+
+    background:transparent;
+
+    color:#FFFFFF;
+
+}
+
+.login-card .login-field input::placeholder{
+
+    color:rgba(255, 255, 255, 0.35);
+
+    opacity:1;
+
+}
+
+/* Botón mostrar/ocultar contraseña */
+
+.login-card .login-field button{
+
+    color:rgba(255, 255, 255, 0.6);
+
+}
+
+.login-card .login-field button:hover{
+
+    background:rgba(255, 255, 255, 0.08);
+
+    color:#FFE600;
+
+}
 
 /* ==========================================================
    BOTÓN LOGIN
@@ -153,6 +210,30 @@
 
 }
 
+.login-card .login-btn{
+
+    background:#FFE600;
+
+    color:#000000;
+
+    text-transform:uppercase;
+
+    letter-spacing:.06em;
+
+    font-weight:700;
+
+}
+
+.login-card .login-btn:hover{
+
+    background:#FFE600;
+
+    box-shadow:0 10px 24px rgba(255, 230, 0, 0.28);
+
+    transform:translateY(-2px);
+
+}
+
 /* ==========================================================
    ERROR
 ========================================================== */
@@ -163,7 +244,7 @@
 
     text-align:center;
 
-    color:var(--color-danger);
+    color:#FF6B6B;
 
     font-size:.92rem;
 

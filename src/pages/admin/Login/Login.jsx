@@ -65,7 +65,13 @@ export default function Login() {
   return (
     <div className="login-container">
       <div className="login-card">
-        <h1>Panel de Administración</h1>
+        <div className="login-heading">
+          <h1>Indie Now! Staff</h1>
+
+          <p className="login-subtitle">
+            Control de Medios &amp; Música
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit}>
           <Input
@@ -78,6 +84,7 @@ export default function Login() {
             icon={<Mail size={18} />}
             fullWidth
             required
+            className="login-field"
           />
 
           <Input
@@ -90,6 +97,7 @@ export default function Login() {
             icon={<LockKeyhole size={18} />}
             fullWidth
             required
+            className="login-field"
             rightElement={
               <button
                 type="button"
@@ -123,8 +131,9 @@ export default function Login() {
               type="submit"
               fullWidth
               loading={loading}
+              className="login-btn"
             >
-              Iniciar sesión
+              Ingresar al Panel
             </Button>
           </div>
         </form>

@@ -65,13 +65,10 @@ const menu = [
 ];
 
 export default function AdminSidebar({ open = false, onClose }) {
-  const { user, logout, avatarVersion } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const avatarUrl = resolveMediaUrl(user?.avatarUrl);
-  const avatarSrc = avatarUrl
-    ? `${avatarUrl}?v=${avatarVersion}`
-    : "/avatars/dwith.jpg";
 
   function handleLogout() {
     logout();
@@ -111,7 +108,11 @@ export default function AdminSidebar({ open = false, onClose }) {
       <div className="admin-sidebar__footer">
         <div className="admin-user">
           <img
-            src={avatarSrc}
+            src={
+              avatarUrl
+                ? `${avatarUrl}?v=${new Date().getTime()}`
+                : "/avatars/default.png"
+            }
             alt={user?.name || "Administrador"}
             decoding="async"
             key={user?.avatarUrl}

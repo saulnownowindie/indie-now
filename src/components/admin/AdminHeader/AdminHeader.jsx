@@ -23,12 +23,9 @@ export default function AdminHeader({ onMenuClick }) {
   const title = titles[location.pathname] ?? "Panel";
 
   const { theme, toggleTheme } = useTheme();
-  const { user, avatarVersion } = useAuth();
+  const { user } = useAuth();
 
   const avatarUrl = resolveMediaUrl(user?.avatarUrl);
-  const avatarSrc = avatarUrl
-    ? `${avatarUrl}?v=${avatarVersion}`
-    : "/avatars/dwith.jpg";
 
   return (
     <header className="admin-header">
@@ -83,7 +80,11 @@ export default function AdminHeader({ onMenuClick }) {
           title={user?.name ?? "Mi cuenta"}
         >
           <img
-            src={avatarSrc}
+            src={
+              avatarUrl
+                ? `${avatarUrl}?v=${new Date().getTime()}`
+                : "/avatars/default.png"
+            }
             alt={user?.name || "Administrador"}
             className="header-avatar"
             decoding="async"

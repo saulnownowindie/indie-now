@@ -18,12 +18,9 @@ function getStoredUser() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(getStoredUser);
-  const [avatarVersion, setAvatarVersion] = useState(() => Date.now());
 
   function login(userData) {
     setUser(userData);
-
-    setAvatarVersion(Date.now());
 
     localStorage.setItem("user", JSON.stringify(userData));
   }
@@ -42,19 +39,17 @@ export function AuthProvider({ children }) {
         ...(newUserData || {}),
       };
 
+      // Persistir inmediatamente en localStorage tras actualizar el estado
       localStorage.setItem("user", JSON.stringify(mergedUser));
 
       return mergedUser;
     });
-
-    setAvatarVersion(Date.now());
   }
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        avatarVersion,
         login,
         logout,
         updateUserContext,

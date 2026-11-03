@@ -116,7 +116,7 @@ export default function UserModal({ onClose, user = null }) {
         await queryClient.invalidateQueries({ queryKey: ["users"] });
 
         // Si estamos editando al usuario logueado, actualizar el contexto inmediatamente
-        if (isEditing && authUser && user.id === authUser.id) {
+        if (isEditing && authUser && String(user.id) === String(authUser.id)) {
           const updatedUser = {
             ...authUser,
             name: data?.name ?? form.name.trim(),

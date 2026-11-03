@@ -27,7 +27,13 @@
 }
 
 .admin-sidebar__logo img {
- width:150px;
+  max-width: 120px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+  mix-blend-mode: screen;
 }
 
 /* ==========================

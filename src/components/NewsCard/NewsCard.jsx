@@ -5,7 +5,7 @@ import "./NewsCard.css";
 
 export default function NewsCard({ news }) {
   // 1. Resolvemos la imagen (con la transformación de Cloudinary si aplica)
-  const imageUrl = resolveMediaUrl(news.coverImage?.url || news.imageUrl);
+  const imageUrl = resolveMediaUrl(news.coverImage?.url || news.imageUrl, 720);
   
   // 2. Verificamos si hay contenido local para mostrar el detalle
   const hasContent = Boolean(news.content && news.content.trim().length > 0);
@@ -15,7 +15,12 @@ export default function NewsCard({ news }) {
     <>
       <div className="news-card-media">
         {imageUrl ? (
-          <img src={imageUrl} alt={news.title} loading="lazy" />
+          <img
+            src={imageUrl}
+            alt={news.title}
+            loading="lazy"
+            decoding="async"
+          />
         ) : (
           <div className="news-card-placeholder" aria-label="Sin imagen">
             <FaNewspaper size={32} />

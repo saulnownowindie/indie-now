@@ -10,7 +10,12 @@ function LatestCard({ item }) {
       {/* Si hay imagen, la muestra. Si no, muestra el icono por defecto */}
       <div className="latest-card-media">
         {item.image ? (
-          <img src={item.image} alt={item.title} loading="lazy" />
+          <img
+            src={item.image}
+            alt={item.title}
+            loading="lazy"
+            decoding="async"
+          />
         ) : (
           <Icon />
         )}

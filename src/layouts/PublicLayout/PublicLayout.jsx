@@ -8,6 +8,7 @@ import Footer from "../../components/Footer/Footer";
 import RouteFallback from "../../components/RouteFallback/RouteFallback";
 import FloatingSpotifyPlayer from "../../components/FloatingSpotifyPlayer/FloatingSpotifyPlayer";
 import usePublicPlaylists from "../../hooks/usePublicPlaylists";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
 export default function PublicLayout() {
   const { data: playlists } = usePublicPlaylists();
@@ -29,7 +30,9 @@ export default function PublicLayout() {
       
       {/* El reproductor flotante */}
       {featuredSpotify && (
-        <FloatingSpotifyPlayer playlistUrl={featuredSpotify.url} />
+        <ErrorBoundary fallback={null}>
+          <FloatingSpotifyPlayer playlistUrl={featuredSpotify.url} />
+        </ErrorBoundary>
       )}
 
       <button

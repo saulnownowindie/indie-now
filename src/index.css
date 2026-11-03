@@ -514,3 +514,12 @@ table tbody tr:hover td,
 .form-toggle__switch input:checked + .form-toggle__slider::before {
   background: var(--brand-black) !important;
 }
+
+.header-logo, .sidebar-logo {
+  max-width: 120px;
+  height: auto;
+  object-fit: contain;
+  /* ESTO ES LA MAGIA: Hace que el negro sea transparente */
+  mix-blend-mode: screen; 
+  filter: contrast(1.2); /* Resalta un poco los colores del logo */
+}

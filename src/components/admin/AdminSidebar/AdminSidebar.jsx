@@ -76,7 +76,7 @@ export default function AdminSidebar({ open = false, onClose }) {
     <aside className={`admin-sidebar${open ? " open" : ""}`}>
       <div className="admin-sidebar__logo">
         <img
-          src="/branding/logo-serotonin.png"
+          src="/branding/serotonin.jpg"
           alt="Indie Now"
           decoding="async"
         />

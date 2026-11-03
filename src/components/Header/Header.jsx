@@ -177,7 +177,7 @@ export default function Header() {
               aria-label="Indie Now, ir al inicio"
             >
               <img
-                src="/branding/logo-serotonin.png"
+                src="/branding/serotonin.jpg"
                 alt="Indie Now"
                 width="512"
                 height="512"

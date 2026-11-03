@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getNews } from "../services/newsService";
-import { unwrapList } from "../utils/apiResponse";
 
-export default function useNews() {
+export default function useNews(page = 1) {
   return useQuery({
-    queryKey: ["news"],
-    queryFn: () => getNews(),
-    select: unwrapList,
+    queryKey: ["news", page],
+    queryFn: () => getNews({ page, limit: 50 }),
   });
 }

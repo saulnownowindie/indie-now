@@ -7,7 +7,7 @@ export async function getReels({ page = 1, limit = 50 } = {}) {
     params: { page, limit },
   });
 
-  return unwrapList(data);
+  return data;
 }
 
 export async function getPublicReels(section) {

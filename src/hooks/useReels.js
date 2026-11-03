@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getReels } from "../services/reelsService";
-import { unwrapList } from "../utils/apiResponse";
 
-export default function useReels() {
+export default function useReels(page = 1) {
   return useQuery({
-    queryKey: ["reels"],
-    queryFn: () => getReels(),
-    select: unwrapList,
+    queryKey: ["reels", page],
+    queryFn: () => getReels({ page, limit: 50 }),
   });
 }

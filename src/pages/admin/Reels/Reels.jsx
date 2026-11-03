@@ -9,6 +9,7 @@ import Button from "../../../components/admin/ui/Button";
 import Badge from "../../../components/admin/ui/Badge";
 import DataTable from "../../../components/admin/ui/DataTable";
 import TableEmpty from "../../../components/admin/ui/TableEmpty";
+import Pagination from "../../../components/admin/ui/Pagination/Pagination";
 import SearchInput from "../../../components/admin/ui/SearchInput/SearchInput";
 import ReelModal from "../../../components/admin/modals/ReelModal";
 import ConfirmModal from "../../../components/admin/ui/ConfirmModal";
@@ -41,9 +42,11 @@ export default function Reels() {
   const [search, setSearch] = useState("");
   const [actionError, setActionError] = useState("");
   const [itemToDelete, setItemToDelete] = useState(null);
+  const [page, setPage] = useState(1);
 
-  const { data, isLoading, isError } = useReels();
+  const { data, isLoading, isError } = useReels(page);
   const items = Array.isArray(data) ? data : data?.data ?? [];
+  const pagination = data?.pagination;
 
   const removeReel = useMutation({
     mutationFn: deleteReel,
@@ -206,6 +209,12 @@ export default function Reels() {
               );
             })}
         </DataTable>
+
+        <Pagination
+          currentPage={page}
+          totalPages={pagination?.totalPages ?? 1}
+          onPageChange={setPage}
+        />
       </PageLayout>
 
       {modalOpen && (

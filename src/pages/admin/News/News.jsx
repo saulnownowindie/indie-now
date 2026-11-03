@@ -10,6 +10,7 @@ import Button from "../../../components/admin/ui/Button";
 import Badge from "../../../components/admin/ui/Badge";
 import DataTable from "../../../components/admin/ui/DataTable";
 import TableEmpty from "../../../components/admin/ui/TableEmpty";
+import Pagination from "../../../components/admin/ui/Pagination/Pagination";
 import NewsModal from "../../../components/admin/modals/NewsModal";
 import ConfirmModal from "../../../components/admin/ui/ConfirmModal";
 
@@ -34,9 +35,11 @@ export default function News() {
   const [tab, setTab] = useState("all");
   const [search, setSearch] = useState("");
   const [actionError, setActionError] = useState("");
+  const [page, setPage] = useState(1);
 
-  const { data, isLoading, isError } = useNews();
+  const { data, isLoading, isError } = useNews(page);
   const items = Array.isArray(data) ? data : data?.data ?? [];
+  const pagination = data?.pagination;
 
   const removeNews = useMutation({
     mutationFn: deleteNews,
@@ -226,6 +229,12 @@ export default function News() {
             </tr>
           ))}
         </DataTable>
+
+        <Pagination
+          currentPage={page}
+          totalPages={pagination?.totalPages ?? 1}
+          onPageChange={setPage}
+        />
       </PageLayout>
 
       {modalOpen && (

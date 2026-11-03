@@ -1,0 +1,10 @@
+.media-table-preview {
+  width: 56px;
+  height: 56px;
+
+  object-fit: cover;
+
+  border: 2px solid var(--brand-black);
+  border-radius: 0;
+}
+EOF
